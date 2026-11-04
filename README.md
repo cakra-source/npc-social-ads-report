@@ -1,9 +1,9 @@
-# NPC Office Social & Ads Report
+# NPC Office · Social Media & Ads Report
 
-Password-protected dashboard for NPC Office: Instagram, Meta Ads, Google Ads, GA4 and Search Console, loaded live from Windsor.ai.
+Live dashboard for Instagram, Meta Ads, Google Ads, GA4 and Search Console, read from Windsor.ai.
 
-- `index.html` – the report page (date range, tabs, charts, tables, insights)
-- `api/report.js` – Vercel function that reads Windsor.ai with `WINDSOR_API_KEY`; requires the team password in `DASHBOARD_PASSWORD`
-- `api/_insights.js` – the written analysis, rewritten each morning by the daily Claude task
+- `index.html` — the page (bright, earth-tone design; date range, tabs, top 5, insights, details).
+- `api/report.js` — Vercel function that reads Windsor.ai with `WINDSOR_API_KEY` and checks `DASHBOARD_PASSWORD`.
+- `api/_insights.js` — written analysis, rewritten every morning by Claude's daily task.
 
-Vercel environment variables: `WINDSOR_API_KEY`, `DASHBOARD_PASSWORD`.
+Environment variables (Vercel → Settings → Environment Variables): `WINDSOR_API_KEY`, `DASHBOARD_PASSWORD`.
