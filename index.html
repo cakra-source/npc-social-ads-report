@@ -1,0 +1,1310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>NPC Social &amp; Ads Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+:root {
+  --font-anthropic-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-anthropic-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --cds-font-size-caption: 12.5px; --cds-font-size-body: 14.5px; --cds-font-size-heading: 16px; --cds-font-size-title: 24px;
+  --cds-font-weight-medium: 600;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 14px; --cds-gap-lg: 22px; --cds-gap-xl: 32px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 14px; --cds-pad-lg: 18px; --cds-pad-xl: 32px;
+  --cds-radius: 10px; --cds-dur-slow: 300ms;
+  color-scheme: light;
+}
+html, body { margin: 0; background: #FBF7F0; }
+body { -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+.dash-skeleton { color: transparent !important; background: linear-gradient(90deg, #EFE6D8 25%, #F7F1E7 50%, #EFE6D8 75%); background-size: 200% 100%; border-radius: 6px; animation: sk 1.4s linear infinite; min-width: 4ch; display: inline-block; }
+@keyframes sk { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .dash-skeleton { animation: none; } }
+.gate { position: fixed; inset: 0; z-index: 50; background: #FBF7F0; display: grid; place-items: center; padding: 16px; }
+.gate-box { width: min(100%, 380px); background: #FFF; border: 1px solid #E7DCCB; border-radius: 14px; padding: 28px; display: grid; gap: 12px; font-family: var(--font-anthropic-sans); color: #2E2A24; }
+.gate-box h1 { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; color: #6B4226; font-size: 26px; }
+.gate-box p { margin: 0; color: #6F665A; font-size: 14px; line-height: 1.5; }
+.gate-box input { font: inherit; padding: 10px 12px; border: 1px solid #E7DCCB; border-radius: 8px; }
+.gate-box button { font: inherit; font-weight: 600; padding: 10px 12px; border: 0; border-radius: 8px; background: #6B4226; color: #FFF8EE; cursor: pointer; }
+.gate-err { color: #B23A2C !important; min-height: 1.2em; }
+.status-line { font-size: 12.5px; color: #6F665A; }
+.status-line b { color: #B23A2C; }
+</style>
+</head>
+<body>
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h1>NPC Office report</h1>
+    <p>Social media &amp; ads performance, live from Windsor.ai. Enter the team password.</p>
+    <input id="gate-pass" type="password" autocomplete="current-password" aria-label="Team password" placeholder="Team password">
+    <button type="button" id="gate-go">Open report</button>
+    <p class="gate-err" id="gate-err"></p>
+  </div>
+</div>
+<div id="dash-root">
+<script>
+/* Small runtime that gives the page live data: dash.data / calc / draw / params, fed by /api/report. */
+window.dash = (() => {
+  const raw = {}, status = {}, errs = {}, calcs = {}, draws = {}, ondata = [];
+  const defaults = { rank: 'views' };
+  let params = { ...defaults }, key = '', started = false, seq = 0, memo = {};
+  const CORE = ['ig_profile', 'ig_daily', 'ig_media_period', 'ig_media_6d', 'ig_stories', 'ig_stories_6d', 'meta_campaigns', 'meta_daily', 'gads_campaigns', 'gads_daily', 'ga4_channels', 'gsc_totals', 'insights'];
+  const DETAIL = ['ig_media', 'meta_ads', 'gads_keywords', 'gads_pages', 'visuals'];
+  const visible = (el) => !el.closest('[hidden]');
+  const calcData = (id) => {
+    const c = calcs[id];
+    const ins = c.inputs.map((i) => data(i));
+    if (ins.some((d) => d.status === 'error')) return { status: 'error', data: [], message: 'An input did not load' };
+    if (ins.some((d) => d.status !== 'ok')) return { status: 'loading', data: [] };
+    if (!memo[id]) { try { memo[id] = { status: 'ok', data: c.fn(...ins.map((d) => d.data)) }; } catch (e) { console.error(id, e); memo[id] = { status: 'error', data: [], message: String(e) }; } }
+    return memo[id];
+  };
+  function data(id) {
+    if (calcs[id]) return calcData(id);
+    return { status: status[id] || 'loading', data: raw[id] || [], message: errs[id] };
+  }
+  let pending = false;
+  const redraw = () => {
+    if (pending) return; pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      ondata.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
+      Object.keys(draws).forEach((n) => runDraw(n));
+    });
+  };
+  const runDraw = (n) => document.querySelectorAll(`[data-draw="${n}"]`).forEach((el) => {
+    if (!visible(el)) return;
+    try { draws[n](el); } catch (e) { console.error(n, e); }
+    const ids = (el.dataset.source || '').split(' ').filter(Boolean);
+    const st = ids.map((i) => data(i).status);
+    if (st.includes('error')) el.setAttribute('data-dash-source-state', 'error');
+    else if (st.includes('loading')) el.setAttribute('data-dash-source-state', 'loading');
+    else el.removeAttribute('data-dash-source-state');
+  });
+  const setLine = (t, bad) => document.querySelectorAll('[data-status-line]').forEach((el) => { el.replaceChildren(); const s = document.createElement(bad ? 'b' : 'span'); s.textContent = t; el.appendChild(s); });
+  const load = async () => {
+    if (!started) return;
+    const my = ++seq;
+    [...CORE, ...DETAIL].forEach((id) => { status[id] = 'loading'; });
+    memo = {}; redraw();
+    setLine('Loading live data from Windsor.ai…');
+    const qs = new URLSearchParams({ start: params.start, end: params.end, media_start: params.media_start });
+    const get = async (part, ids) => {
+      try {
+        const r = await fetch(`/api/report?part=${part}&${qs}`, { headers: { 'x-dashboard-key': key } });
+        const j = await r.json().catch(() => ({ error: 'The server answered ' + r.status }));
+        if (my !== seq) return;
+        if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+        ids.forEach((id) => {
+          if (j.errors && j.errors[id]) { status[id] = 'error'; errs[id] = j.errors[id]; console.warn(id, j.errors[id]); }
+          else { status[id] = 'ok'; raw[id] = j.datasets[id] || []; }
+        });
+        return j.fetched_at;
+      } catch (e) {
+        if (my !== seq) return;
+        ids.forEach((id) => { status[id] = 'error'; errs[id] = String(e.message || e); });
+        setLine(String(e.message || e), true);
+        throw e;
+      } finally { memo = {}; redraw(); }
+    };
+    try {
+      const [a] = await Promise.all([get('core', CORE), get('detail', DETAIL)]);
+      const failed = Object.keys(errs).filter((k) => status[k] === 'error');
+      if (my === seq) setLine(failed.length ? `Live data loaded ${new Date(a).toLocaleString('en-GB', { timeZone: 'Asia/Jakarta' })} WIB · ${failed.length} source(s) did not load: ${failed.join(', ')}` : `Live data loaded ${new Date(a).toLocaleString('en-GB', { timeZone: 'Asia/Jakarta' })} WIB`, failed.length > 0);
+    } catch (e) { /* line already set */ }
+  };
+  return {
+    data,
+    calc: (id, c) => { calcs[id] = c; },
+    loader: () => {},
+    draw: (n, fn) => { if (fn) { draws[n] = fn; redraw(); } else runDraw(n); },
+    onData: (fn) => { ondata.push(fn); redraw(); },
+    params: () => ({ ...params }),
+    setParams: (p) => {
+      const before = JSON.stringify([params.start, params.end, params.media_start]);
+      params = { ...params, ...p };
+      if (JSON.stringify([params.start, params.end, params.media_start]) !== before) load(); else redraw();
+    },
+    resetParams: () => { params = { ...defaults }; },
+    setLink: (n) => { try { history.replaceState(null, '', '#' + n); } catch (e) {} },
+    refresh: () => { load(); },
+    redraw,
+    start: (k) => { key = k; started = true; load(); },
+    colors: ['#B5573A', '#66772F', '#C08A25', '#6B4226', '#8E9F6B', '#D9A27E', '#7A5C3E', '#A3B18A'],
+  };
+})();
+window.addEventListener('resize', (() => { let t; return () => { clearTimeout(t); t = setTimeout(() => dash.redraw(), 150); }; })());
+</script>
+<style>
+/* Layout: one bright sheet, sticky filter bar, tabs per platform, cards in an auto-fit grid. */
+.npc {
+  --bg: #FBF7F0; --panel: #FFFFFF; --sand: #F4ECDF; --line: #E7DCCB;
+  --ink: #2E2A24; --muted: #6F665A; --brown: #6B4226; --terracotta: #B5573A;
+  --olive: #66772F; --ochre: #C08A25; --sage: #8E9F6B; --clay: #D9A27E;
+  --good: #3F7A35; --bad: #B23A2C; --warn: #A86F12;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-body);
+  padding-block: var(--cds-pad-lg) var(--cds-pad-xl);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  min-height: 100%;
+  color-scheme: light;
+}
+.npc-wrap { max-width: 1280px; margin-inline: auto; display: grid; gap: var(--cds-gap-lg); }
+.npc h1, .npc h2, .npc h3 { color: var(--brown); text-wrap: balance; margin: 0; }
+.npc h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.15; }
+.npc h2 { font-size: var(--cds-font-size-title); font-family: var(--font-anthropic-serif); font-weight: 400; }
+.npc h3 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.npc p { margin: 0; line-height: 1.5; }
+.npc .muted { color: var(--muted); font-size: var(--cds-font-size-caption); }
+.npc .eyebrow { color: var(--terracotta); font-size: var(--cds-font-size-caption); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+.npc-head { display: grid; gap: var(--cds-gap-sm); }
+.npc-takeaway { max-width: 70ch; color: var(--ink); }
+.npc-bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); padding-block: var(--cds-pad-sm); display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-md); align-items: center; }
+.npc-dates { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; }
+.npc-dates label { display: flex; gap: 6px; align-items: center; color: var(--muted); font-size: var(--cds-font-size-caption); }
+.npc input[type=date], .npc input[type=search], .npc select { font: inherit; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: var(--cds-radius); padding: 5px 8px; }
+.npc button { font: inherit; cursor: pointer; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: 5px 12px; }
+.npc button:hover { border-color: var(--terracotta); }
+.npc button:focus-visible, .npc a:focus-visible, .npc input:focus-visible, .npc select:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 2px; }
+.npc button.is-on, .npc button[aria-selected=true] { background: var(--brown); border-color: var(--brown); color: #FFF8EE; }
+.npc-period { font-weight: 600; color: var(--brown); }
+.npc-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.npc-tabs button { border-radius: var(--cds-radius); }
+.npc section { display: grid; gap: var(--cds-gap-lg); }
+.npc-grid { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.npc-grid.wide { grid-template-columns: repeat(auto-fit, minmax(min(100%, 34rem), 1fr)); }
+.npc-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; }
+.npc-card.tint { background: var(--sand); }
+.npc-tiles { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+.npc-tile { background: var(--panel); border: 1px solid var(--line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: grid; gap: 4px; align-content: start; min-width: 0; }
+.npc-tile .lbl { color: var(--muted); font-size: var(--cds-font-size-caption); }
+.npc-tile .val { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); color: var(--brown); font-variant-numeric: tabular-nums; line-height: 1.1; min-height: 1.1em; }
+.npc-tile .sub { font-size: var(--cds-font-size-caption); color: var(--muted); font-variant-numeric: tabular-nums; }
+.npc .up { color: var(--good); font-weight: 600; }
+.npc .down { color: var(--bad); font-weight: 600; }
+.npc-split { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr)); }
+.npc-scroll { overflow-x: auto; max-width: 100%; }
+.npc-scroll.tall { max-height: 34rem; overflow-y: auto; }
+.npc table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: var(--cds-font-size-caption); }
+.npc th { text-align: left; color: var(--brown); font-weight: 600; background: var(--sand); padding: 7px 8px; white-space: nowrap; position: sticky; top: 0; z-index: 1; }
+.npc td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.npc td.n, .npc th.n { text-align: right; white-space: nowrap; }
+.npc td.wrap { min-width: 14rem; max-width: 26rem; }
+.npc td.note { min-width: 16rem; max-width: 30rem; color: var(--ink); }
+.npc td a, .npc .npc-link { color: var(--terracotta); text-decoration: none; }
+.npc td a:hover, .npc .npc-link:hover { text-decoration: underline; }
+.npc .thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; background: var(--sand); flex: none; }
+.npc .cell-content { display: flex; gap: 8px; align-items: flex-start; }
+.npc .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.npc .pill.Working { background: #E4EFD9; color: var(--good); }
+.npc .pill.Not-working { background: #F6DFD9; color: var(--bad); }
+.npc .pill.Average { background: #F3E9D2; color: var(--warn); }
+.npc .pill.Too-new, .npc .pill.Too-little-data { background: #ECE7DF; color: var(--muted); }
+.npc .tag { display: inline-block; padding: 1px 7px; border-radius: 4px; background: var(--sand); color: var(--brown); font-size: 11px; white-space: nowrap; }
+.npc .chart { position: relative; min-height: 240px; }
+.npc .chart svg text { fill: var(--muted); font-size: 11px; }
+.npc .tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: var(--cds-radius); box-shadow: 0 4px 14px rgba(70, 45, 20, .14); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 3; }
+.npc .legend { display: flex; gap: var(--cds-gap-md); flex-wrap: wrap; font-size: var(--cds-font-size-caption); color: var(--muted); }
+.npc .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.npc .mix { display: grid; gap: 8px; min-height: 9rem; }
+.npc .mix-row { display: grid; grid-template-columns: 7.5rem 1fr 2.2rem; gap: 8px; align-items: center; font-size: var(--cds-font-size-caption); }
+.npc .mix-bar { height: 14px; border-radius: 4px; background: var(--terracotta); min-width: 2px; }
+.npc .mix-track { background: var(--sand); border-radius: 4px; }
+.npc .top5 { display: grid; gap: var(--cds-gap-md); }
+.npc .post { display: grid; grid-template-columns: auto 1fr; gap: var(--cds-gap-md); background: var(--panel); border: 1px solid var(--line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); min-width: 0; }
+.npc .post .big { width: 108px; height: 108px; object-fit: cover; border-radius: 8px; background: var(--sand); }
+.npc .post .rank { font-family: var(--font-anthropic-serif); color: var(--terracotta); font-size: 1.6rem; line-height: 1; }
+.npc .post-body { display: grid; gap: 6px; min-width: 0; }
+.npc .metrics { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.npc .metrics b { color: var(--brown); }
+.npc .why { background: var(--sand); border-radius: var(--cds-radius); padding: 8px 10px; line-height: 1.45; }
+.npc .why strong { color: var(--brown); }
+.npc .ins { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); }
+.npc .ins-card { background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--olive); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); display: grid; gap: 8px; align-content: start; }
+.npc .ins-card.bad { border-top-color: var(--terracotta); }
+.npc .ins-card .num { font-family: var(--font-anthropic-serif); font-size: 1.4rem; color: var(--ochre); line-height: 1; }
+.npc .ins-card .how { background: var(--sand); border-radius: var(--cds-radius); padding: 8px 10px; line-height: 1.45; }
+.npc .ins-card .how b { color: var(--brown); }
+.npc .alerts { display: grid; gap: var(--cds-gap-sm); }
+.npc .alert { border: 1px solid #EBC9A8; background: #FCF1E4; border-radius: var(--cds-radius); padding: 10px 12px; display: grid; gap: 4px; }
+.npc .alert b { color: var(--brown); }
+.npc .toolrow { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; justify-content: space-between; }
+.npc .fail { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: var(--cds-font-size-caption); min-height: 3rem; }
+.npc .fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--bad); }
+.npc [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+.npc [data-dash-source-state=empty] { color: transparent; }
+@media (max-width: 560px) { .npc .post { grid-template-columns: 1fr; } .npc .post .big { width: 100%; height: 180px; } }
+</style>
+
+<div class="npc">
+<div class="npc-wrap">
+
+<header class="npc-head" id="top">
+  <span class="eyebrow">NPC Office · @npcofficecom · Social media &amp; ads</span>
+  <h1>Social Media &amp; Ads Report</h1>
+  <p class="npc-takeaway" data-draw="takeaway" data-source="insights">—</p>
+</header>
+
+<div class="npc-bar">
+  <div class="npc-dates">
+    <label for="f-start">From <input id="f-start" type="date" min="2024-01-01" max="2099-12-31"></label>
+    <label for="f-end">To <input id="f-end" type="date" min="2024-01-01" max="2099-12-31"></label>
+    <button type="button" class="preset" data-days="7">7 days</button>
+    <button type="button" class="preset" data-days="30">30 days</button>
+    <button type="button" class="preset" data-days="90">90 days</button>
+    <button type="button" id="f-reset">Reset</button>
+  </div>
+  <span class="muted">Reporting period: <span class="npc-period" data-draw="period">—</span></span>
+  <span class="status-line" data-status-line></span>
+  <span style="margin-left:auto;display:flex;gap:6px"><button type="button" id="f-refresh">Refresh data</button><button type="button" id="f-logout">Log out</button></span>
+</div>
+
+<nav class="npc-tabs" role="tablist" aria-label="Report sections">
+  <button type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+  <button type="button" role="tab" data-tab="instagram" aria-selected="false">Instagram &amp; Facebook</button>
+  <button type="button" role="tab" data-tab="meta" aria-selected="false">Meta Ads</button>
+  <button type="button" role="tab" data-tab="google" aria-selected="false">Google Ads</button>
+  <button type="button" role="tab" data-tab="insights" aria-selected="false">What's working</button>
+  <button type="button" role="tab" data-tab="details" aria-selected="false">Details</button>
+</nav>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="overview" data-page="overview">
+  <div class="alerts" data-draw="alerts" data-source="insights"></div>
+
+  <div class="npc-card tint">
+    <h2>Account overview</h2>
+    <p class="muted">Selected period. Leads = Meta Ads leads + Google Ads conversions.</p>
+    <div class="npc-tiles">
+      <div class="npc-tile"><span class="lbl">Total ad spend</span><span class="val" data-draw="kpi" data-source="overview" data-field="spend" data-row="0" data-fmt="rp" data-fetchpriority="high">—</span><span class="sub">Meta + Google</span></div>
+      <div class="npc-tile"><span class="lbl">Leads &amp; conversions</span><span class="val" data-draw="kpi" data-source="overview" data-field="leads" data-row="0" data-fmt="int" data-fetchpriority="high">—</span><span class="sub">Meta leads + Google conv.</span></div>
+      <div class="npc-tile"><span class="lbl">Cost per lead (blended)</span><span class="val" data-draw="kpi" data-source="overview" data-field="cpl" data-row="0" data-fmt="rp">—</span><span class="sub">Spend ÷ leads</span></div>
+      <div class="npc-tile"><span class="lbl">Instagram followers</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="followers" data-row="0" data-fmt="int">—</span><span class="sub">Today · <span data-draw="kpi" data-source="ig_kpis" data-field="new_followers" data-row="0" data-fmt="plus">—</span> in period</span></div>
+      <div class="npc-tile"><span class="lbl">Website sessions</span><span class="val" data-draw="kpi" data-source="overview" data-field="sessions" data-row="0" data-fmt="int">—</span><span class="sub">GA4, all channels</span></div>
+      <div class="npc-tile"><span class="lbl">Organic search clicks</span><span class="val" data-draw="kpi" data-source="gsc_totals" data-field="clicks" data-row="0" data-fmt="int">—</span><span class="sub"><span data-draw="kpi" data-source="gsc_totals" data-field="impressions" data-row="0" data-fmt="int">—</span> impressions · Search Console</span></div>
+    </div>
+  </div>
+
+  <div class="npc-grid wide">
+    <div class="npc-card" id="chart-spend">
+      <h3>Daily ad spend</h3>
+      <p class="muted">Rupiah per day, Meta Ads and Google Ads.</p>
+      <div class="legend"><span><i class="sw" style="background:#B5573A"></i>Meta Ads</span><span><i class="sw" style="background:#66772F"></i>Google Ads</span></div>
+      <div class="chart" data-draw="spendChart" data-source="daily"></div>
+    </div>
+    <div class="npc-card" id="chart-leads">
+      <h3>Daily leads &amp; conversions</h3>
+      <p class="muted">Meta Ads leads stacked on Google Ads conversions.</p>
+      <div class="legend"><span><i class="sw" style="background:#B5573A"></i>Meta leads</span><span><i class="sw" style="background:#66772F"></i>Google conversions</span></div>
+      <div class="chart" data-draw="leadsChart" data-source="daily"></div>
+    </div>
+  </div>
+
+  <div class="npc-grid">
+    <div class="npc-card">
+      <h3>Meta Ads</h3>
+      <div class="npc-tiles">
+        <div class="npc-tile"><span class="lbl">Spend</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="spend" data-row="0" data-fmt="rp">—</span></div>
+        <div class="npc-tile"><span class="lbl">Leads</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="leads" data-row="0" data-fmt="int">—</span></div>
+        <div class="npc-tile"><span class="lbl">Cost per lead</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="cpl" data-row="0" data-fmt="rp">—</span></div>
+      </div>
+    </div>
+    <div class="npc-card">
+      <h3>Google Ads</h3>
+      <div class="npc-tiles">
+        <div class="npc-tile"><span class="lbl">Spend</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="spend" data-row="0" data-fmt="rp">—</span></div>
+        <div class="npc-tile"><span class="lbl">Conversions</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="conversions" data-row="0" data-fmt="dec">—</span></div>
+        <div class="npc-tile"><span class="lbl">Cost per conv.</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="cpa" data-row="0" data-fmt="rp">—</span></div>
+      </div>
+    </div>
+    <div class="npc-card">
+      <h3>Website traffic by channel</h3>
+      <p class="muted">GA4 sessions in the period. Engagement rate = share of sessions longer than 10 s, with 2+ pages or a key event.</p>
+      <div class="npc-scroll">
+        <table data-source="ga4_channels" data-row-key="session_default_channel_group">
+          <thead><tr><th data-field="session_default_channel_group">Channel</th><th class="n" data-field="sessions">Sessions</th><th class="n" data-field="active_users">Users</th><th class="n" data-field="engagement_rate">Engaged</th></tr></thead>
+          <tbody data-draw="t-ga4"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTAGRAM & FACEBOOK ============ -->
+<section id="instagram" data-page="instagram" hidden>
+  <div class="alerts" data-draw="alertFb" data-source="insights"></div>
+
+  <div class="npc-card tint">
+    <h2>Instagram · @npcofficecom</h2>
+    <p class="muted">Followers are today's count; growth is new followers in the selected period (Instagram reports this for the last 30 days only). The "16 posts" figures cover the 16 most recent posts up to the end date. Views = times a post was shown (Meta's replacement for impressions).</p>
+    <div class="npc-tiles">
+      <div class="npc-tile"><span class="lbl">Total followers</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="followers" data-row="0" data-fmt="int">—</span><span class="sub"><span data-draw="kpi" data-source="ig_kpis" data-field="new_followers" data-row="0" data-fmt="plus">—</span> new · <span data-draw="kpi" data-source="ig_kpis" data-field="growth" data-row="0" data-fmt="pctsign">—</span> growth in period</span></div>
+      <div class="npc-tile"><span class="lbl">Total views, 16 posts</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="views16" data-row="0" data-fmt="int">—</span><span class="sub">All formats</span></div>
+      <div class="npc-tile"><span class="lbl">Video views, 16 posts</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="video_views16" data-row="0" data-fmt="int">—</span><span class="sub">Reels only</span></div>
+      <div class="npc-tile"><span class="lbl">Total engagement, 16 posts</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="eng16" data-row="0" data-fmt="int">—</span><span class="sub">Likes, comments, shares, saves</span></div>
+      <div class="npc-tile"><span class="lbl">Average views, 16 posts</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="avg_views16" data-row="0" data-fmt="int">—</span><span class="sub">Per post</span></div>
+      <div class="npc-tile"><span class="lbl">Avg engagement rate, 16 posts</span><span class="val" data-draw="kpi" data-source="ig_kpis" data-field="avg_er16" data-row="0" data-fmt="pct">—</span><span class="sub">Engagement ÷ accounts reached</span></div>
+    </div>
+  </div>
+
+  <div class="npc-grid wide">
+    <div class="npc-card" id="chart-reach">
+      <h3>Accounts reached per day</h3>
+      <p class="muted">Instagram, selected period. Instagram reports followers for the last 30 days only, so older dates are left out. Hover a bar for new followers that day.</p>
+      <div class="chart" data-draw="reachChart" data-source="ig_daily"></div>
+    </div>
+    <div class="npc-card" id="content-mix">
+      <h3>Content mix</h3>
+      <p class="muted">How many of each format were posted. Instagram keeps story data for only 24 hours, so older stories show as 0.</p>
+      <div class="npc-split">
+        <div><p class="eyebrow">Last 6 days</p><div class="mix" data-draw="mix6" data-source="mix"></div></div>
+        <div><p class="eyebrow">Selected period</p><div class="mix" data-draw="mixPeriod" data-source="mix"></div></div>
+      </div>
+      <p class="muted">Facebook Page: not connected yet, so no Facebook posts are counted.</p>
+    </div>
+  </div>
+
+  <div class="npc-card" id="ig-top5">
+    <div class="toolrow">
+      <div><h2>Top 5 of the last 16 posts</h2><p class="muted">With every metric, a link to the post and why it performed.</p></div>
+      <label class="muted" for="f-rank">Rank by
+        <select id="f-rank">
+          <option value="views">Views</option>
+          <option value="engagement">Engagement</option>
+          <option value="er">Engagement rate</option>
+          <option value="reach">Accounts reached</option>
+        </select>
+      </label>
+    </div>
+    <div class="top5" data-draw="top5" data-source="ig_last16"></div>
+  </div>
+
+  <div class="npc-card">
+    <h3>All 16 recent posts</h3>
+    <div class="npc-scroll">
+      <table data-source="ig_last16" data-row-key="media_id">
+        <thead><tr><th data-field="title">Post</th><th data-field="date">Date</th><th data-field="format">Type</th><th data-field="pillar">Pillar</th><th class="n" data-field="views">Views</th><th class="n" data-field="reach">Reach</th><th class="n" data-field="likes">Likes</th><th class="n" data-field="comments">Comm.</th><th class="n" data-field="shares">Shares</th><th class="n" data-field="saves">Saves</th><th class="n" data-field="engagement">Eng.</th><th class="n" data-field="er">ER</th><th data-field="verdict">Status</th></tr></thead>
+        <tbody data-draw="t-ig16"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ META ADS ============ -->
+<section id="meta" data-page="meta" hidden>
+  <div class="npc-card tint">
+    <h2>Meta Ads · NPC Office</h2>
+    <p class="muted">Selected period. CPC is cost per link click. Daily budget is each campaign's current setting in Meta.</p>
+    <div class="npc-tiles">
+      <div class="npc-tile"><span class="lbl">Spend</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="spend" data-row="0" data-fmt="rp">—</span></div>
+      <div class="npc-tile"><span class="lbl">Daily budget (active, set)</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="daily_budget" data-row="0" data-fmt="rp">—</span><span class="sub">Campaign-level budgets only</span></div>
+      <div class="npc-tile"><span class="lbl">Active campaigns</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="active" data-row="0" data-fmt="int">—</span></div>
+      <div class="npc-tile"><span class="lbl">Leads</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="leads" data-row="0" data-fmt="int">—</span></div>
+      <div class="npc-tile"><span class="lbl">Cost per lead</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="cpl" data-row="0" data-fmt="rp">—</span></div>
+      <div class="npc-tile"><span class="lbl">Link CTR · CPM</span><span class="val" data-draw="kpi" data-source="meta_kpis" data-field="ctr" data-row="0" data-fmt="pct2">—</span><span class="sub">CPM <span data-draw="kpi" data-source="meta_kpis" data-field="cpm" data-row="0" data-fmt="rp">—</span></span></div>
+    </div>
+  </div>
+
+  <div class="npc-card">
+    <h3>Campaigns</h3>
+    <div class="npc-scroll">
+      <table data-source="meta_camp" data-row-key="campaign">
+        <thead><tr><th data-field="campaign">Campaign</th><th data-field="objective">Objective</th><th data-field="status">Status</th><th class="n" data-field="budget">Daily budget</th><th class="n" data-field="spend">Spend</th><th class="n" data-field="impressions">Impr.</th><th class="n" data-field="link_clicks">Link clicks</th><th class="n" data-field="ctr">CTR</th><th class="n" data-field="cpc">CPC</th><th class="n" data-field="cpm">CPM</th><th class="n" data-field="leads">Leads</th><th class="n" data-field="cpl">CPL</th><th data-field="verdict">Status</th></tr></thead>
+        <tbody data-draw="t-meta-camp"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="npc-card">
+    <h3>Top 5 campaigns by leads</h3>
+    <p class="muted">Most leads first; cost per lead decides ties.</p>
+    <div class="npc-scroll">
+      <table data-source="meta_camp" data-row-key="campaign">
+        <thead><tr><th data-field="campaign">Campaign</th><th class="n" data-field="spend">Spend</th><th class="n" data-field="leads">Leads</th><th class="n" data-field="cpl">CPL</th><th class="n" data-field="ctr">CTR</th></tr></thead>
+        <tbody data-draw="t-meta-top"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="npc-grid wide">
+    <div class="npc-card">
+      <h3>Top 5 ads, lowest CPC</h3>
+      <p class="muted">Ads with at least 20 link clicks.</p>
+      <div class="npc-scroll">
+        <table data-source="meta_ad_rows" data-row-key="ad_id">
+          <thead><tr><th data-field="title">Ad &amp; visual</th><th data-field="format">Content type</th><th data-field="pillar">Pillar</th><th class="n" data-field="cpc">CPC</th><th class="n" data-field="link_clicks">Clicks</th><th class="n" data-field="leads">Leads</th></tr></thead>
+          <tbody data-draw="t-meta-cpc"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="npc-card">
+      <h3>Top 5 ads, lowest CPM</h3>
+      <p class="muted">Ads with at least 5,000 impressions.</p>
+      <div class="npc-scroll">
+        <table data-source="meta_ad_rows" data-row-key="ad_id">
+          <thead><tr><th data-field="title">Ad &amp; visual</th><th data-field="format">Content type</th><th data-field="pillar">Pillar</th><th class="n" data-field="cpm">CPM</th><th class="n" data-field="impressions">Impr.</th><th class="n" data-field="ctr">CTR</th></tr></thead>
+          <tbody data-draw="t-meta-cpm"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="npc-card">
+    <h3>Top 5 ads by leads</h3>
+    <p class="muted">Content type, pillar, link and visual for each.</p>
+    <div class="npc-scroll">
+      <table data-source="meta_ad_rows" data-row-key="ad_id">
+        <thead><tr><th data-field="title">Ad &amp; visual</th><th data-field="format">Content type</th><th data-field="pillar">Pillar</th><th class="n" data-field="spend">Spend</th><th class="n" data-field="leads">Leads</th><th class="n" data-field="cpl">CPL</th><th class="n" data-field="ctr">CTR</th><th data-field="highlight">Why</th></tr></thead>
+        <tbody data-draw="t-meta-ads-top"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GOOGLE ADS ============ -->
+<section id="google" data-page="google" hidden>
+  <div class="npc-card tint">
+    <h2>Google Ads · NPC Office New Account</h2>
+    <p class="muted">Selected period. Budget is each enabled campaign's budget setting as Google reports it.</p>
+    <div class="npc-tiles">
+      <div class="npc-tile"><span class="lbl">Spend</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="spend" data-row="0" data-fmt="rp">—</span></div>
+      <div class="npc-tile"><span class="lbl">Budget (enabled, set)</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="budget" data-row="0" data-fmt="rp">—</span></div>
+      <div class="npc-tile"><span class="lbl">Enabled campaigns</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="enabled" data-row="0" data-fmt="int">—</span></div>
+      <div class="npc-tile"><span class="lbl">Clicks · CTR</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="clicks" data-row="0" data-fmt="int">—</span><span class="sub">CTR <span data-draw="kpi" data-source="g_kpis" data-field="ctr" data-row="0" data-fmt="pct">—</span></span></div>
+      <div class="npc-tile"><span class="lbl">Conversions</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="conversions" data-row="0" data-fmt="dec">—</span></div>
+      <div class="npc-tile"><span class="lbl">Cost per conversion</span><span class="val" data-draw="kpi" data-source="g_kpis" data-field="cpa" data-row="0" data-fmt="rp">—</span></div>
+    </div>
+  </div>
+
+  <div class="npc-card">
+    <h3>Campaigns</h3>
+    <div class="npc-scroll">
+      <table data-source="g_camp" data-row-key="campaign">
+        <thead><tr><th data-field="campaign">Campaign</th><th data-field="status">Status</th><th class="n" data-field="budget">Budget</th><th class="n" data-field="spend">Spend</th><th class="n" data-field="impressions">Impr.</th><th class="n" data-field="clicks">Clicks</th><th class="n" data-field="ctr">CTR</th><th class="n" data-field="cpc">CPC</th><th class="n" data-field="conversions">Conv.</th><th class="n" data-field="cpa">Cost/conv.</th><th data-field="verdict">Status</th></tr></thead>
+        <tbody data-draw="t-g-camp"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="npc-grid wide">
+    <div class="npc-card">
+      <h3>Top 5 campaigns, lowest cost per conversion</h3>
+      <p class="muted">Campaigns with at least 5 conversions.</p>
+      <div class="npc-scroll"><table data-source="g_camp" data-row-key="campaign">
+        <thead><tr><th data-field="campaign">Campaign</th><th class="n" data-field="cpa">Cost/conv.</th><th class="n" data-field="conversions">Conv.</th><th class="n" data-field="spend">Spend</th></tr></thead>
+        <tbody data-draw="t-g-perf"></tbody></table></div>
+    </div>
+    <div class="npc-card">
+      <h3>Top 5 conversion campaigns</h3>
+      <p class="muted">Most conversions.</p>
+      <div class="npc-scroll"><table data-source="g_camp" data-row-key="campaign">
+        <thead><tr><th data-field="campaign">Campaign</th><th class="n" data-field="conversions">Conv.</th><th class="n" data-field="conv_rate">Conv. rate</th><th class="n" data-field="cpa">Cost/conv.</th></tr></thead>
+        <tbody data-draw="t-g-conv"></tbody></table></div>
+    </div>
+    <div class="npc-card">
+      <h3>Top 5 keywords by conversions</h3>
+      <div class="npc-scroll"><table data-source="g_kw" data-row-key="key">
+        <thead><tr><th data-field="keyword">Keyword</th><th data-field="match">Match</th><th class="n" data-field="conversions">Conv.</th><th class="n" data-field="cpa">Cost/conv.</th><th class="n" data-field="spend">Spend</th></tr></thead>
+        <tbody data-draw="t-g-kw-top"></tbody></table></div>
+    </div>
+    <div class="npc-card">
+      <h3>Top 5 landing pages by conversions</h3>
+      <div class="npc-scroll"><table data-source="g_pages" data-row-key="final_url">
+        <thead><tr><th data-field="page">Page</th><th class="n" data-field="clicks">Clicks</th><th class="n" data-field="ctr">CTR</th><th class="n" data-field="conversions">Conv.</th><th class="n" data-field="cpa">Cost/conv.</th></tr></thead>
+        <tbody data-draw="t-g-pages"></tbody></table></div>
+    </div>
+    <div class="npc-card">
+      <h3>Top 5 keywords, lowest CPC</h3>
+      <p class="muted">Keywords with at least 5 clicks.</p>
+      <div class="npc-scroll"><table data-source="g_kw" data-row-key="key">
+        <thead><tr><th data-field="keyword">Keyword</th><th data-field="campaign">Campaign</th><th class="n" data-field="cpc">CPC</th><th class="n" data-field="clicks">Clicks</th></tr></thead>
+        <tbody data-draw="t-g-kw-cpc"></tbody></table></div>
+    </div>
+    <div class="npc-card">
+      <h3>Top 5 keywords, highest CTR</h3>
+      <p class="muted">Keywords with at least 50 impressions.</p>
+      <div class="npc-scroll"><table data-source="g_kw" data-row-key="key">
+        <thead><tr><th data-field="keyword">Keyword</th><th data-field="campaign">Campaign</th><th class="n" data-field="ctr">CTR</th><th class="n" data-field="impressions">Impr.</th></tr></thead>
+        <tbody data-draw="t-g-kw-ctr"></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSIGHTS ============ -->
+<section id="insights" data-page="insights" hidden>
+  <div class="npc-card tint">
+    <h2>What's working, and what isn't</h2>
+    <p data-draw="asof" data-source="insights">—</p>
+  </div>
+  <div class="npc-head"><span class="eyebrow">Repeat these</span><h2>What's working</h2><p class="muted">Each card ends with the structure to copy so you can make the next one on purpose.</p></div>
+  <div class="ins" data-draw="insWorking" data-source="insights"></div>
+  <div class="npc-head"><span class="eyebrow">Stop or fix these</span><h2>What's not working</h2><p class="muted">Each card ends with the pattern to avoid and what to do instead.</p></div>
+  <div class="ins" data-draw="insNot" data-source="insights"></div>
+</section>
+
+<!-- ============ DETAILS ============ -->
+<section id="details" data-page="details" hidden>
+  <div class="npc-card">
+    <div class="toolrow"><div><h2>Every Instagram post in the period</h2><p class="muted">Status compares each post with the median of the same format over the last 90 days.</p></div>
+      <input id="s-ig" type="search" placeholder="Search posts" aria-label="Search posts"></div>
+    <div class="npc-scroll tall">
+      <table data-source="ig_period" data-row-key="media_id">
+        <thead><tr><th data-field="title">Post</th><th data-field="date">Date</th><th data-field="format">Type</th><th data-field="pillar">Pillar</th><th class="n" data-field="views">Views</th><th class="n" data-field="reach">Reach</th><th class="n" data-field="likes">Likes</th><th class="n" data-field="comments">Comm.</th><th class="n" data-field="shares">Shares</th><th class="n" data-field="saves">Saves</th><th class="n" data-field="er">ER</th><th class="n" data-field="skip">Skip</th><th data-field="verdict">Status</th><th data-field="highlight">Highlight</th></tr></thead>
+        <tbody data-draw="t-ig-all"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="npc-card">
+    <div class="toolrow"><div><h2>Every Meta ad in the period</h2><p class="muted">Status compares each ad with the account's cost per lead, CTR and CPM for the period.</p></div>
+      <input id="s-ads" type="search" placeholder="Search ads" aria-label="Search ads"></div>
+    <div class="npc-scroll tall">
+      <table data-source="meta_ad_rows" data-row-key="ad_id">
+        <thead><tr><th data-field="title">Ad &amp; visual</th><th data-field="campaign">Campaign</th><th data-field="format">Type</th><th data-field="pillar">Pillar</th><th class="n" data-field="spend">Spend</th><th class="n" data-field="impressions">Impr.</th><th class="n" data-field="link_clicks">Clicks</th><th class="n" data-field="ctr">CTR</th><th class="n" data-field="cpc">CPC</th><th class="n" data-field="cpm">CPM</th><th class="n" data-field="leads">Leads</th><th class="n" data-field="cpl">CPL</th><th data-field="verdict">Status</th><th data-field="highlight">Highlight</th></tr></thead>
+        <tbody data-draw="t-ads-all"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="npc-card">
+    <div class="toolrow"><div><h2>Every Google Ads keyword in the period</h2><p class="muted">Status compares each keyword with the account's cost per conversion.</p></div>
+      <input id="s-kw" type="search" placeholder="Search keywords" aria-label="Search keywords"></div>
+    <div class="npc-scroll tall">
+      <table data-source="g_kw" data-row-key="key">
+        <thead><tr><th data-field="keyword">Keyword</th><th data-field="match">Match</th><th data-field="campaign">Campaign</th><th class="n" data-field="spend">Spend</th><th class="n" data-field="impressions">Impr.</th><th class="n" data-field="clicks">Clicks</th><th class="n" data-field="ctr">CTR</th><th class="n" data-field="cpc">CPC</th><th class="n" data-field="conversions">Conv.</th><th class="n" data-field="cpa">Cost/conv.</th><th data-field="verdict">Status</th><th data-field="highlight">Highlight</th></tr></thead>
+        <tbody data-draw="t-kw-all"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<p class="muted">Data: Windsor.ai (Instagram, Meta Ads, Google Ads, GA4, Search Console), loaded live each time the page opens or the dates change. Instagram keeps follower history for 30 days, so follower growth covers at most the last 30 days. The written analysis is refreshed every morning.</p>
+</div>
+</div>
+
+
+<script>
+/* ---------- Calculations ---------- */
+dash.calc('ig_rows', {
+  inputs: ['ig_media', 'insights', 'visuals'],
+  title: 'Instagram posts with status',
+  description: 'Each post with engagement rate, content pillar, and a status against the 90-day median of its format.',
+  fn: (ig_media, insights, visuals) => {
+    const num = (v) => Number(v) || 0;
+    const fmtName = { REELS: 'Reel', VIDEO: 'Video', CAROUSEL_ALBUM: 'Carousel', IMAGE: 'Single post' };
+    const pillarOf = (cap) => {
+      const c = String(cap || '').trim(), l = c.toLowerCase();
+      if (/^(selamat|dirgahayu)/.test(l)) return 'Seasonal greeting';
+      if (/^(terima kasih|thank you)/.test(l)) return 'Client testimonial';
+      if (c.length <= 70) return 'Entertainment / relatable';
+      if (/\b(drama|film|viral)\b/.test(l)) return 'Pop-culture tie-in';
+      if (/virtual office|meeting room|serviced office|npc office surabaya|rp2,75|alamat bisnis|co-?working/.test(l)) return 'Service promo';
+      if (/founder|sewa kantor|biaya|umkm|pitch|blue bird|solaria|perjalanan/.test(l) && !/kbli|pma|akta|oss|dokumen perusahaan/.test(l)) return 'Founder & business tips';
+      return 'Legal education';
+    };
+    const notes = new Map(insights.filter((r) => r.section === 'post').map((r) => [r.id, r.body]));
+    const imgs = new Map(visuals.map((r) => [r.id, r.img]));
+    const median = (a) => { const s = a.filter((x) => x > 0).sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : 0; };
+    const rows = ig_media.map((r) => {
+      const views = num(r.media_views), reach = num(r.media_reach), likes = num(r.media_like_count), comments = num(r.media_comments_count), shares = num(r.media_shares), saves = num(r.media_saved);
+      const engagement = num(r.media_engagement) || likes + comments + shares + saves;
+      return { media_id: r.media_id, date: String(r.timestamp || '').slice(0, 10), format: fmtName[r.media_type] || r.media_type, pillar: pillarOf(r.media_caption),
+        title: String(r.media_caption || '(no caption)').replace(/\s+/g, ' ').slice(0, 90), caption: String(r.media_caption || ''), permalink: r.media_permalink,
+        views, reach, likes, comments, shares, saves, engagement, er: reach ? engagement / reach : 0,
+        skip: r.media_reel_skip_rate == null ? null : num(r.media_reel_skip_rate), watch_s: r.media_reel_avg_watch_time == null ? null : num(r.media_reel_avg_watch_time) / 1000,
+        follows: num(r.media_follows), profile_visits: num(r.media_profile_visits), img: imgs.get('ig:' + r.media_id) || null };
+    });
+    const latest = rows.reduce((m, r) => (r.date > m ? r.date : m), '');
+    const base = {};
+    for (const f of new Set(rows.map((r) => r.format))) {
+      const g = rows.filter((r) => r.format === f);
+      base[f] = { views: median(g.map((r) => r.views)), er: median(g.map((r) => r.er)), skip: median(g.map((r) => r.skip || 0)) };
+    }
+    return rows.map((r) => {
+      const b = base[r.format], age = (Date.parse(latest) - Date.parse(r.date)) / 864e5;
+      const vx = b.views ? r.views / b.views : 1, ex = b.er ? r.er / b.er : 1;
+      let verdict = 'Average';
+      if (age < 2) verdict = 'Too new';
+      else if (vx >= 1.3 || ex >= 1.5) verdict = 'Working';
+      else if (vx <= 0.75 && ex <= 1) verdict = 'Not working';
+      const sig = [`Views ${vx.toFixed(1)}× the ${r.format.toLowerCase()} median`, `ER ${(r.er * 100).toFixed(1)}% vs ${(b.er * 100).toFixed(1)}% median`];
+      if (r.skip != null) sig.push(`${Math.round(r.skip * 100)}% skipped in 3 s (median ${Math.round(b.skip * 100)}%)`);
+      if (r.saves) sig.push(`${r.saves} save${r.saves > 1 ? 's' : ''}`);
+      if (r.shares) sig.push(`${r.shares} share${r.shares > 1 ? 's' : ''}`);
+      if (r.comments) sig.push(`${r.comments} comment${r.comments > 1 ? 's' : ''}`);
+      const note = notes.get(r.media_id);
+      return { ...r, verdict, signals: sig.join(' · '), highlight: note ? note : sig.join(' · ') };
+    });
+  },
+});
+
+dash.calc('ig_last16', {
+  inputs: ['ig_rows'],
+  title: 'Last 16 Instagram posts',
+  description: 'The 16 most recent posts up to the end date.',
+  fn: (ig_rows) => [...ig_rows].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)).slice(0, 16),
+});
+
+dash.calc('ig_period', {
+  inputs: ['ig_rows', 'ig_media_period'],
+  title: 'Instagram posts in period',
+  description: 'Posts published inside the selected dates.',
+  fn: (ig_rows, ig_media_period) => {
+    const ids = new Set(ig_media_period.map((r) => r.media_id));
+    return ig_rows.filter((r) => ids.has(r.media_id)).sort((a, b) => (a.date < b.date ? 1 : -1));
+  },
+});
+
+dash.calc('ig_kpis', {
+  inputs: ['ig_profile', 'ig_daily', 'ig_last16'],
+  title: 'Instagram headline figures',
+  description: 'Followers today, new followers in the period, and totals and averages over the last 16 posts.',
+  fn: (ig_profile, ig_daily, ig_last16) => {
+    const followers = Number((ig_profile[0] || {}).followers_count) || 0;
+    const new_followers = ig_daily.reduce((s, r) => s + (Number(r.follower_count_1d) || 0), 0);
+    const n = ig_last16.length || 1;
+    const views16 = ig_last16.reduce((s, r) => s + r.views, 0);
+    return [{ followers, new_followers, growth: followers - new_followers > 0 ? new_followers / (followers - new_followers) : 0,
+      views16, video_views16: ig_last16.filter((r) => r.format === 'Reel' || r.format === 'Video').reduce((s, r) => s + r.views, 0),
+      eng16: ig_last16.reduce((s, r) => s + r.engagement, 0), avg_views16: Math.round(views16 / n),
+      avg_er16: ig_last16.reduce((s, r) => s + r.er, 0) / n }];
+  },
+});
+
+dash.calc('mix', {
+  inputs: ['ig_media_period', 'ig_stories', 'ig_media_6d', 'ig_stories_6d'],
+  title: 'Content mix',
+  description: 'Posts per format, in the selected period and in the last 6 days.',
+  fn: (ig_media_period, ig_stories, ig_media_6d, ig_stories_6d) => {
+    const count = (posts, stories, window) => {
+      const c = (t) => posts.filter((r) => t.includes(r.media_type)).length;
+      return [
+        { key: window + ':Video / Reel', window, format: 'Video / Reel', posts: c(['REELS', 'VIDEO']) },
+        { key: window + ':Carousel', window, format: 'Carousel', posts: c(['CAROUSEL_ALBUM']) },
+        { key: window + ':Single post', window, format: 'Single post', posts: c(['IMAGE']) },
+        { key: window + ':Story', window, format: 'Story', posts: stories.length },
+      ];
+    };
+    return [...count(ig_media_6d, ig_stories_6d, 'last6'), ...count(ig_media_period, ig_stories, 'period')];
+  },
+});
+
+dash.calc('meta_camp', {
+  inputs: ['meta_campaigns'],
+  title: 'Meta Ads campaigns with costs',
+  description: 'CTR, cost per link click, CPM and cost per lead for each campaign, with a status against the account.',
+  fn: (meta_campaigns) => {
+    const num = (v) => Number(v) || 0;
+    const obj = { OUTCOME_LEADS: 'Leads', OUTCOME_AWARENESS: 'Awareness', LINK_CLICKS: 'Traffic', OUTCOME_TRAFFIC: 'Traffic', OUTCOME_ENGAGEMENT: 'Engagement', OUTCOME_SALES: 'Sales' };
+    const tS = meta_campaigns.reduce((s, r) => s + num(r.spend), 0), tL = meta_campaigns.reduce((s, r) => s + num(r.actions_lead), 0);
+    const acctCpl = tL ? tS / tL : 0;
+    return meta_campaigns.map((r) => {
+      const spend = num(r.spend), imp = num(r.impressions), lc = num(r.link_clicks), leads = num(r.actions_lead);
+      const cpl = leads ? spend / leads : null;
+      let verdict = 'Average';
+      if (spend < 20000) verdict = 'Too little data';
+      else if (leads >= 3 && cpl <= acctCpl * 1.1) verdict = 'Working';
+      else if (spend >= 100000 && (leads === 0 || cpl > acctCpl * 2)) verdict = 'Not working';
+      return { campaign: r.campaign, objective: obj[r.campaign_objective] || r.campaign_objective, status: r.campaign_status === 'ACTIVE' ? 'Active' : 'Paused',
+        budget: r.campaign_daily_budget == null ? null : num(r.campaign_daily_budget), spend: Math.round(spend), impressions: imp, reach: num(r.reach), link_clicks: lc,
+        ctr: imp ? lc / imp : 0, cpc: lc ? Math.round(spend / lc) : null, cpm: imp ? Math.round(spend / imp * 1000) : null, leads, cpl: cpl == null ? null : Math.round(cpl), verdict };
+    }).sort((a, b) => b.spend - a.spend);
+  },
+});
+
+dash.calc('meta_kpis', {
+  inputs: ['meta_campaigns'],
+  title: 'Meta Ads headline figures',
+  description: 'Totals for the period, and the sum of active campaigns’ daily budgets.',
+  fn: (meta_campaigns) => {
+    const num = (v) => Number(v) || 0, sum = (f) => meta_campaigns.reduce((s, r) => s + num(r[f]), 0);
+    const spend = sum('spend'), leads = sum('actions_lead'), imp = sum('impressions'), lc = sum('link_clicks');
+    const act = meta_campaigns.filter((r) => r.campaign_status === 'ACTIVE');
+    return [{ spend: Math.round(spend), leads, cpl: leads ? Math.round(spend / leads) : null, impressions: imp, link_clicks: lc, ctr: imp ? lc / imp : 0,
+      cpm: imp ? Math.round(spend / imp * 1000) : null, active: act.length, daily_budget: act.reduce((s, r) => s + num(r.campaign_daily_budget), 0) }];
+  },
+});
+
+dash.calc('meta_ad_rows', {
+  inputs: ['meta_ads', 'insights', 'visuals'],
+  title: 'Meta ads with costs and status',
+  description: 'Each ad with content type, pillar (from the ad name), costs, and a status against the account’s averages.',
+  fn: (meta_ads, insights, visuals) => {
+    const num = (v) => Number(v) || 0;
+    const fmt = { SHARE: 'Single image', PHOTO: 'Single image', VIDEO: 'Video' };
+    const pillarOf = (name) => {
+      const n = String(name || '').toLowerCase();
+      if (n.includes('bundling')) return 'Bundling PT + VO';
+      if (n.includes('perubahan data')) return 'Perubahan data';
+      if (n.includes('pma')) return 'PT PMA';
+      if (n.includes('suami-istri')) return 'Pendirian PT (myth-buster)';
+      if (n.includes('pendirian cv') || n.includes('mg 5')) return 'Pendirian CV';
+      if (/pendirian pt|mg 4|pt & cv|badan usaha/.test(n)) return 'Pendirian PT / CV';
+      if (/serviced office|co-working/.test(n)) return 'Serviced office';
+      if (/virtual office|\bvo\b|mg 2 sby/.test(n)) return 'Virtual office';
+      if (/all service|brand awareness/.test(n)) return 'All services';
+      return 'Other';
+    };
+    const notes = new Map(insights.filter((r) => r.section === 'ad').map((r) => [r.id, r.body]));
+    const imgs = new Map(visuals.map((r) => [r.id, r.img]));
+    const tS = meta_ads.reduce((s, r) => s + num(r.spend), 0), tL = meta_ads.reduce((s, r) => s + num(r.actions_lead), 0);
+    const tI = meta_ads.reduce((s, r) => s + num(r.impressions), 0), tC = meta_ads.reduce((s, r) => s + num(r.link_clicks), 0);
+    const aCpl = tL ? tS / tL : 0, aCtr = tI ? tC / tI : 0, aCpm = tI ? tS / tI * 1000 : 0;
+    const rp = (v) => 'Rp' + Math.round(v).toLocaleString('en');
+    return meta_ads.map((r) => {
+      const spend = num(r.spend), imp = num(r.impressions), lc = num(r.link_clicks), leads = num(r.actions_lead);
+      const ctr = imp ? lc / imp : 0, cpl = leads ? spend / leads : null, cpm = imp ? spend / imp * 1000 : 0;
+      let verdict = 'Average';
+      if (spend < 20000) verdict = 'Too little data';
+      else if ((leads >= 3 && cpl <= aCpl * 1.1) || (ctr >= aCtr * 2 && lc >= 50)) verdict = 'Working';
+      else if (spend >= 100000 && (leads === 0 || cpl > aCpl * 2)) verdict = 'Not working';
+      else if (imp >= 10000 && ctr < 0.002) verdict = 'Not working';
+      const sig = [];
+      if (leads) sig.push(`${rp(cpl)} per lead vs ${rp(aCpl)} account average`); else if (spend >= 20000) sig.push(`${rp(spend)} spent with no leads`);
+      sig.push(`link CTR ${(ctr * 100).toFixed(2)}% vs ${(aCtr * 100).toFixed(2)}% average`);
+      if (cpm && cpm < aCpm * 0.5) sig.push(`cheap CPM (${rp(cpm)}) usually means low-attention placements`);
+      const note = notes.get(r.ad_id);
+      return { ad_id: r.ad_id, title: r.ad_name, campaign: r.campaign, adset: r.adset_name, format: fmt[r.object_type] || r.object_type, pillar: pillarOf(r.ad_name),
+        link: r.instagram_permalink_url || null, img: imgs.get('ad:' + r.ad_id) || null, spend: Math.round(spend), impressions: imp, link_clicks: lc, ctr,
+        cpc: lc ? Math.round(spend / lc) : null, cpm: imp ? Math.round(cpm) : null, leads, cpl: cpl == null ? null : Math.round(cpl), verdict,
+        highlight: (note ? note + ' ' : '') + sig.join('; ') + '.' };
+    }).sort((a, b) => b.spend - a.spend);
+  },
+});
+
+dash.calc('g_camp', {
+  inputs: ['gads_campaigns'],
+  title: 'Google Ads campaigns with costs',
+  description: 'CTR, CPC, conversion rate and cost per conversion per campaign, with a status against the account.',
+  fn: (gads_campaigns) => {
+    const num = (v) => Number(v) || 0;
+    const tS = gads_campaigns.reduce((s, r) => s + num(r.spend), 0), tV = gads_campaigns.reduce((s, r) => s + num(r.conversions), 0);
+    const acct = tV ? tS / tV : 0;
+    return gads_campaigns.filter((r) => num(r.impressions) > 0 || r.campaign_status === 'ENABLED').map((r) => {
+      const spend = num(r.spend), imp = num(r.impressions), clicks = num(r.clicks), conv = Math.round(num(r.conversions) * 10) / 10;
+      const cpa = conv ? spend / conv : null;
+      let verdict = 'Average';
+      if (spend < 20000) verdict = 'Too little data';
+      else if (conv >= 5 && cpa <= acct * 0.9) verdict = 'Working';
+      else if (conv === 0 || cpa > acct * 1.6) verdict = 'Not working';
+      return { campaign: r.campaign, status: r.campaign_status === 'ENABLED' ? 'Enabled' : 'Paused', budget: num(r.budget_amount), spend: Math.round(spend), impressions: imp, clicks,
+        ctr: imp ? clicks / imp : 0, cpc: clicks ? Math.round(spend / clicks) : null, conversions: conv, cpa: cpa == null ? null : Math.round(cpa), conv_rate: clicks ? conv / clicks : 0, verdict };
+    }).sort((a, b) => b.spend - a.spend);
+  },
+});
+
+dash.calc('g_kpis', {
+  inputs: ['gads_campaigns'],
+  title: 'Google Ads headline figures',
+  description: 'Totals for the period, and the sum of enabled campaigns’ budget settings.',
+  fn: (gads_campaigns) => {
+    const num = (v) => Number(v) || 0, sum = (f) => gads_campaigns.reduce((s, r) => s + num(r[f]), 0);
+    const spend = sum('spend'), conv = Math.round(sum('conversions') * 10) / 10, clicks = sum('clicks'), imp = sum('impressions');
+    const en = gads_campaigns.filter((r) => r.campaign_status === 'ENABLED');
+    return [{ spend: Math.round(spend), conversions: conv, cpa: conv ? Math.round(spend / conv) : null, clicks, impressions: imp, ctr: imp ? clicks / imp : 0,
+      enabled: en.length, budget: en.reduce((s, r) => s + num(r.budget_amount), 0) }];
+  },
+});
+
+dash.calc('g_kw', {
+  inputs: ['gads_keywords'],
+  title: 'Google Ads keywords with costs',
+  description: 'CTR, CPC and cost per conversion per keyword, with a status against the account.',
+  fn: (gads_keywords) => {
+    const num = (v) => Number(v) || 0;
+    const tS = gads_keywords.reduce((s, r) => s + num(r.spend), 0), tV = gads_keywords.reduce((s, r) => s + num(r.conversions), 0);
+    const acct = tV ? tS / tV : 0;
+    const rp = (v) => 'Rp' + Math.round(v).toLocaleString('en');
+    const count = {};
+    gads_keywords.forEach((r) => { const k = String(r.keyword_text).toLowerCase(); count[k] = (count[k] || 0) + 1; });
+    return gads_keywords.map((r) => {
+      const spend = num(r.spend), imp = num(r.impressions), clicks = num(r.clicks), conv = Math.round(num(r.conversions) * 10) / 10;
+      const cpa = conv ? spend / conv : null, ctr = imp ? clicks / imp : 0;
+      let verdict = 'Average';
+      if (spend < 20000) verdict = 'Too little data';
+      else if (conv >= 3 && cpa <= acct) verdict = 'Working';
+      else if ((spend >= 80000 && conv < 1) || (cpa && cpa > acct * 2)) verdict = 'Not working';
+      const sig = [conv ? `${rp(cpa)} per conversion vs ${rp(acct)} account average` : `${rp(spend)} spent, no conversions`, `CTR ${(ctr * 100).toFixed(1)}%`];
+      if (r.keyword_match_type === 'BROAD' && spend >= 100000) sig.push('broad match on a high-spend term');
+      if (count[String(r.keyword_text).toLowerCase()] > 1) sig.push(`also bid on in ${count[String(r.keyword_text).toLowerCase()] - 1} other ad group(s)`);
+      return { key: [r.campaign, r.ad_group_name, r.keyword_text, r.keyword_match_type].join(' | '), keyword: r.keyword_text, match: String(r.keyword_match_type || '').toLowerCase(),
+        campaign: r.campaign, ad_group: r.ad_group_name, spend: Math.round(spend), impressions: imp, clicks, ctr, cpc: clicks ? Math.round(spend / clicks) : null,
+        conversions: conv, cpa: cpa == null ? null : Math.round(cpa), verdict, highlight: sig.join('; ') + '.' };
+    }).sort((a, b) => b.spend - a.spend);
+  },
+});
+
+dash.calc('g_pages', {
+  inputs: ['gads_pages'],
+  title: 'Google Ads landing pages',
+  description: 'CTR and cost per conversion per final URL.',
+  fn: (gads_pages) => gads_pages.map((r) => {
+    const spend = Number(r.spend) || 0, imp = Number(r.impressions) || 0, clicks = Number(r.clicks) || 0, conv = Math.round((Number(r.conversions) || 0) * 10) / 10;
+    return { final_url: r.final_url, page: String(r.final_url).replace(/^https?:\/\/(www\.)?/, ''), spend: Math.round(spend), impressions: imp, clicks, ctr: imp ? clicks / imp : 0, conversions: conv, cpa: conv ? Math.round(spend / conv) : null };
+  }).sort((a, b) => b.conversions - a.conversions),
+});
+
+dash.calc('daily', {
+  inputs: ['meta_daily', 'gads_daily'],
+  title: 'Spend and leads per day',
+  description: 'Meta Ads and Google Ads joined by date.',
+  fn: (meta_daily, gads_daily) => {
+    const m = new Map();
+    const get = (d) => { if (!m.has(d)) m.set(d, { date: d, meta_spend: 0, google_spend: 0, meta_leads: 0, google_conv: 0 }); return m.get(d); };
+    meta_daily.forEach((r) => { const o = get(String(r.date).slice(0, 10)); o.meta_spend += Number(r.spend) || 0; o.meta_leads += Number(r.actions_lead) || 0; });
+    gads_daily.forEach((r) => { const o = get(String(r.date).slice(0, 10)); o.google_spend += Number(r.spend) || 0; o.google_conv += Number(r.conversions) || 0; });
+    return [...m.values()].map((o) => ({ ...o, meta_spend: Math.round(o.meta_spend), google_spend: Math.round(o.google_spend), google_conv: Math.round(o.google_conv * 10) / 10 })).sort((a, b) => (a.date < b.date ? -1 : 1));
+  },
+});
+
+dash.calc('overview', {
+  inputs: ['meta_kpis', 'g_kpis', 'ga4_channels'],
+  title: 'Account overview',
+  description: 'Spend and leads across Meta Ads and Google Ads, and website sessions.',
+  fn: (meta_kpis, g_kpis, ga4_channels) => {
+    const m = meta_kpis[0] || {}, g = g_kpis[0] || {};
+    const spend = (m.spend || 0) + (g.spend || 0), leads = Math.round((m.leads || 0) + (g.conversions || 0));
+    return [{ spend, leads, cpl: leads ? Math.round(spend / leads) : null, sessions: ga4_channels.reduce((s, r) => s + (Number(r.sessions) || 0), 0) }];
+  },
+});
+</script>
+
+<script>
+/* ---------- Filters, tabs and shared helpers ---------- */
+window.NPC = (() => {
+  const nf = new Intl.NumberFormat('en');
+  const fmt = (kind, v) => {
+    if (v == null || v === '' || Number.isNaN(v)) return '—';
+    switch (kind) {
+      case 'rp': return 'Rp' + nf.format(Math.round(v));
+      case 'int': return nf.format(Math.round(v));
+      case 'dec': return nf.format(Math.round(v * 10) / 10);
+      case 'plus': return (v >= 0 ? '+' : '') + nf.format(Math.round(v));
+      case 'pct': return (v * 100).toFixed(1) + '%';
+      case 'pct2': return (v * 100).toFixed(2) + '%';
+      case 'pctsign': return (v >= 0 ? '+' : '') + (v * 100).toFixed(2) + '%';
+      case 'date': return d3.utcFormat('%-d %b %Y')(new Date(v));
+      default: return String(v);
+    }
+  };
+  const td = (tr, text, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = text; tr.appendChild(c); return c; };
+  const pill = (tr, v) => { const c = document.createElement('td'); const s = document.createElement('span'); s.className = 'pill ' + String(v).replace(/ /g, '-'); s.textContent = v; c.appendChild(s); tr.appendChild(c); return c; };
+  const content = (tr, text, href, img) => {
+    const c = document.createElement('td'); c.className = 'wrap';
+    const box = document.createElement('div'); box.className = 'cell-content';
+    if (img) { const i = document.createElement('img'); i.className = 'thumb'; i.referrerPolicy = 'no-referrer'; i.loading = 'lazy'; i.src = img; i.alt = ''; i.onerror = () => i.remove(); box.appendChild(i); }
+    const t = href ? document.createElement('a') : document.createElement('span');
+    if (href) { t.href = href; t.target = '_blank'; t.rel = 'noopener'; }
+    t.textContent = text; box.appendChild(t); c.appendChild(box); tr.appendChild(c); return c;
+  };
+  const failLine = (el, d) => { el.replaceChildren(); if (d.status === 'error') { const f = document.createElement('div'); f.className = 'fail'; f.textContent = 'Failed to load'; el.appendChild(f); } };
+  const tbodyRows = (el, id, rows, key, build) => {
+    const d = dash.data(id);
+    el.replaceChildren();
+    if (d.status !== 'ok') return;
+    rows.forEach((r) => { const tr = document.createElement('tr'); tr.dataset.key = r[key]; build(tr, r); el.appendChild(tr); });
+  };
+  const iso = (d) => d.toISOString().slice(0, 10);
+  const yesterdayJkt = () => { const now = new Date(Date.now() + 7 * 3600e3); return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1)); };
+  const setRange = (start, end) => {
+    const e = new Date(end + 'T00:00:00Z'), s = new Date(start + 'T00:00:00Z');
+    const m = new Date(e); m.setUTCDate(m.getUTCDate() - 89);
+    const cut = yesterdayJkt(); cut.setUTCDate(cut.getUTCDate() - 28);
+    const fs = s > cut ? s : cut, fe = e > cut ? e : cut;
+    dash.setParams({ start, end, media_start: iso(s < m ? s : m), fol_start: iso(fs), fol_end: iso(fe) });
+  };
+  const lastDays = (n) => { const e = yesterdayJkt(); const s = new Date(e); s.setUTCDate(s.getUTCDate() - (n - 1)); setRange(iso(s), iso(e)); };
+  const searchVal = (sel) => { const i = document.querySelector(sel); return i ? i.value.trim().toLowerCase() : ''; };
+  return { fmt, td, pill, content, failLine, tbodyRows, setRange, lastDays, searchVal };
+})();
+
+const setDefaults = () => NPC.lastDays(30);
+setDefaults();
+
+const fStart = document.querySelector('#f-start'), fEnd = document.querySelector('#f-end'), fRank = document.querySelector('#f-rank');
+const showDates = () => {
+  const p = dash.params();
+  if (fStart && fStart !== document.activeElement) fStart.value = p.start || '';
+  if (fEnd && fEnd !== document.activeElement) fEnd.value = p.end || '';
+  if (fRank) fRank.value = p.rank || 'views';
+  const sel = (p.end && p.start) ? Math.round((Date.parse(p.end) - Date.parse(p.start)) / 864e5) + 1 : 0;
+  document.querySelectorAll('.preset').forEach((b) => b.classList.toggle('is-on', Number(b.dataset.days) === sel));
+};
+const onDate = () => {
+  if (!fStart || !fEnd || !fStart.value || !fEnd.value || !fStart.validity.valid || !fEnd.validity.valid) return;
+  if (fStart.value > fEnd.value) return;
+  NPC.setRange(fStart.value, fEnd.value);
+};
+[fStart, fEnd].forEach((el) => { if (el) { el.addEventListener('change', onDate); el.addEventListener('blur', showDates); } });
+document.querySelectorAll('.preset').forEach((b) => b.addEventListener('click', () => NPC.lastDays(Number(b.dataset.days))));
+document.querySelectorAll('#f-reset').forEach((b) => b.addEventListener('click', () => { dash.resetParams(); setDefaults(); }));
+if (fRank) fRank.addEventListener('change', () => dash.setParams({ rank: fRank.value }));
+
+const showTab = (name) => {
+  document.querySelectorAll('[data-page]').forEach((s) => { s.hidden = s.dataset.page !== name; });
+  document.querySelectorAll('[data-tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+  dash.redraw();
+};
+document.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { showTab(b.dataset.tab); dash.setLink(b.dataset.tab); }));
+const startTab = location.hash.slice(1);
+if (document.querySelector(`[data-page="${startTab}"]`)) showTab(startTab);
+
+dash.onData(showDates);
+</script>
+
+<script>
+/* ---------- Drawings: headline text, figures, alerts ---------- */
+dash.draw('period', (el) => {
+  const p = dash.params();
+  el.textContent = p.start && p.end ? `${NPC.fmt('date', p.start)} – ${NPC.fmt('date', p.end)}` : '—';
+});
+dash.draw('kpi', (el) => {
+  const d = dash.data(el.dataset.source);
+  el.classList.toggle('dash-skeleton', d.status === 'loading');
+  const row = d.status === 'ok' ? (d.data || [])[Number(el.dataset.row || 0)] : null;
+  el.textContent = row ? NPC.fmt(el.dataset.fmt, row[el.dataset.field]) : '—';
+  if (el.dataset.fmt === 'plus' || el.dataset.fmt === 'pctsign') {
+    const v = row ? row[el.dataset.field] : null;
+    el.classList.toggle('up', v > 0); el.classList.toggle('down', v < 0);
+  }
+});
+dash.draw('takeaway', (el) => {
+  const d = dash.data('insights');
+  const r = d.status === 'ok' ? d.data.find((x) => x.section === 'summary') : null;
+  el.textContent = r ? r.body : '—';
+});
+dash.draw('asof', (el) => {
+  const d = dash.data('insights');
+  const r = d.status === 'ok' ? d.data.find((x) => x.section === 'meta') : null;
+  el.textContent = r ? `${r.title}. ${r.body}` : '—';
+});
+const drawAlerts = (el, ids) => {
+  const d = dash.data('insights');
+  el.replaceChildren();
+  if (d.status !== 'ok') return;
+  d.data.filter((r) => r.section === 'alert' && ids.includes(r.id)).forEach((r) => {
+    const box = document.createElement('div'); box.className = 'alert';
+    const b = document.createElement('b'); b.textContent = r.title;
+    const p = document.createElement('p'); p.textContent = r.body;
+    box.append(b, p); el.appendChild(box);
+  });
+};
+dash.draw('alerts', (el) => drawAlerts(el, ['fb_page', 'ga4_events']));
+dash.draw('alertFb', (el) => drawAlerts(el, ['fb_page']));
+
+const drawIns = (el, section, bad) => {
+  const d = dash.data('insights');
+  el.replaceChildren();
+  if (d.status !== 'ok') return NPC.failLine(el, d);
+  d.data.filter((r) => r.section === section).sort((a, b) => a.order - b.order).forEach((r) => {
+    const c = document.createElement('article'); c.className = 'ins-card' + (bad ? ' bad' : '');
+    const n = document.createElement('span'); n.className = 'num'; n.textContent = String(r.order);
+    const h = document.createElement('h3'); h.textContent = r.title;
+    const p = document.createElement('p'); p.textContent = r.body;
+    const how = document.createElement('p'); how.className = 'how';
+    const hb = document.createElement('b'); hb.textContent = bad ? 'How to fix: ' : 'How to re-create: ';
+    how.append(hb, document.createTextNode(r.how || ''));
+    c.append(n, h, p, how); el.appendChild(c);
+  });
+};
+dash.draw('insWorking', (el) => drawIns(el, 'working', false));
+dash.draw('insNot', (el) => drawIns(el, 'not_working', true));
+</script>
+
+<script>
+/* ---------- Drawings: charts ---------- */
+const lineChart = (el, rows, series, opts) => {
+  el.replaceChildren();
+  const d = dash.data('daily');
+  if (d.status !== 'ok') return NPC.failLine(el, d);
+  if (!rows.length) return;
+  const W = el.clientWidth || 600, H = 240, m = { t: 12, r: 12, b: 26, l: 12 };
+  const x = d3.scaleBand(rows.map((r) => r.date), [m.l, W - m.r]).padding(opts.bars ? 0.25 : 0);
+  const max = d3.max(rows, (r) => opts.stack ? series.reduce((s, k) => s + r[k.f], 0) : d3.max(series, (k) => r[k.f])) || 1;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img');
+  const y = d3.scaleLinear([0, max], [H - m.b, m.t]).nice();
+  const yt = y.ticks(4);
+  const fmtY = opts.money ? (v) => (v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? Math.round(v / 1e3) + 'k' : v) : d3.format(',');
+  const g = svg.append('g');
+  const labels = g.selectAll('text.yl').data(yt).join('text').attr('class', 'yl').attr('x', 0).attr('y', (v) => y(v) - 3).text(fmtY);
+  const lw = d3.max(labels.nodes(), (n) => n.getComputedTextLength()) || 0;
+  m.l = lw + 8; x.range([m.l, W - m.r]);
+  labels.attr('x', 0);
+  g.selectAll('line').data(yt).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (v) => y(v)).attr('y2', (v) => y(v)).attr('stroke', '#EDE4D6');
+  const step = Math.ceil(rows.length / Math.max(2, Math.floor((W - m.l) / 70)));
+  svg.append('g').selectAll('text').data(rows.filter((r, i) => i % step === 0)).join('text')
+    .attr('x', (r) => x(r.date) + x.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle').text((r) => d3.utcFormat('%-d %b')(new Date(r.date)));
+  if (opts.bars) {
+    const st = d3.stack().keys(series.map((s) => s.f))(rows);
+    st.forEach((layer, i) => svg.append('g').selectAll('rect').data(layer).join('rect')
+      .attr('x', (p) => x(p.data.date)).attr('width', Math.min(32, x.bandwidth())).attr('y', (p) => y(p[1])).attr('height', (p) => Math.max(0, y(p[0]) - y(p[1])))
+      .attr('rx', 2).attr('fill', series[i].c));
+  } else {
+    series.forEach((s) => {
+      svg.append('path').datum(rows).attr('fill', 'none').attr('stroke', s.c).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
+        .attr('d', d3.line().x((r) => x(r.date) + x.bandwidth() / 2).y((r) => y(r[s.f])));
+    });
+  }
+  const tip = d3.select(el).append('div').attr('class', 'tip').style('display', 'none');
+  const dot = svg.append('line').attr('stroke', '#C9B9A2').attr('y1', m.t).attr('y2', H - m.b).style('display', 'none');
+  svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+    .on('mousemove', (ev) => {
+      const [px] = d3.pointer(ev);
+      const i = Math.max(0, Math.min(rows.length - 1, Math.floor((px - m.l) / ((W - m.l - m.r) / rows.length))));
+      const r = rows[i], cx = x(r.date) + x.bandwidth() / 2;
+      dot.style('display', null).attr('x1', cx).attr('x2', cx);
+      tip.style('display', null).html('');
+      tip.append('div').style('color', '#6F665A').text(d3.utcFormat('%a %-d %b %Y')(new Date(r.date)));
+      series.forEach((s) => { const l = tip.append('div'); l.append('span').attr('class', 'sw').style('background', s.c); l.append('span').text(`${s.n}: ${opts.money ? 'Rp' + d3.format(',')(r[s.f]) : d3.format(',')(r[s.f])}`); });
+      const box = el.getBoundingClientRect(), tw = tip.node().offsetWidth;
+      const left = Math.min(Math.max(0, cx / W * box.width + 12), box.width - tw - 4);
+      tip.style('left', left + 'px').style('top', '8px');
+    })
+    .on('mouseleave', () => { tip.style('display', 'none'); dot.style('display', 'none'); });
+};
+dash.draw('spendChart', (el) => {
+  const d = dash.data('daily');
+  lineChart(el, d.status === 'ok' ? d.data : [], [{ f: 'meta_spend', c: '#B5573A', n: 'Meta Ads' }, { f: 'google_spend', c: '#66772F', n: 'Google Ads' }], { money: true });
+});
+dash.draw('leadsChart', (el) => {
+  const d = dash.data('daily');
+  lineChart(el, d.status === 'ok' ? d.data : [], [{ f: 'google_conv', c: '#66772F', n: 'Google conversions' }, { f: 'meta_leads', c: '#B5573A', n: 'Meta leads' }], { bars: true, stack: true });
+});
+dash.draw('reachChart', (el) => {
+  el.replaceChildren();
+  const d = dash.data('ig_daily');
+  if (d.status !== 'ok') return NPC.failLine(el, d);
+  const rows = d.data.map((r) => ({ date: String(r.date).slice(0, 10), reach: Number(r.reach_1d) || 0, nf: Number(r.follower_count_1d) || 0 })).sort((a, b) => (a.date < b.date ? -1 : 1));
+  if (!rows.length) return;
+  const W = el.clientWidth || 600, H = 240, m = { t: 12, r: 12, b: 26, l: 40 };
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => r.reach) || 1], [H - m.b, m.t]).nice();
+  const yl = svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', 0).attr('y', (v) => y(v) - 3).text((v) => (v >= 1000 ? Math.round(v / 1000) + 'k' : v));
+  m.l = (d3.max(yl.nodes(), (n) => n.getComputedTextLength()) || 20) + 8;
+  const x = d3.scaleBand(rows.map((r) => r.date), [m.l, W - m.r]).padding(0.25);
+  svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (v) => y(v)).attr('y2', (v) => y(v)).attr('stroke', '#EDE4D6');
+  const bars = svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.date)).attr('width', Math.min(32, x.bandwidth())).attr('y', (r) => y(r.reach)).attr('height', (r) => y(0) - y(r.reach)).attr('rx', 2).attr('fill', '#C08A25');
+  const step = Math.ceil(rows.length / Math.max(2, Math.floor((W - m.l) / 70)));
+  svg.append('g').selectAll('text').data(rows.filter((r, i) => i % step === 0)).join('text').attr('x', (r) => x(r.date) + x.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle').text((r) => d3.utcFormat('%-d %b')(new Date(r.date)));
+  const tip = d3.select(el).append('div').attr('class', 'tip').style('display', 'none');
+  bars.on('mouseenter', (ev, r) => {
+    bars.attr('fill', (o) => (o === r ? '#6B4226' : '#C08A25'));
+    tip.style('display', null).html('');
+    tip.append('div').style('color', '#6F665A').text(d3.utcFormat('%a %-d %b')(new Date(r.date)));
+    tip.append('div').text(`Reached: ${d3.format(',')(r.reach)}`);
+    tip.append('div').text(`New followers: ${r.nf}`);
+    const box = el.getBoundingClientRect(), tw = tip.node().offsetWidth, cx = (x(r.date) / W) * box.width;
+    tip.style('left', Math.min(Math.max(0, cx + 10), box.width - tw - 4) + 'px').style('top', '8px');
+  }).on('mouseleave', () => { tip.style('display', 'none'); bars.attr('fill', '#C08A25'); });
+});
+const drawMix = (el, win) => {
+  el.replaceChildren();
+  const d = dash.data('mix');
+  if (d.status !== 'ok') return NPC.failLine(el, d);
+  const rows = d.data.filter((r) => r.window === win);
+  const max = d3.max(d.data, (r) => r.posts) || 1;
+  const colors = { 'Video / Reel': '#B5573A', Carousel: '#C08A25', 'Single post': '#66772F', Story: '#8E9F6B' };
+  rows.forEach((r) => {
+    const row = document.createElement('div'); row.className = 'mix-row';
+    const l = document.createElement('span'); l.textContent = r.format;
+    const track = document.createElement('div'); track.className = 'mix-track';
+    const bar = document.createElement('div'); bar.className = 'mix-bar'; bar.style.width = (r.posts / max * 100) + '%'; bar.style.background = colors[r.format];
+    track.appendChild(bar);
+    const v = document.createElement('b'); v.textContent = String(r.posts); v.style.textAlign = 'right';
+    row.append(l, track, v); el.appendChild(row);
+  });
+};
+dash.draw('mix6', (el) => drawMix(el, 'last6'));
+dash.draw('mixPeriod', (el) => drawMix(el, 'period'));
+</script>
+
+<script>
+/* ---------- Drawings: Instagram top 5 and tables ---------- */
+dash.draw('top5', (el) => {
+  el.replaceChildren();
+  const d = dash.data('ig_last16');
+  if (d.status !== 'ok') return NPC.failLine(el, d);
+  const key = dash.params().rank || 'views';
+  const rows = [...d.data].sort((a, b) => b[key] - a[key]).slice(0, 5);
+  rows.forEach((r, i) => {
+    const card = document.createElement('article'); card.className = 'post';
+    const left = document.createElement('div');
+    if (r.img) { const im = document.createElement('img'); im.className = 'big'; im.referrerPolicy = 'no-referrer'; im.src = r.img; im.alt = 'Post thumbnail'; im.onerror = () => im.remove(); left.appendChild(im); }
+    const body = document.createElement('div'); body.className = 'post-body';
+    const head = document.createElement('div'); head.style.display = 'flex'; head.style.gap = '10px'; head.style.alignItems = 'baseline'; head.style.flexWrap = 'wrap';
+    const rk = document.createElement('span'); rk.className = 'rank'; rk.textContent = '#' + (i + 1);
+    const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = r.format;
+    const tag2 = document.createElement('span'); tag2.className = 'tag'; tag2.textContent = r.pillar;
+    const dt = document.createElement('span'); dt.className = 'muted'; dt.textContent = NPC.fmt('date', r.date);
+    const a = document.createElement('a'); a.className = 'npc-link'; a.href = r.permalink; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Open post ↗';
+    head.append(rk, tag, tag2, dt, a);
+    const cap = document.createElement('p'); cap.textContent = r.title;
+    const met = document.createElement('div'); met.className = 'metrics';
+    [['Views', r.views], ['Reach', r.reach], ['Likes', r.likes], ['Comments', r.comments], ['Shares', r.shares], ['Saves', r.saves], ['Engagement', r.engagement], ['ER', NPC.fmt('pct', r.er)], ...(r.skip != null ? [['Skip rate', NPC.fmt('pct', r.skip)], ['Avg watch', r.watch_s.toFixed(1) + ' s']] : [])]
+      .forEach(([k, v]) => { const s = document.createElement('span'); const b = document.createElement('b'); b.textContent = typeof v === 'number' ? NPC.fmt('int', v) : v; s.append(k + ' ', b); met.appendChild(s); });
+    const why = document.createElement('p'); why.className = 'why';
+    const st = document.createElement('strong'); st.textContent = 'Why it is in the top 5: ';
+    why.append(st, document.createTextNode(r.highlight));
+    body.append(head, cap, met, why);
+    card.append(left, body); el.appendChild(card);
+  });
+});
+
+const igRow = (tr, r, extra) => {
+  NPC.content(tr, r.title, r.permalink, r.img);
+  NPC.td(tr, r.date); NPC.td(tr, r.format); NPC.td(tr, r.pillar);
+  NPC.td(tr, NPC.fmt('int', r.views), 'n'); NPC.td(tr, NPC.fmt('int', r.reach), 'n'); NPC.td(tr, NPC.fmt('int', r.likes), 'n'); NPC.td(tr, NPC.fmt('int', r.comments), 'n');
+  NPC.td(tr, NPC.fmt('int', r.shares), 'n'); NPC.td(tr, NPC.fmt('int', r.saves), 'n');
+  if (!extra) NPC.td(tr, NPC.fmt('int', r.engagement), 'n');
+  NPC.td(tr, NPC.fmt('pct', r.er), 'n');
+  if (extra) NPC.td(tr, r.skip == null ? '—' : NPC.fmt('pct', r.skip), 'n');
+  NPC.pill(tr, r.verdict);
+  if (extra) NPC.td(tr, r.highlight, 'note');
+};
+dash.draw('t-ig16', (el) => { const d = dash.data('ig_last16'); NPC.tbodyRows(el, 'ig_last16', d.status === 'ok' ? d.data : [], 'media_id', (tr, r) => igRow(tr, r, false)); });
+
+dash.draw('t-ig-all', (el) => {
+  const d = dash.data('ig_period'), q = NPC.searchVal('#s-ig');
+  const rows = d.status === 'ok' ? d.data.filter((r) => !q || (r.caption + ' ' + r.pillar + ' ' + r.format).toLowerCase().includes(q)) : [];
+  NPC.tbodyRows(el, 'ig_period', rows, 'media_id', (tr, r) => igRow(tr, r, true));
+});
+</script>
+
+<script>
+/* ---------- Drawings: Meta Ads tables ---------- */
+const campRow = (tr, r) => {
+  NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, r.objective); NPC.td(tr, r.status);
+  NPC.td(tr, r.budget == null ? 'Set at ad set' : NPC.fmt('rp', r.budget), 'n'); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); NPC.td(tr, NPC.fmt('int', r.impressions), 'n');
+  NPC.td(tr, NPC.fmt('int', r.link_clicks), 'n'); NPC.td(tr, NPC.fmt('pct2', r.ctr), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpc), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpm), 'n');
+  NPC.td(tr, NPC.fmt('int', r.leads), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpl), 'n'); NPC.pill(tr, r.verdict);
+};
+dash.draw('t-meta-camp', (el) => { const d = dash.data('meta_camp'); NPC.tbodyRows(el, 'meta_camp', d.status === 'ok' ? d.data : [], 'campaign', campRow); });
+dash.draw('t-meta-top', (el) => {
+  const d = dash.data('meta_camp');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.leads > 0).sort((a, b) => b.leads - a.leads || a.cpl - b.cpl).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'meta_camp', rows, 'campaign', (tr, r) => { NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); NPC.td(tr, NPC.fmt('int', r.leads), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpl), 'n'); NPC.td(tr, NPC.fmt('pct2', r.ctr), 'n'); });
+});
+const adCell = (tr, r) => NPC.content(tr, r.title, r.link, r.img);
+dash.draw('t-meta-cpc', (el) => {
+  const d = dash.data('meta_ad_rows');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.link_clicks >= 20 && r.cpc != null).sort((a, b) => a.cpc - b.cpc).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'meta_ad_rows', rows, 'ad_id', (tr, r) => { adCell(tr, r); NPC.td(tr, r.format); NPC.td(tr, r.pillar); NPC.td(tr, NPC.fmt('rp', r.cpc), 'n'); NPC.td(tr, NPC.fmt('int', r.link_clicks), 'n'); NPC.td(tr, NPC.fmt('int', r.leads), 'n'); });
+});
+dash.draw('t-meta-cpm', (el) => {
+  const d = dash.data('meta_ad_rows');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.impressions >= 5000 && r.cpm != null).sort((a, b) => a.cpm - b.cpm).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'meta_ad_rows', rows, 'ad_id', (tr, r) => { adCell(tr, r); NPC.td(tr, r.format); NPC.td(tr, r.pillar); NPC.td(tr, NPC.fmt('rp', r.cpm), 'n'); NPC.td(tr, NPC.fmt('int', r.impressions), 'n'); NPC.td(tr, NPC.fmt('pct2', r.ctr), 'n'); });
+});
+dash.draw('t-meta-ads-top', (el) => {
+  const d = dash.data('meta_ad_rows');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.leads > 0).sort((a, b) => b.leads - a.leads || a.cpl - b.cpl).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'meta_ad_rows', rows, 'ad_id', (tr, r) => { adCell(tr, r); NPC.td(tr, r.format); NPC.td(tr, r.pillar); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); NPC.td(tr, NPC.fmt('int', r.leads), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpl), 'n'); NPC.td(tr, NPC.fmt('pct2', r.ctr), 'n'); NPC.td(tr, r.highlight, 'note'); });
+});
+dash.draw('t-ads-all', (el) => {
+  const d = dash.data('meta_ad_rows'), q = NPC.searchVal('#s-ads');
+  const rows = d.status === 'ok' ? d.data.filter((r) => !q || (r.title + ' ' + r.campaign + ' ' + r.pillar + ' ' + r.format).toLowerCase().includes(q)) : [];
+  NPC.tbodyRows(el, 'meta_ad_rows', rows, 'ad_id', (tr, r) => {
+    adCell(tr, r); NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, r.format); NPC.td(tr, r.pillar);
+    NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); NPC.td(tr, NPC.fmt('int', r.impressions), 'n'); NPC.td(tr, NPC.fmt('int', r.link_clicks), 'n'); NPC.td(tr, NPC.fmt('pct2', r.ctr), 'n');
+    NPC.td(tr, NPC.fmt('rp', r.cpc), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpm), 'n'); NPC.td(tr, NPC.fmt('int', r.leads), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpl), 'n');
+    NPC.pill(tr, r.verdict); NPC.td(tr, r.highlight, 'note');
+  });
+});
+</script>
+
+<script>
+/* ---------- Drawings: Google Ads, GA4 tables ---------- */
+dash.draw('t-g-camp', (el) => {
+  const d = dash.data('g_camp');
+  NPC.tbodyRows(el, 'g_camp', d.status === 'ok' ? d.data : [], 'campaign', (tr, r) => {
+    NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, r.status); NPC.td(tr, NPC.fmt('rp', r.budget), 'n'); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); NPC.td(tr, NPC.fmt('int', r.impressions), 'n');
+    NPC.td(tr, NPC.fmt('int', r.clicks), 'n'); NPC.td(tr, NPC.fmt('pct', r.ctr), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpc), 'n'); NPC.td(tr, NPC.fmt('dec', r.conversions), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpa), 'n'); NPC.pill(tr, r.verdict);
+  });
+});
+dash.draw('t-g-perf', (el) => {
+  const d = dash.data('g_camp');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.conversions >= 5).sort((a, b) => a.cpa - b.cpa).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'g_camp', rows, 'campaign', (tr, r) => { NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, NPC.fmt('rp', r.cpa), 'n'); NPC.td(tr, NPC.fmt('dec', r.conversions), 'n'); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); });
+});
+dash.draw('t-g-conv', (el) => {
+  const d = dash.data('g_camp');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.conversions > 0).sort((a, b) => b.conversions - a.conversions).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'g_camp', rows, 'campaign', (tr, r) => { NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, NPC.fmt('dec', r.conversions), 'n'); NPC.td(tr, NPC.fmt('pct', r.conv_rate), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpa), 'n'); });
+});
+dash.draw('t-g-kw-top', (el) => {
+  const d = dash.data('g_kw');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.conversions > 0).sort((a, b) => b.conversions - a.conversions).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'g_kw', rows, 'key', (tr, r) => { NPC.td(tr, r.keyword, 'wrap'); NPC.td(tr, r.match); NPC.td(tr, NPC.fmt('dec', r.conversions), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpa), 'n'); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); });
+});
+dash.draw('t-g-kw-cpc', (el) => {
+  const d = dash.data('g_kw');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.clicks >= 5).sort((a, b) => a.cpc - b.cpc).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'g_kw', rows, 'key', (tr, r) => { NPC.td(tr, r.keyword, 'wrap'); NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, NPC.fmt('rp', r.cpc), 'n'); NPC.td(tr, NPC.fmt('int', r.clicks), 'n'); });
+});
+dash.draw('t-g-kw-ctr', (el) => {
+  const d = dash.data('g_kw');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.impressions >= 50).sort((a, b) => b.ctr - a.ctr).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'g_kw', rows, 'key', (tr, r) => { NPC.td(tr, r.keyword, 'wrap'); NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, NPC.fmt('pct', r.ctr), 'n'); NPC.td(tr, NPC.fmt('int', r.impressions), 'n'); });
+});
+dash.draw('t-g-pages', (el) => {
+  const d = dash.data('g_pages');
+  const rows = d.status === 'ok' ? d.data.filter((r) => r.conversions > 0).slice(0, 5) : [];
+  NPC.tbodyRows(el, 'g_pages', rows, 'final_url', (tr, r) => {
+    const c = document.createElement('td'); c.className = 'wrap'; const a = document.createElement('a'); a.href = r.final_url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = r.page; c.appendChild(a); tr.appendChild(c);
+    NPC.td(tr, NPC.fmt('int', r.clicks), 'n'); NPC.td(tr, NPC.fmt('pct', r.ctr), 'n'); NPC.td(tr, NPC.fmt('dec', r.conversions), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpa), 'n');
+  });
+});
+dash.draw('t-kw-all', (el) => {
+  const d = dash.data('g_kw'), q = NPC.searchVal('#s-kw');
+  const rows = d.status === 'ok' ? d.data.filter((r) => !q || (r.keyword + ' ' + r.campaign).toLowerCase().includes(q)) : [];
+  NPC.tbodyRows(el, 'g_kw', rows, 'key', (tr, r) => {
+    NPC.td(tr, r.keyword, 'wrap'); NPC.td(tr, r.match); NPC.td(tr, r.campaign, 'wrap'); NPC.td(tr, NPC.fmt('rp', r.spend), 'n'); NPC.td(tr, NPC.fmt('int', r.impressions), 'n');
+    NPC.td(tr, NPC.fmt('int', r.clicks), 'n'); NPC.td(tr, NPC.fmt('pct', r.ctr), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpc), 'n'); NPC.td(tr, NPC.fmt('dec', r.conversions), 'n'); NPC.td(tr, NPC.fmt('rp', r.cpa), 'n');
+    NPC.pill(tr, r.verdict); NPC.td(tr, r.highlight, 'note');
+  });
+});
+dash.draw('t-ga4', (el) => {
+  const d = dash.data('ga4_channels');
+  const rows = d.status === 'ok' ? [...d.data].sort((a, b) => b.sessions - a.sessions) : [];
+  NPC.tbodyRows(el, 'ga4_channels', rows, 'session_default_channel_group', (tr, r) => {
+    NPC.td(tr, r.session_default_channel_group); NPC.td(tr, NPC.fmt('int', r.sessions), 'n'); NPC.td(tr, NPC.fmt('int', r.active_users), 'n'); NPC.td(tr, NPC.fmt('pct', r.engagement_rate), 'n');
+  });
+});
+['#s-ig', '#s-ads', '#s-kw'].forEach((sel) => document.querySelectorAll(sel).forEach((i) => i.addEventListener('input', () => {
+  dash.draw({ '#s-ig': 't-ig-all', '#s-ads': 't-ads-all', '#s-kw': 't-kw-all' }[sel]);
+})));
+</script>
+<script>
+/* Password gate: checks the password with the server, then starts loading. */
+(() => {
+  const gate = document.getElementById('gate'), inp = document.getElementById('gate-pass'), btn = document.getElementById('gate-go'), err = document.getElementById('gate-err');
+  const tryKey = async (k, silent) => {
+    btn.disabled = true; if (!silent) err.textContent = 'Checking…';
+    try {
+      const r = await fetch('/api/report?part=ping', { headers: { 'x-dashboard-key': k } });
+      if (r.status === 401) { err.textContent = silent ? '' : 'That password is not right.'; return false; }
+      if (!r.ok) { const j = await r.json().catch(() => ({})); err.textContent = j.error || 'The server is not ready yet.'; return false; }
+      try { localStorage.setItem('npc-report-key', k); } catch (e) {}
+      gate.hidden = true; dash.start(k); return true;
+    } catch (e) { err.textContent = 'Could not reach the server.'; return false; }
+    finally { btn.disabled = false; }
+  };
+  btn.addEventListener('click', () => tryKey(inp.value, false));
+  inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryKey(inp.value, false); });
+  let saved = null; try { saved = localStorage.getItem('npc-report-key'); } catch (e) {}
+  if (saved) tryKey(saved, true); else inp.focus();
+  document.querySelectorAll('#f-logout').forEach((b) => b.addEventListener('click', () => { try { localStorage.removeItem('npc-report-key'); } catch (e) {} location.reload(); }));
+  document.querySelectorAll('#f-refresh').forEach((b) => b.addEventListener('click', () => dash.refresh()));
+})();
+</script>
+</div>
+</body>
+</html>

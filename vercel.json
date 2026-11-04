@@ -1,0 +1,18 @@
+{
+  "functions": {
+    "api/report.js": {
+      "maxDuration": 120
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ]
+}
