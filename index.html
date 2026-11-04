@@ -36,6 +36,11 @@ img { max-width: 100%; }
 .gate-err { color: #B23A2C !important; min-height: 1.2em; }
 .status-line { font-size: 12.5px; color: #6F665A; }
 .status-line b { color: #B23A2C; }
+.lang-switch { display: inline-flex; border: 1px solid #E7DCCB; border-radius: 999px; overflow: hidden; background: #FFF; }
+.lang-switch button { border: 0 !important; border-radius: 0 !important; background: transparent !important; color: #6F665A !important; padding: 5px 11px !important; font: inherit; font-weight: 600; cursor: pointer; }
+.lang-switch button[aria-pressed=true] { background: #6B4226 !important; color: #FFF8EE !important; }
+.gate-box .lang-switch { justify-self: start; }
+.gate-box .lang-switch button { font-size: 13px; }
 </style>
 </head>
 <body>
@@ -46,6 +51,7 @@ img { max-width: 100%; }
     <input id="gate-pass" type="password" autocomplete="current-password" aria-label="Team password" placeholder="Team password">
     <button type="button" id="gate-go">Open report</button>
     <p class="gate-err" id="gate-err"></p>
+    <div class="lang-switch" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="id" aria-pressed="false">Bahasa Indonesia</button></div>
   </div>
 </div>
 <div id="dash-root">
@@ -66,9 +72,13 @@ window.dash = (() => {
     if (!memo[id]) { try { memo[id] = { status: 'ok', data: c.fn(...ins.map((d) => d.data)) }; } catch (e) { console.error(id, e); memo[id] = { status: 'error', data: [], message: String(e) }; } }
     return memo[id];
   };
+  const localize = (rows) => (window.NPC_LANG && NPC_LANG.get() === 'id')
+    ? rows.map((r) => ({ ...r, title: r.title_id || r.title, body: r.body_id || r.body, how: r.how_id || r.how }))
+    : rows;
   function data(id) {
     if (calcs[id]) return calcData(id);
-    return { status: status[id] || 'loading', data: raw[id] || [], message: errs[id] };
+    const rows = raw[id] || [];
+    return { status: status[id] || 'loading', data: id === 'insights' ? localize(rows) : rows, message: errs[id] };
   }
   let pending = false;
   const redraw = () => {
@@ -77,9 +87,10 @@ window.dash = (() => {
       pending = false;
       ondata.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
       Object.keys(draws).forEach((n) => runDraw(n));
+      if (window.NPC_LANG) NPC_LANG.apply();
     });
   };
-  const runDraw = (n) => document.querySelectorAll(`[data-draw="${n}"]`).forEach((el) => {
+  const runDraw = (n) => { document.querySelectorAll(`[data-draw="${n}"]`).forEach((el) => {
     if (!visible(el)) return;
     try { draws[n](el); } catch (e) { console.error(n, e); }
     const ids = (el.dataset.source || '').split(' ').filter(Boolean);
@@ -87,7 +98,7 @@ window.dash = (() => {
     if (st.includes('error')) el.setAttribute('data-dash-source-state', 'error');
     else if (st.includes('loading')) el.setAttribute('data-dash-source-state', 'loading');
     else el.removeAttribute('data-dash-source-state');
-  });
+  }); if (window.NPC_LANG) NPC_LANG.apply(); };
   const setLine = (t, bad) => document.querySelectorAll('[data-status-line]').forEach((el) => { el.replaceChildren(); const s = document.createElement(bad ? 'b' : 'span'); s.textContent = t; el.appendChild(s); });
   const load = async () => {
     if (!started) return;
@@ -136,11 +147,159 @@ window.dash = (() => {
     setLink: (n) => { try { history.replaceState(null, '', '#' + n); } catch (e) {} },
     refresh: () => { load(); },
     redraw,
+    _langChanged: () => { memo = {}; redraw(); },
     start: (k) => { key = k; started = true; load(); },
     colors: ['#B5573A', '#66772F', '#C08A25', '#6B4226', '#8E9F6B', '#D9A27E', '#7A5C3E', '#A3B18A'],
   };
 })();
 window.addEventListener('resize', (() => { let t; return () => { clearTimeout(t); t = setTimeout(() => dash.redraw(), 150); }; })());
+</script>
+<script>
+/* English / Bahasa Indonesia switch. Translates page text after every redraw; the analysis uses its *_id fields. */
+(() => {
+  const ID = {
+    '30 days': '30 hari', '7 days': '7 hari', '90 days': '90 hari',
+    'Account overview': 'Ringkasan akun', 'Accounts reached': 'Akun terjangkau', 'Accounts reached per day': 'Akun terjangkau per hari',
+    'Active': 'Aktif', 'Active campaigns': 'Kampanye aktif', 'Ad & visual': 'Iklan & visual',
+    'Ads with at least 20 link clicks.': 'Iklan dengan minimal 20 klik link.', 'Ads with at least 5,000 impressions.': 'Iklan dengan minimal 5.000 tayangan.',
+    'All 16 recent posts': 'Semua 16 postingan terbaru', 'All formats': 'Semua format', 'All services': 'Semua layanan', 'Average': 'Rata-rata',
+    'Average views, 16 posts': 'Rata-rata views, 16 postingan', 'Avg engagement rate, 16 posts': 'Rata-rata engagement rate, 16 postingan',
+    'Avg watch': 'Rata-rata tonton', 'Awareness': 'Awareness', 'Budget': 'Anggaran', 'Budget (enabled, set)': 'Anggaran (aktif, setelan)',
+    'Campaign': 'Kampanye', 'Campaign-level budgets only': 'Hanya anggaran level kampanye', 'Campaigns': 'Kampanye',
+    'Campaigns with at least 5 conversions.': 'Kampanye dengan minimal 5 konversi.', 'Carousel': 'Carousel', 'Channel': 'Saluran',
+    'Checking…': 'Memeriksa…', 'Clicks': 'Klik', 'Clicks · CTR': 'Klik · CTR', 'Client testimonial': 'Testimoni klien', 'Comm.': 'Kom.',
+    'Comments': 'Komentar', 'Content mix': 'Komposisi konten', 'Content type': 'Jenis konten',
+    'Content type, pillar, link and visual for each.': 'Jenis konten, pilar, link dan visual untuk masing-masing.',
+    'Conv.': 'Konv.', 'Conv. rate': 'Tingkat konv.', 'Conversions': 'Konversi', 'Cost per conv.': 'Biaya per konv.',
+    'Cost per conversion': 'Biaya per konversi', 'Cost per lead': 'Biaya per lead', 'Cost per lead (blended)': 'Biaya per lead (gabungan)',
+    'Cost/conv.': 'Biaya/konv.', 'Could not reach the server.': 'Tidak dapat menghubungi server.', 'Daily ad spend': 'Belanja iklan harian',
+    'Daily budget': 'Anggaran harian', 'Daily budget (active, set)': 'Anggaran harian (aktif, setelan)',
+    'Daily leads & conversions': 'Lead & konversi harian',
+    'Data: Windsor.ai (Instagram, Meta Ads, Google Ads, GA4, Search Console), loaded live each time the page opens or the dates change. Instagram keeps follower history for 30 days, so follower growth covers at most the last 30 days. The written analysis is refreshed every morning.':
+      'Data: Windsor.ai (Instagram, Meta Ads, Google Ads, GA4, Search Console), dimuat langsung setiap kali halaman dibuka atau tanggal diubah. Instagram hanya menyimpan riwayat follower 30 hari, jadi pertumbuhan follower mencakup maksimal 30 hari terakhir. Analisis tertulis diperbarui setiap pagi.',
+    'Date': 'Tanggal', 'Details': 'Detail', 'Each card ends with the pattern to avoid and what to do instead.': 'Setiap kartu diakhiri pola yang harus dihindari dan apa yang dilakukan sebagai gantinya.',
+    'Each card ends with the structure to copy so you can make the next one on purpose.': 'Setiap kartu diakhiri struktur yang bisa ditiru agar konten berikutnya sengaja dibuat berhasil.',
+    'Enabled': 'Aktif', 'Enabled campaigns': 'Kampanye aktif', 'Engaged': 'Engaged', 'Engagement': 'Engagement', 'Engagement rate': 'Engagement rate',
+    'Engagement ÷ accounts reached': 'Engagement ÷ akun terjangkau', 'Entertainment / relatable': 'Hiburan / relatable',
+    'Every Google Ads keyword in the period': 'Semua keyword Google Ads dalam periode', 'Every Instagram post in the period': 'Semua postingan Instagram dalam periode',
+    'Every Meta ad in the period': 'Semua iklan Meta dalam periode', 'Facebook Page: not connected yet, so no Facebook posts are counted.': 'Halaman Facebook: belum terhubung, jadi postingan Facebook belum dihitung.',
+    'Failed to load': 'Gagal memuat',
+    'Followers are today\'s count; growth is new followers in the selected period (Instagram reports this for the last 30 days only). The "16 posts" figures cover the 16 most recent posts up to the end date. Views = times a post was shown (Meta\'s replacement for impressions).':
+      'Follower adalah jumlah hari ini; pertumbuhan adalah follower baru dalam periode terpilih (Instagram hanya melaporkan 30 hari terakhir). Angka "16 postingan" mencakup 16 postingan terbaru sampai tanggal akhir. Views = berapa kali postingan ditampilkan (pengganti impressions dari Meta).',
+    'Founder & business tips': 'Tips founder & bisnis', 'From': 'Dari',
+    'GA4 sessions in the period. Engagement rate = share of sessions longer than 10 s, with 2+ pages or a key event.': 'Sesi GA4 dalam periode. Engagement rate = porsi sesi lebih dari 10 detik, dengan 2+ halaman atau key event.',
+    'GA4, all channels': 'GA4, semua saluran', 'Google conversions': 'Konversi Google', 'Highlight': 'Catatan',
+    'How many of each format were posted. Instagram keeps story data for only 24 hours, so older stories show as 0.': 'Jumlah postingan per format. Instagram hanya menyimpan data story 24 jam, jadi story lama tampil 0.',
+    'How to fix: ': 'Cara memperbaiki: ', 'How to re-create: ': 'Cara membuat ulang: ', 'Impr.': 'Tayangan', 'Instagram followers': 'Follower Instagram',
+    'Instagram, selected period. Instagram reports followers for the last 30 days only, so older dates are left out. Hover a bar for new followers that day.': 'Instagram, periode terpilih. Instagram hanya melaporkan follower 30 hari terakhir, jadi tanggal lebih lama tidak ditampilkan. Arahkan ke batang untuk melihat follower baru hari itu.',
+    'Keyword': 'Keyword', 'Keywords with at least 5 clicks.': 'Keyword dengan minimal 5 klik.', 'Keywords with at least 50 impressions.': 'Keyword dengan minimal 50 tayangan.',
+    'Last 6 days': '6 hari terakhir', 'Leads': 'Lead', 'Leads & conversions': 'Lead & konversi', 'Legal education': 'Edukasi legal', 'Likes': 'Suka',
+    'Likes, comments, shares, saves': 'Suka, komentar, bagikan, simpan', 'Link CTR · CPM': 'CTR link · CPM', 'Link clicks': 'Klik link',
+    'Loading live data from Windsor.ai…': 'Memuat data langsung dari Windsor.ai…', 'Log out': 'Keluar', 'Match': 'Pencocokan', 'Meta leads': 'Lead Meta',
+    'Meta Ads leads stacked on Google Ads conversions.': 'Lead Meta Ads ditumpuk di atas konversi Google Ads.', 'Meta leads + Google conv.': 'Lead Meta + konv. Google',
+    'Most conversions.': 'Konversi terbanyak.', 'Most leads first; cost per lead decides ties.': 'Lead terbanyak dulu; biaya per lead menentukan jika sama.',
+    'NPC Office report': 'Laporan NPC Office', 'NPC Office · @npcofficecom · Social media & ads': 'NPC Office · @npcofficecom · Media sosial & iklan',
+    'Not working': 'Tidak berhasil', 'Objective': 'Tujuan', 'Open post ↗': 'Buka postingan ↗', 'Open report': 'Buka laporan', 'Organic search clicks': 'Klik pencarian organik',
+    'Other': 'Lainnya', 'Overview': 'Ringkasan', 'Page': 'Halaman', 'Paused': 'Dijeda', 'Per post': 'Per postingan', 'Pillar': 'Pilar', 'Pop-culture tie-in': 'Kaitan pop culture',
+    'Post': 'Postingan', 'Rank by': 'Urutkan menurut', 'Reach': 'Jangkauan', 'Reel': 'Reel', 'Reels only': 'Hanya Reels', 'Refresh data': 'Muat ulang data',
+    'Repeat these': 'Ulangi ini', 'Report sections': 'Bagian laporan', 'Reporting period:': 'Periode laporan:', 'Reset': 'Atur ulang',
+    'Rupiah per day, Meta Ads and Google Ads.': 'Rupiah per hari, Meta Ads dan Google Ads.', 'Sales': 'Penjualan', 'Saves': 'Simpan',
+    'Search ads': 'Cari iklan', 'Search keywords': 'Cari keyword', 'Search posts': 'Cari postingan', 'Seasonal greeting': 'Ucapan hari besar', 'Selected period': 'Periode terpilih',
+    "Selected period. Budget is each enabled campaign's budget setting as Google reports it.": 'Periode terpilih. Anggaran adalah setelan anggaran tiap kampanye aktif sesuai laporan Google.',
+    "Selected period. CPC is cost per link click. Daily budget is each campaign's current setting in Meta.": 'Periode terpilih. CPC adalah biaya per klik link. Anggaran harian adalah setelan saat ini di Meta.',
+    'Selected period. Leads = Meta Ads leads + Google Ads conversions.': 'Periode terpilih. Lead = lead Meta Ads + konversi Google Ads.',
+    'Service promo': 'Promo layanan', 'Sessions': 'Sesi', 'Set at ad set': 'Diatur di ad set', 'Shares': 'Bagikan', 'Single image': 'Gambar tunggal',
+    'Single post': 'Postingan tunggal', 'Skip': 'Skip', 'Skip rate': 'Skip rate', 'Social Media & Ads Report': 'Laporan Media Sosial & Iklan',
+    'Social media & ads performance, live from Windsor.ai. Enter the team password.': 'Performa media sosial & iklan, langsung dari Windsor.ai. Masukkan password tim.',
+    'Spend': 'Belanja', 'Spend ÷ leads': 'Belanja ÷ lead', 'Status': 'Status',
+    "Status compares each ad with the account's cost per lead, CTR and CPM for the period.": 'Status membandingkan tiap iklan dengan biaya per lead, CTR dan CPM akun dalam periode.',
+    "Status compares each keyword with the account's cost per conversion.": 'Status membandingkan tiap keyword dengan biaya per konversi akun.',
+    'Status compares each post with the median of the same format over the last 90 days.': 'Status membandingkan tiap postingan dengan median format yang sama dalam 90 hari terakhir.',
+    'Stop or fix these': 'Hentikan atau perbaiki', 'Story': 'Story', 'Team password': 'Password tim', 'That password is not right.': 'Password salah.',
+    'The server is not ready yet.': 'Server belum siap.', 'To': 'Sampai', 'Today ·': 'Hari ini ·', 'Too little data': 'Data terlalu sedikit', 'Too new': 'Terlalu baru',
+    'Top 5 ads by leads': 'Top 5 iklan berdasarkan lead', 'Top 5 ads, lowest CPC': 'Top 5 iklan, CPC terendah', 'Top 5 ads, lowest CPM': 'Top 5 iklan, CPM terendah',
+    'Top 5 campaigns by leads': 'Top 5 kampanye berdasarkan lead', 'Top 5 campaigns, lowest cost per conversion': 'Top 5 kampanye, biaya per konversi terendah',
+    'Top 5 conversion campaigns': 'Top 5 kampanye konversi', 'Top 5 keywords by conversions': 'Top 5 keyword berdasarkan konversi',
+    'Top 5 keywords, highest CTR': 'Top 5 keyword, CTR tertinggi', 'Top 5 keywords, lowest CPC': 'Top 5 keyword, CPC terendah',
+    'Top 5 landing pages by conversions': 'Top 5 landing page berdasarkan konversi', 'Top 5 of the last 16 posts': 'Top 5 dari 16 postingan terakhir',
+    'Total ad spend': 'Total belanja iklan', 'Total engagement, 16 posts': 'Total engagement, 16 postingan', 'Total followers': 'Total follower',
+    'Total views, 16 posts': 'Total views, 16 postingan', 'Traffic': 'Traffic', 'Type': 'Jenis', 'Users': 'Pengguna', 'Video': 'Video', 'Video / Reel': 'Video / Reel',
+    'Video views, 16 posts': 'Video views, 16 postingan', 'Views': 'Views', 'Virtual office': 'Virtual office', 'Website sessions': 'Sesi website',
+    'Website traffic by channel': 'Traffic website per saluran', "What's not working": 'Yang tidak berhasil', "What's working": 'Yang berhasil',
+    "What's working, and what isn't": 'Yang berhasil, dan yang tidak', 'Why': 'Alasan', 'Why it is in the top 5: ': 'Kenapa masuk top 5: ',
+    'With every metric, a link to the post and why it performed.': 'Dengan semua metrik, link postingan dan alasan performanya.', 'Working': 'Berhasil',
+    'growth in period': 'pertumbuhan dalam periode', 'impressions · Search Console': 'tayangan · Search Console', 'in period': 'dalam periode', 'new ·': 'baru ·',
+    "What's working": 'Yang berhasil', 'Instagram & Facebook': 'Instagram & Facebook',
+  };
+  const MONTHS = { Jan: 'Jan', Feb: 'Feb', Mar: 'Mar', Apr: 'Apr', May: 'Mei', Jun: 'Jun', Jul: 'Jul', Aug: 'Agu', Sep: 'Sep', Oct: 'Okt', Nov: 'Nov', Dec: 'Des' };
+  const DAYS = { Mon: 'Sen', Tue: 'Sel', Wed: 'Rab', Thu: 'Kam', Fri: 'Jum', Sat: 'Sab', Sun: 'Min' };
+  const RULES = [
+    [/Views ([\d.]+)× the (.+?) median/g, 'Views $1× median $2'],
+    [/ER ([\d.]+%) vs ([\d.]+%) median/g, 'ER $1 vs median $2'],
+    [/(\d+)% skipped in 3 s \(median (\d+)%\)/g, '$1% skip dalam 3 detik (median $2%)'],
+    [/(\d+) saves?\b/g, '$1 simpan'], [/(\d+) shares?\b/g, '$1 dibagikan'], [/(\d+) comments?\b/g, '$1 komentar'],
+    [/(Rp[\d,]+) per lead vs (Rp[\d,]+) account average/g, '$1 per lead vs rata-rata akun $2'],
+    [/(Rp[\d,]+) spent with no leads/g, '$1 terpakai tanpa lead'],
+    [/link CTR ([\d.]+%) vs ([\d.]+%) average/g, 'CTR link $1 vs rata-rata $2'],
+    [/cheap CPM \((Rp[\d,]+)\) usually means low-attention placements/g, 'CPM murah ($1) biasanya berarti penempatan dengan perhatian rendah'],
+    [/(Rp[\d,]+) per conversion vs (Rp[\d,]+) account average/g, '$1 per konversi vs rata-rata akun $2'],
+    [/(Rp[\d,]+) spent, no conversions/g, '$1 terpakai, tanpa konversi'],
+    [/broad match on a high-spend term/g, 'broad match pada keyword berbiaya tinggi'],
+    [/also bid on in (\d+) other ad group\(s\)/g, 'juga dipasang di $1 ad group lain'],
+    [/^Live data loaded (.+) WIB · (\d+) source\(s\) did not load: (.+)$/, 'Data langsung dimuat $1 WIB · $2 sumber gagal dimuat: $3'],
+    [/^Live data loaded (.+) WIB$/, 'Data langsung dimuat $1 WIB'],
+    [/^Reached: /, 'Terjangkau: '], [/^New followers: /, 'Follower baru: '],
+    [/^Meta Ads: /, 'Meta Ads: '], [/^Google conversions: /, 'Konversi Google: '], [/^Meta leads: /, 'Lead Meta: '],
+    [/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b(?=\s*\d{0,4})/g, (m) => MONTHS[m]],
+    [/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/g, (m) => DAYS[m]],
+  ];
+  const orig = new WeakMap();
+  const tr = (en) => {
+    const t = en.trim();
+    if (!t) return en;
+    if (ID[t] != null) return en.replace(t, ID[t]);
+    if (ID[en] != null) return ID[en];
+    let out = en;
+    RULES.forEach(([re, to]) => { out = out.replace(re, to); });
+    return out;
+  };
+  let lang = 'en';
+  try { lang = localStorage.getItem('npc-lang') || 'en'; } catch (e) {}
+  const apply = () => {
+    document.documentElement.lang = lang === 'id' ? 'id' : 'en';
+    const roots = document.querySelectorAll('.npc, #gate');
+    roots.forEach((root) => {
+      const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = w.nextNode())) {
+        if (n.parentElement && n.parentElement.closest('[data-no-tr]')) continue;
+        const known = orig.get(n);
+        // Text changed by a redraw since we last translated: treat the new text as the English original.
+        const en = known && (n.nodeValue === known.en || n.nodeValue === known.id) ? known.en : n.nodeValue;
+        const id = tr(en);
+        orig.set(n, { en, id });
+        const want = lang === 'id' ? id : en;
+        if (n.nodeValue !== want) n.nodeValue = want;
+      }
+      root.querySelectorAll('[placeholder],[aria-label]').forEach((el) => {
+        ['placeholder', 'aria-label'].forEach((a) => {
+          if (!el.hasAttribute(a)) return;
+          const key = 'data-en-' + a;
+          if (!el.hasAttribute(key)) el.setAttribute(key, el.getAttribute(a));
+          const en = el.getAttribute(key);
+          el.setAttribute(a, lang === 'id' ? tr(en) : en);
+        });
+      });
+    });
+    document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  };
+  window.NPC_LANG = {
+    get: () => lang,
+    set: (l) => { lang = l; try { localStorage.setItem('npc-lang', l); } catch (e) {} window.dash && dash._langChanged ? dash._langChanged() : apply(); },
+    apply,
+  };
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-lang]'); if (b) NPC_LANG.set(b.dataset.lang); });
+})();
 </script>
 <style>
 /* Layout: one bright sheet, sticky filter bar, tabs per platform, cards in an auto-fit grid. */
@@ -264,7 +423,7 @@ window.addEventListener('resize', (() => { let t; return () => { clearTimeout(t)
   </div>
   <span class="muted">Reporting period: <span class="npc-period" data-draw="period">—</span></span>
   <span class="status-line" data-status-line></span>
-  <span style="margin-left:auto;display:flex;gap:6px"><button type="button" id="f-refresh">Refresh data</button><button type="button" id="f-logout">Log out</button></span>
+  <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><span class="lang-switch" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="id" aria-pressed="false">ID</button></span><button type="button" id="f-refresh">Refresh data</button><button type="button" id="f-logout">Log out</button></span>
 </div>
 
 <nav class="npc-tabs" role="tablist" aria-label="Report sections">
@@ -1300,6 +1459,7 @@ dash.draw('t-ga4', (el) => {
   btn.addEventListener('click', () => tryKey(inp.value, false));
   inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryKey(inp.value, false); });
   let saved = null; try { saved = localStorage.getItem('npc-report-key'); } catch (e) {}
+  if (window.NPC_LANG) NPC_LANG.apply();
   if (saved) tryKey(saved, true); else inp.focus();
   document.querySelectorAll('#f-logout').forEach((b) => b.addEventListener('click', () => { try { localStorage.removeItem('npc-report-key'); } catch (e) {} location.reload(); }));
   document.querySelectorAll('#f-refresh').forEach((b) => b.addEventListener('click', () => dash.refresh()));
