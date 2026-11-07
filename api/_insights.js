@@ -145,10 +145,10 @@ module.exports = {
    "id": "n4",
    "order": 4,
    "title": "Recent Instagram posts stay under 310 reach",
-   "body": "None of the last 16 posts reached more than 309 accounts; carousels in that set reached 44–175. Educational reels lose 71–79% of viewers early (reel median 69.3%) and no skit has been posted since 12 Oct. Account reach fell from 60,076–65,787 a day on 27–31 Oct to 27,391 on 5 Nov, in line with the Meta spend cut, and the account gained 137 followers in 30 days (0 yesterday).",
+   "body": "None of the last 16 posts reached more than 309 accounts; carousels in that set reached 44–175. Educational reels lose 65–79% of viewers early (reel median 69.3%) and no skit has been posted since 12 Oct. Account reach fell from 60,076–65,787 a day on 27–31 Oct to 27,391 on 5 Nov, in line with the Meta spend cut, and the account gained 137 followers in 30 days (0 yesterday).",
    "how": "Stop: posting only text-heavy educational carousels and talking-head reels. Instead: open every reel with a face, a question on screen and movement in the first second; add one skit and one myth-buster a week, and cut carousels to 5 slides with a bold first-slide claim.",
    "title_id": "Postingan Instagram terbaru tertahan di bawah 310 jangkauan",
-   "body_id": "Tidak satu pun dari 16 postingan terakhir menjangkau lebih dari 309 akun; carousel di kelompok itu menjangkau 44–175. Reel edukasi kehilangan 71–79% penonton di awal (median reel 69,3%) dan belum ada sketsa sejak 12 Okt. Jangkauan akun turun dari 60.076–65.787 per hari pada 27–31 Okt menjadi 27.391 pada 5 Nov, sejalan dengan pemotongan belanja Meta, dan akun bertambah 137 pengikut dalam 30 hari (0 kemarin).",
+   "body_id": "Tidak satu pun dari 16 postingan terakhir menjangkau lebih dari 309 akun; carousel di kelompok itu menjangkau 44–175. Reel edukasi kehilangan 65–79% penonton di awal (median reel 69,3%) dan belum ada sketsa sejak 12 Okt. Jangkauan akun turun dari 60.076–65.787 per hari pada 27–31 Okt menjadi 27.391 pada 5 Nov, sejalan dengan pemotongan belanja Meta, dan akun bertambah 137 pengikut dalam 30 hari (0 kemarin).",
    "how_id": "Hentikan: hanya mengunggah carousel edukasi yang padat teks dan reel talking-head. Gantinya: buka setiap reel dengan wajah, pertanyaan di layar dan gerakan di detik pertama; tambahkan satu sketsa dan satu mitos-vs-fakta per minggu, dan pangkas carousel menjadi 5 slide dengan klaim tebal di slide pertama."
   },
   {
