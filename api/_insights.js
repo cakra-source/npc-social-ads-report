@@ -4,52 +4,52 @@ module.exports = {
   {
    "section": "meta",
    "id": "as_of",
-   "title": "Analysis written 7 Nov 2026",
-   "body": "Covers Instagram posts from 4 Aug to 6 Nov 2026, and Meta Ads, Google Ads and GA4 from 8 Oct to 6 Nov 2026 (30 days ending yesterday), compared with 8 Sep to 7 Oct. Search Console data is only available up to 4 Nov. Refreshed every morning.",
-   "title_id": "Analisis ditulis 7 Nov 2026",
-   "body_id": "Mencakup postingan Instagram 4 Agu sampai 6 Nov 2026, serta Meta Ads, Google Ads dan GA4 8 Okt sampai 6 Nov 2026 (30 hari sampai kemarin), dibandingkan dengan 8 Sep sampai 7 Okt. Data Search Console baru tersedia sampai 4 Nov. Diperbarui setiap pagi."
+   "title": "Analysis written 8 Nov 2026",
+   "body": "Covers Instagram posts from 5 Aug to 7 Nov 2026, and Meta Ads, Google Ads and GA4 from 9 Oct to 7 Nov 2026 (30 days ending yesterday), compared with 9 Sep to 8 Oct. Search Console data in Windsor only covers 25 Oct to 5 Nov. Refreshed every morning.",
+   "title_id": "Analisis ditulis 8 Nov 2026",
+   "body_id": "Mencakup postingan Instagram 5 Agu sampai 7 Nov 2026, serta Meta Ads, Google Ads dan GA4 9 Okt sampai 7 Nov 2026 (30 hari sampai kemarin), dibandingkan dengan 9 Sep sampai 8 Okt. Data Search Console di Windsor hanya mencakup 25 Okt sampai 5 Nov. Diperbarui setiap pagi."
   },
   {
    "section": "summary",
    "id": "takeaway",
    "title": "Takeaway",
-   "body": "Meta brought 286 leads in the last 30 days at Rp33,670 each, down from 508 at Rp20,023 the month before. From 2 to 6 Nov the lead campaigns got only 34% of Meta spend (Rp386,049 of Rp1,129,258) yet brought 20 of the 30 leads, while awareness and traffic kept spending at full rate for 10 leads. Google Ads improved to 462 conversions at Rp27,767 (from 298 at Rp36,677), led by 'virtual office + city' searches, but its spend fell to Rp2.02M in the last 7 days from Rp3.42M the 7 days before. On Instagram none of the last 16 posts reached more than 309 accounts, and the account gained 137 followers in 30 days.",
+   "body": "Meta brought 280 leads in the last 30 days at Rp34,150 each, down from 514 at Rp19,587 the month before. Since 2 Nov total Meta spend has been held at Rp194k–235k a day and the lead campaigns get only 34% of it (Rp452,307 of Rp1,323,583 from 2 to 7 Nov) while bringing 27 of the 38 leads; awareness and NEW traffic campaigns keep spending for zero leads. Google Ads improved to 464 conversions at Rp27,692 (from 293 at Rp36,556), but spend fell to Rp1.98M in the last 7 days from Rp3.32M the week before, and yesterday a conversion cost Rp46,867. On Instagram none of the last 16 posts reached more than 309 accounts; no skit reel has been posted since 12 Oct, although the short skits had the lowest skip rates (33–52%) and the highest reach.",
    "title_id": "Kesimpulan",
-   "body_id": "Meta menghasilkan 286 lead dalam 30 hari terakhir dengan Rp33.670 per lead, turun dari 508 lead dengan Rp20.023 pada bulan sebelumnya. Pada 2–6 Nov kampanye lead hanya mendapat 34% belanja Meta (Rp386.049 dari Rp1.129.258) tetapi menghasilkan 20 dari 30 lead, sementara awareness dan traffic tetap berbelanja penuh untuk 10 lead. Google Ads membaik menjadi 462 konversi dengan Rp27.767 (dari 298 dengan Rp36.677), dipimpin pencarian 'virtual office + kota', tetapi belanjanya turun menjadi Rp2,02 juta dalam 7 hari terakhir dari Rp3,42 juta pada 7 hari sebelumnya. Di Instagram tidak ada dari 16 postingan terakhir yang menjangkau lebih dari 309 akun, dan akun bertambah 137 pengikut dalam 30 hari."
+   "body_id": "Meta menghasilkan 280 lead dalam 30 hari terakhir dengan Rp34.150 per lead, turun dari 514 lead dengan Rp19.587 pada bulan sebelumnya. Sejak 2 Nov total belanja Meta ditahan di Rp194 rb–235 rb per hari dan kampanye lead hanya mendapat 34% (Rp452.307 dari Rp1.323.583 pada 2–7 Nov) padahal menghasilkan 27 dari 38 lead; kampanye awareness dan traffic NEW tetap berbelanja tanpa lead. Google Ads membaik menjadi 464 konversi dengan Rp27.692 (dari 293 dengan Rp36.556), tetapi belanjanya turun menjadi Rp1,98 juta dalam 7 hari terakhir dari Rp3,32 juta pada minggu sebelumnya, dan kemarin biaya per konversi Rp46.867. Di Instagram tidak ada dari 16 postingan terakhir yang menjangkau lebih dari 309 akun; tidak ada reel skit sejak 12 Okt, padahal skit pendek punya skip rate terendah (33–52%) dan jangkauan tertinggi."
   },
   {
    "section": "alert",
    "id": "budget_cut",
    "title": "Lead campaign spend still cut (since 2 Nov)",
-   "body": "\"Bundling + VO\" spent Rp132,926–193,611 a day from 27 to 31 Oct and only Rp13,674–23,587 a day from 2 to 6 Nov (3 leads in those 5 days). \"Services (OLD)\" fell from Rp45,254–68,895 to Rp16,897–25,291 a day. Total Meta spend went from Rp387k–559k a day (27–31 Oct) to Rp221k–235k (2–6 Nov). Google Ads spent Rp2,016,787 from 31 Oct to 6 Nov against Rp3,419,477 from 24 to 30 Oct, and conversions fell from 124 to 79.3; every Google campaign budget shows Rp35,000 a day.",
+   "body": "\"Bundling + VO\" (the source of most Meta leads) spent Rp161,844–193,611 a day from 28 to 31 Oct and only Rp13,674–23,587 a day from 2 to 7 Nov (6 leads in those 6 days). Total Meta spend went from Rp2,829,491 for 86 leads (27 Oct–1 Nov) to Rp1,323,583 for 38 leads (2–7 Nov). Google Ads spent Rp1,982,371 from 1 to 7 Nov against Rp3,319,370 from 25 to 31 Oct, and conversions fell from 119 to 77; every active Google campaign budget shows Rp35,000 a day.",
    "title_id": "Belanja kampanye lead masih dipotong (sejak 2 Nov)",
-   "body_id": "\"Bundling + VO\" berbelanja Rp132.926–193.611 per hari pada 27–31 Okt dan hanya Rp13.674–23.587 per hari pada 2–6 Nov (3 lead dalam 5 hari itu). \"Services (OLD)\" turun dari Rp45.254–68.895 menjadi Rp16.897–25.291 per hari. Total belanja Meta turun dari Rp387–559 ribu per hari (27–31 Okt) menjadi Rp221–235 ribu (2–6 Nov). Google Ads berbelanja Rp2.016.787 pada 31 Okt–6 Nov dibanding Rp3.419.477 pada 24–30 Okt, dan konversi turun dari 124 menjadi 79,3; anggaran setiap kampanye Google tercatat Rp35.000 per hari."
+   "body_id": "\"Bundling + VO\" (sumber utama lead Meta) berbelanja Rp161.844–193.611 per hari pada 28–31 Okt dan hanya Rp13.674–23.587 per hari pada 2–7 Nov (6 lead dalam 6 hari itu). Total belanja Meta turun dari Rp2.829.491 untuk 86 lead (27 Okt–1 Nov) menjadi Rp1.323.583 untuk 38 lead (2–7 Nov). Google Ads berbelanja Rp1.982.371 pada 1–7 Nov dibanding Rp3.319.370 pada 25–31 Okt, dan konversi turun dari 119 menjadi 77; semua anggaran kampanye Google yang aktif tercatat Rp35.000 per hari."
   },
   {
    "section": "alert",
    "id": "lead_drop",
-   "title": "Meta leads down 44% month on month",
-   "body": "Meta leads fell from 508 to 286 and cost per lead rose from Rp20,023 to Rp33,670. The biggest drops: \"Perubahan Data\" from 92 leads to 13 (Rp623,754 spent, Rp47,981 each), \"Gerbangkertosusilo / PT & CV\" from 70 to 27, and \"Jadetabek / PT & CV\" (paused since 12 Oct) from 55 to 2. \"Bundling + VO\" held up best (146 to 131).",
-   "title_id": "Lead Meta turun 44% dibanding bulan lalu",
-   "body_id": "Lead Meta turun dari 508 menjadi 286 dan biaya per lead naik dari Rp20.023 menjadi Rp33.670. Penurunan terbesar: \"Perubahan Data\" dari 92 lead menjadi 13 (belanja Rp623.754, Rp47.981 per lead), \"Gerbangkertosusilo / PT & CV\" dari 70 menjadi 27, dan \"Jadetabek / PT & CV\" (dijeda sejak 12 Okt) dari 55 menjadi 2. \"Bundling + VO\" paling bertahan (146 menjadi 131)."
+   "title": "Meta leads down 46% month on month",
+   "body": "280 Meta leads from 9 Oct to 7 Nov against 514 from 9 Sep to 8 Oct, while spend fell only 5% (Rp9,561,908 vs Rp10,067,482). Cost per lead rose from Rp19,587 to Rp34,150. The money moved away from lead campaigns into awareness and traffic, which bring almost no leads.",
+   "title_id": "Lead Meta turun 46% dibanding bulan lalu",
+   "body_id": "280 lead Meta pada 9 Okt–7 Nov dibanding 514 pada 9 Sep–8 Okt, sementara belanja hanya turun 5% (Rp9.561.908 vs Rp10.067.482). Biaya per lead naik dari Rp19.587 menjadi Rp34.150. Anggaran bergeser dari kampanye lead ke awareness dan traffic, yang hampir tidak menghasilkan lead."
   },
   {
    "section": "alert",
    "id": "ga4_events",
    "title": "GA4 records 0 key events",
-   "body": "Google Analytics 4 shows 0 key events (conversions) for every channel across 10,492 sessions in the last 30 days. Form submits and WhatsApp clicks are not marked as key events, so website conversion by channel cannot be measured. Google Ads conversions (462) are tracked separately and still work.",
+   "body": "GA4 counted 10,429 sessions from 9 Oct to 7 Nov (7,158 Paid Social, 1,606 Paid Search, 377 Organic Search) and 0 key events in every channel, while Google Ads reports 464 conversions and Meta 280 leads. Form submits and WhatsApp clicks are not marked as key events in GA4, so the website cannot show which channel produces enquiries.",
    "title_id": "GA4 mencatat 0 key event",
-   "body_id": "Google Analytics 4 menunjukkan 0 key event (konversi) di semua saluran dari 10.492 sesi dalam 30 hari terakhir. Pengiriman formulir dan klik WhatsApp belum ditandai sebagai key event, sehingga konversi website per saluran tidak bisa diukur. Konversi Google Ads (462) dilacak terpisah dan tetap berjalan."
+   "body_id": "GA4 menghitung 10.429 sesi pada 9 Okt–7 Nov (7.158 Paid Social, 1.606 Paid Search, 377 Organic Search) dan 0 key event di semua channel, padahal Google Ads melaporkan 464 konversi dan Meta 280 lead. Kirim formulir dan klik WhatsApp belum ditandai sebagai key event di GA4, sehingga website tidak bisa menunjukkan channel mana yang menghasilkan pertanyaan."
   },
   {
    "section": "working",
    "id": "w1",
    "order": 1,
    "title": "Price-led single-image virtual office lead ads on Instagram",
-   "body": "\"VO Single Image JKT\" (company-interest audience) brought 127 leads from Rp2,257,421 (Rp17,775 each) with 3,222 link clicks. \"Virtual Office (Jadetabek) 18 Okt\" brought 77 leads from Rp1,018,554 (Rp13,228 each), the cheapest lead in the account. Together they are 204 of the 286 Meta leads (71%). Both are single images, Instagram placement only, sending to a web lead form.",
+   "body": "\"VO Single Image JKT\" (company-interest audience) brought 122 leads from Rp2,244,477 (Rp18,397 each) with 3,186 link clicks. \"Virtual Office (Jadetabek) 18 Okt\" brought 75 leads from Rp1,006,639 (Rp13,422 each), the cheapest lead in the account. Together they are 197 of the 280 Meta leads (70%). Both are single images, Instagram placement only, sending to a web lead form.",
    "how": "Hook: the yearly price in the headline plus one benefit (premium business address without paying office rent). Format: one static 1:1 or 4:5 image, logo and price readable at thumbnail size. Copy: 2–3 short lines and one CTA (\"Cek paket\" / \"Konsultasi gratis\"). Offer: one product per ad (virtual office). Audience: company interests or a lead lookalike, Jadetabek. Placement: Instagram feed and stories only. Objective: Leads (web).",
    "title_id": "Iklan lead virtual office gambar tunggal berbasis harga di Instagram",
-   "body_id": "\"VO Single Image JKT\" (audiens minat perusahaan) menghasilkan 127 lead dari Rp2.257.421 (Rp17.775 per lead) dengan 3.222 klik tautan. \"Virtual Office (Jadetabek) 18 Okt\" menghasilkan 77 lead dari Rp1.018.554 (Rp13.228 per lead), lead termurah di akun. Keduanya menyumbang 204 dari 286 lead Meta (71%). Keduanya gambar tunggal, hanya tayang di Instagram, diarahkan ke formulir lead web.",
+   "body_id": "\"VO Single Image JKT\" (audiens minat perusahaan) menghasilkan 122 lead dari Rp2.244.477 (Rp18.397 per lead) dengan 3.186 klik tautan. \"Virtual Office (Jadetabek) 18 Okt\" menghasilkan 75 lead dari Rp1.006.639 (Rp13.422 per lead), lead termurah di akun. Keduanya menyumbang 197 dari 280 lead Meta (70%). Keduanya gambar tunggal, hanya tayang di Instagram, diarahkan ke formulir lead web.",
    "how_id": "Hook: harga per tahun di headline ditambah satu manfaat (alamat bisnis premium tanpa bayar sewa kantor). Format: satu gambar statis 1:1 atau 4:5, logo dan harga terbaca di ukuran thumbnail. Copy: 2–3 baris pendek dan satu CTA (\"Cek paket\" / \"Konsultasi gratis\"). Penawaran: satu produk per iklan (virtual office). Audiens: minat perusahaan atau lookalike lead, Jadetabek. Penempatan: hanya feed dan story Instagram. Objektif: Leads (web)."
   },
   {
@@ -57,361 +57,353 @@ module.exports = {
    "id": "w2",
    "order": 2,
    "title": "Lookalike audiences beat interest audiences",
-   "body": "The LAL 3% lead audience gives the cheapest lead in the account at Rp13,228 (77 leads). In Gerbangkertosusilo the LAL 1% web-visitor ad set brought 26 leads from Rp939,212, while the same Pendirian PT and CV images on the \"Int: Business\" ad set spent Rp133,530 for 1 lead.",
-   "how": "Build every lead ad set on a 1–3% lookalike of past leads or web visitors instead of interest targeting. Keep the creative identical so the audience is the only change. Move the \"Int: Business\" budget in Gerbangkertosusilo PT & CV to the LAL 1% ad set.",
+   "body": "The LAL 3% lead lookalike gets virtual office leads at Rp13,422. In the Surabaya \"PT & CV\" campaign the LAL 1% web-visitor ad sets brought 26 leads from Rp953,678 (Rp36,680 each), while the \"Int: Business\" ad set spent Rp107,555 for 1 lead.",
+   "how": "Audience: build every new lead ad set on a lookalike of past leads (1–3%) or of web visitors, not on broad business interests. Keep one interest ad set only as a control with a small budget. Refresh the seed audience monthly with the latest leads.",
    "title_id": "Audiens lookalike mengalahkan audiens minat",
-   "body_id": "Audiens lookalike lead 3% memberi lead termurah di akun, Rp13.228 (77 lead). Di Gerbangkertosusilo, ad set LAL 1% pengunjung web menghasilkan 26 lead dari Rp939.212, sementara gambar Pendirian PT dan CV yang sama di ad set \"Int: Business\" menghabiskan Rp133.530 untuk 1 lead.",
-   "how_id": "Bangun setiap ad set lead dengan lookalike 1–3% dari lead atau pengunjung web sebelumnya, bukan targeting minat. Pertahankan kreatif yang sama agar hanya audiens yang berubah. Pindahkan anggaran \"Int: Business\" di PT & CV Gerbangkertosusilo ke ad set LAL 1%."
+   "body_id": "Lookalike lead LAL 3% mendapat lead virtual office dengan Rp13.422. Di kampanye \"PT & CV\" Surabaya, ad set LAL 1% pengunjung web menghasilkan 26 lead dari Rp953.678 (Rp36.680 per lead), sedangkan ad set \"Int: Business\" berbelanja Rp107.555 untuk 1 lead.",
+   "how_id": "Audiens: bangun setiap ad set lead baru dari lookalike lead lama (1–3%) atau pengunjung web, bukan dari minat bisnis yang luas. Sisakan satu ad set minat sebagai pembanding dengan anggaran kecil. Perbarui audiens sumber setiap bulan dengan lead terbaru."
   },
   {
    "section": "working",
    "id": "w3",
    "order": 3,
    "title": "Google 'virtual office + city' searches",
-   "body": "\"virtual office surabaya\" brought 55.5 conversions at Rp19,783 each, and \"virtual office jakarta\" 53.3 at Rp27,868 in VO JKT plus 33 at Rp20,352 inside Meeting Room JKT. The Virtual Office SBY campaign is the biggest Google converter: 118.9 conversions from Rp3,015,485 (Rp25,362), up from 64.6 the month before. Google's overall cost per conversion improved from Rp36,677 to Rp27,767.",
-   "how": "Keep 'virtual office' + city/area keywords (Jakarta, Surabaya, Jakarta Selatan, TB Simatupang) in their own ad groups with the city in the headline and a landing page per city. Raise budget here first when budgets return. Add the best performers as phrase and exact match to control cost.",
+   "body": "\"virtual office surabaya\" brought 56.5 conversions from Rp1,070,031 (Rp18,939 each) and \"virtual office jakarta\" in the main JKT campaign 51.3 from Rp1,463,238 (Rp28,505). The Virtual Office SBY campaign is the biggest Google converter: 122.4 conversions from Rp2,992,406 (Rp24,450).",
+   "how": "Keywords: city + product (\"virtual office surabaya\", \"sewa virtual office jakarta\", area names such as TB Simatupang). Ad: the city and yearly price in headline 1, the building address in headline 2. Landing page: the city's virtual office page with price and WhatsApp button above the fold. Give these campaigns budget first.",
    "title_id": "Pencarian Google 'virtual office + kota'",
-   "body_id": "\"virtual office surabaya\" menghasilkan 55,5 konversi dengan Rp19.783 per konversi, dan \"virtual office jakarta\" 53,3 dengan Rp27.868 di VO JKT ditambah 33 dengan Rp20.352 di dalam Meeting Room JKT. Kampanye Virtual Office SBY adalah penghasil konversi Google terbesar: 118,9 konversi dari Rp3.015.485 (Rp25.362), naik dari 64,6 bulan sebelumnya. Biaya per konversi Google secara keseluruhan membaik dari Rp36.677 menjadi Rp27.767.",
-   "how_id": "Pertahankan kata kunci 'virtual office' + kota/area (Jakarta, Surabaya, Jakarta Selatan, TB Simatupang) di ad group tersendiri dengan nama kota di headline dan landing page per kota. Naikkan anggaran di sini lebih dulu saat anggaran kembali. Tambahkan kata kunci terbaik sebagai phrase dan exact match untuk mengendalikan biaya."
+   "body_id": "\"virtual office surabaya\" menghasilkan 56,5 konversi dari Rp1.070.031 (Rp18.939 per konversi) dan \"virtual office jakarta\" di kampanye JKT utama 51,3 konversi dari Rp1.463.238 (Rp28.505). Kampanye Virtual Office SBY adalah penghasil konversi Google terbesar: 122,4 konversi dari Rp2.992.406 (Rp24.450).",
+   "how_id": "Kata kunci: kota + produk (\"virtual office surabaya\", \"sewa virtual office jakarta\", nama area seperti TB Simatupang). Iklan: kota dan harga per tahun di headline 1, alamat gedung di headline 2. Landing page: halaman virtual office kota tersebut dengan harga dan tombol WhatsApp di bagian atas. Prioritaskan anggaran untuk kampanye ini."
   },
   {
    "section": "working",
    "id": "w4",
    "order": 4,
    "title": "Phrase-match Jakarta campaign",
-   "body": "\"Virtual Office - JKT / Phrase Match\" brought 69.5 conversions from Rp1,582,036 at Rp22,763 each, cheaper than the broad VO JKT campaign (Rp29,865), and more than doubled from 31 conversions the month before. \"office space jakarta\" gave 23.7 conversions at Rp21,812 and \"virtual office murah jakarta\" 9.5 at Rp22,827.",
-   "how": "Copy the phrase-match structure to Surabaya: \"virtual office surabaya\", \"sewa virtual office surabaya\", \"virtual office surabaya murah\" as phrase match in a separate campaign with its own budget, and keep the broad campaign only for discovering new terms.",
+   "body": "\"Virtual Office - JKT / Phrase Match\" brought 69.5 conversions from Rp1,592,062 (Rp22,907 each), cheaper than the broad JKT campaign (Rp30,624). Phrase \"virtual office jakarta\" cost Rp18,533 per conversion (17 from Rp315,055) and \"office space jakarta\" Rp21,737 (23.7 from Rp514,454).",
+   "how": "Match type: move the best broad keywords into phrase match in their own campaign. Keep the broad version only where it still converts below Rp30,000. Add the converting search terms from phrase as new phrase keywords every week.",
    "title_id": "Kampanye phrase match Jakarta",
-   "body_id": "\"Virtual Office - JKT / Phrase Match\" menghasilkan 69,5 konversi dari Rp1.582.036 dengan Rp22.763 per konversi, lebih murah dari kampanye broad VO JKT (Rp29.865), dan lebih dari dua kali lipat dari 31 konversi bulan sebelumnya. \"office space jakarta\" menghasilkan 23,7 konversi dengan Rp21.812 dan \"virtual office murah jakarta\" 9,5 dengan Rp22.827.",
-   "how_id": "Tiru struktur phrase match ke Surabaya: \"virtual office surabaya\", \"sewa virtual office surabaya\", \"virtual office surabaya murah\" sebagai phrase match di kampanye terpisah dengan anggaran sendiri, dan gunakan kampanye broad hanya untuk menemukan kata kunci baru."
+   "body_id": "\"Virtual Office - JKT / Phrase Match\" menghasilkan 69,5 konversi dari Rp1.592.062 (Rp22.907 per konversi), lebih murah dari kampanye JKT broad (Rp30.624). Phrase \"virtual office jakarta\" Rp18.533 per konversi (17 dari Rp315.055) dan \"office space jakarta\" Rp21.737 (23,7 dari Rp514.454).",
+   "how_id": "Match type: pindahkan kata kunci broad terbaik ke phrase match di kampanye sendiri. Pertahankan versi broad hanya bila masih konversi di bawah Rp30.000. Tambahkan search term yang konversi dari phrase sebagai kata kunci phrase baru setiap minggu."
   },
   {
    "section": "working",
    "id": "w5",
    "order": 5,
    "title": "Short skit reels",
-   "body": "\"Hapal di luar kepala\" (12 Oct) reached 1,396 accounts with 1,563 views and a 33.2% skip rate. Over 95 days the other skits did the same: \"Kalo CV kepanjangannya apa?\" (7 Oct) 1,794 reach, \"Contoh tim yang kompak\" (22 Sep) 992 and \"Udah langsung chat NPC aja\" (24 Sep) 682. The reel median is 254 reach and 69.3% skip, so skits reach 3–7 times more people and keep viewers about twice as well.",
-   "how": "Hook: a relatable office or founder moment in the first second, with a one-line caption joke. Format: 10–20 s vertical skit with team members, trending audio, no explainer voice-over. Copy: under 10 words plus 1–2 hashtags (#bikincv, #bikinpt). Offer: none in the video; NPC name in the last frame. Post at least one skit a week alongside the educational reels.",
-   "title_id": "Reel sketsa pendek",
-   "body_id": "\"Hapal di luar kepala\" (12 Okt) menjangkau 1.396 akun dengan 1.563 tayangan dan skip rate 33,2%. Dalam 95 hari, sketsa lain juga sama: \"Kalo CV kepanjangannya apa?\" (7 Okt) jangkauan 1.794, \"Contoh tim yang kompak\" (22 Sep) 992 dan \"Udah langsung chat NPC aja\" (24 Sep) 682. Median reel adalah jangkauan 254 dan skip 69,3%, jadi sketsa menjangkau 3–7 kali lebih banyak orang dan menahan penonton sekitar dua kali lebih baik.",
-   "how_id": "Hook: momen kantor atau founder yang relatable di detik pertama, dengan caption lelucon satu baris. Format: sketsa vertikal 10–20 detik dengan anggota tim, audio trending, tanpa voice-over penjelasan. Copy: di bawah 10 kata ditambah 1–2 hashtag (#bikincv, #bikinpt). Penawaran: tidak ada di video; nama NPC di frame terakhir. Unggah minimal satu sketsa per minggu di samping reel edukasi."
+   "body": "The skit reel \"Hapal di luar kepala\" (12 Oct) reached 1,396 accounts with 1,563 views and a 33% skip rate, against a reel median of 249 reach and 70% skip. The 7 Oct CV skit got 2,067 views, 8 saves and a 45% skip rate. The three joke-caption skits (22 Sep, 7 Oct, 12 Oct) got 1,443–2,067 views each; no skit has been posted since 12 Oct.",
+   "how": "Hook: a relatable office or founder moment acted out in the first second, no title card. Format: 7–15 second vertical reel, one joke, trending audio. Copy: one short line plus an emoji and 2 hashtags (#bikinpt #bikincv). Offer: none in the video; product mention in a pinned comment. Post at least one skit a week.",
+   "title_id": "Reel skit pendek",
+   "body_id": "Reel skit \"Hapal di luar kepala\" (12 Okt) menjangkau 1.396 akun dengan 1.563 tayangan dan skip rate 33%, dibanding median reel 249 jangkauan dan skip 70%. Skit CV 7 Okt mendapat 2.067 tayangan, 8 simpan dan skip rate 45%. Tiga skit dengan caption lelucon (22 Sep, 7 Okt, 12 Okt) masing-masing mendapat 1.443–2.067 tayangan; tidak ada skit lagi sejak 12 Okt.",
+   "how_id": "Hook: momen kantor atau founder yang relatable diperankan di detik pertama, tanpa judul. Format: reel vertikal 7–15 detik, satu lelucon, audio tren. Copy: satu baris pendek plus emoji dan 2 hashtag (#bikinpt #bikincv). Penawaran: tidak ada di video; sebut produk di komentar yang disematkan. Unggah minimal satu skit per minggu."
   },
   {
    "section": "working",
    "id": "w6",
    "order": 6,
-   "title": "Myth-busting and local posts that people save and share",
-   "body": "The licensing-myth carousel (15 Oct) got 13.5% engagement on reach with 3 saves and 2 shares, against a carousel median of 3.7% and 0 saves. The Surabaya legal-ready reel (26 Oct) got 8 shares, the most of the last 16 posts, and 8.3% engagement against a reel median of 5.4%. The KBLI five-digit reel (20 Oct) had the lowest skip rate of the last 16 posts (64.9%).",
-   "how": "Hook: a common belief or costly mistake as a quoted question (\"Cuma salah pilih lima angka KBLI, emangnya bisa jadi masalah?\") or a city call-out (\"Mengurus bisnis di Surabaya?\"). Format: 5–7 slide carousel, one myth per slide with a short answer, or a 30–40 s reel. Copy: end with a checklist and \"Simpan untuk nanti\". Offer: soft CTA to a free consultation on the last slide.",
-   "title_id": "Postingan mitos vs fakta dan lokal yang disimpan dan dibagikan",
-   "body_id": "Carousel mitos perizinan (15 Okt) mendapat engagement 13,5% dari jangkauan dengan 3 simpan dan 2 bagikan, dibanding median carousel 3,7% dan 0 simpan. Reel Surabaya siap legal (26 Okt) mendapat 8 bagikan, terbanyak dari 16 postingan terakhir, dan engagement 8,3% dibanding median reel 5,4%. Reel KBLI lima angka (20 Okt) punya skip rate terendah dari 16 postingan terakhir (64,9%).",
-   "how_id": "Hook: anggapan umum atau kesalahan mahal sebagai pertanyaan kutipan (\"Cuma salah pilih lima angka KBLI, emangnya bisa jadi masalah?\") atau sapaan kota (\"Mengurus bisnis di Surabaya?\"). Format: carousel 5–7 slide, satu mitos per slide dengan jawaban singkat, atau reel 30–40 detik. Copy: tutup dengan checklist dan \"Simpan untuk nanti\". Penawaran: CTA ringan ke konsultasi gratis di slide terakhir."
+   "title": "Local and practical posts that people share",
+   "body": "The 26 Oct Surabaya legality reel got 8 shares and 18 engagements (8.2% ER vs a 5.1% reel median). The 15 Oct carousel on why permits stall even with complete documents got 13.5% ER, 3 saves and 2 shares, against a 3.8% carousel median.",
+   "how": "Hook: name a city or a specific problem in the first line (\"Mengurus bisnis di Surabaya?\", \"Dokumen lengkap tapi izin belum terbit?\"). Format: carousel checklist or 20–30 second reel with one tip per screen. Copy: end with \"simpan / kirim ke partner bisnismu\". Offer: free consultation in the caption.",
+   "title_id": "Postingan lokal dan praktis yang dibagikan",
+   "body_id": "Reel legalitas Surabaya 26 Okt mendapat 8 share dan 18 engagement (ER 8,2% vs median reel 5,1%). Carousel 15 Okt tentang izin yang tertahan padahal dokumen lengkap mendapat ER 13,5%, 3 simpan dan 2 share, dibanding median carousel 3,8%.",
+   "how_id": "Hook: sebut kota atau masalah spesifik di baris pertama (\"Mengurus bisnis di Surabaya?\", \"Dokumen lengkap tapi izin belum terbit?\"). Format: carousel checklist atau reel 20–30 detik dengan satu tips per layar. Copy: tutup dengan \"simpan / kirim ke partner bisnismu\". Penawaran: konsultasi gratis di caption."
   },
   {
    "section": "not_working",
    "id": "n1",
    "order": 1,
    "title": "Lead campaigns are starved while others spend",
-   "body": "From 2 to 6 Nov the lead campaigns spent Rp386,049 and brought 20 leads (Rp19,302 each); the awareness and traffic campaigns spent Rp743,209 and brought 10 (Rp74,321 each). \"Bundling + VO\", the campaign behind 131 of the 286 leads, now spends Rp13k–24k a day instead of Rp133k–194k.",
-   "how": "Stop: letting lead campaigns run at about Rp20k a day while awareness and traffic spend more. Instead: raise \"Bundling + VO\" and \"Services (OLD)\" back to at least Rp100k and Rp50k a day, funded by pausing the NEW traffic and AON awareness campaigns.",
-   "title_id": "Kampanye lead kekurangan anggaran sementara yang lain tetap berbelanja",
-   "body_id": "Pada 2–6 Nov kampanye lead berbelanja Rp386.049 dan menghasilkan 20 lead (Rp19.302 per lead); kampanye awareness dan traffic berbelanja Rp743.209 dan menghasilkan 10 (Rp74.321 per lead). \"Bundling + VO\", kampanye di balik 131 dari 286 lead, sekarang berbelanja Rp13–24 ribu per hari, bukan Rp133–194 ribu.",
-   "how_id": "Hentikan: membiarkan kampanye lead berjalan sekitar Rp20 ribu per hari sementara awareness dan traffic berbelanja lebih besar. Gantinya: naikkan lagi \"Bundling + VO\" dan \"Services (OLD)\" ke minimal Rp100 ribu dan Rp50 ribu per hari, dananya dari menjeda kampanye traffic NEW dan awareness AON."
+   "body": "From 2 to 7 Nov the lead campaigns got Rp452,307 of Rp1,323,583 Meta spend (34%) and brought 27 of the 38 leads. \"Bundling + VO\" fell to Rp13,674–23,587 a day, from Rp161,844–193,611 in late October.",
+   "how": "Stop: holding lead campaigns at a few thousand rupiah a day. Instead: restore \"Bundling + VO\" and \"Services (OLD)\" to their October levels, funded by pausing the awareness and NEW traffic campaigns, and keep at least 70% of Meta spend on Leads objectives.",
+   "title_id": "Kampanye lead kekurangan anggaran sementara yang lain berbelanja",
+   "body_id": "Pada 2–7 Nov kampanye lead mendapat Rp452.307 dari Rp1.323.583 belanja Meta (34%) dan menghasilkan 27 dari 38 lead. \"Bundling + VO\" turun ke Rp13.674–23.587 per hari, dari Rp161.844–193.611 di akhir Oktober.",
+   "how_id": "Hentikan: menahan kampanye lead di beberapa ribu rupiah per hari. Gantinya: kembalikan \"Bundling + VO\" dan \"Services (OLD)\" ke level Oktober, dananya dari menjeda kampanye awareness dan traffic NEW, dan jaga minimal 70% belanja Meta di objektif Leads."
   },
   {
    "section": "not_working",
    "id": "n2",
    "order": 2,
-   "title": "Awareness campaigns: 23% of Meta spend for 3 leads",
-   "body": "The three awareness campaigns spent Rp2,258,048 (23% of Meta spend) and brought 3 leads. \"Virtual Office JKT (2)\" alone spent Rp500,622 for 296,432 impressions, 143 link clicks and 0 leads, and \"Brand Awareness All Service (OLD)\" Rp386,400 for 32 link clicks and 1 lead.",
-   "how": "Stop: running AON NEW and AON OLD awareness as always-on. Instead: keep at most one small awareness campaign (about Rp20k a day) as a retargeting pool, and move the rest into the lead campaigns that convert at Rp13k–18k.",
-   "title_id": "Kampanye awareness: 23% belanja Meta untuk 3 lead",
-   "body_id": "Tiga kampanye awareness berbelanja Rp2.258.048 (23% belanja Meta) dan menghasilkan 3 lead. \"Virtual Office JKT (2)\" saja berbelanja Rp500.622 untuk 296.432 impresi, 143 klik tautan dan 0 lead, dan \"Brand Awareness All Service (OLD)\" Rp386.400 untuk 32 klik tautan dan 1 lead.",
-   "how_id": "Hentikan: menjalankan awareness AON NEW dan AON OLD sebagai always-on. Gantinya: pertahankan maksimal satu kampanye awareness kecil (sekitar Rp20 ribu per hari) sebagai kolam retargeting, dan pindahkan sisanya ke kampanye lead yang menghasilkan lead Rp13–18 ribu."
+   "title": "Awareness campaigns: 24% of Meta spend for 3 leads",
+   "body": "The three awareness (Ad Recall) campaigns spent Rp2,261,666 in 30 days (24% of Meta spend) for 3 leads and 565 link clicks. \"Virtual Office JKT (2)\" alone spent Rp495,942 for 294,315 impressions and 0 leads.",
+   "how": "Stop: always-on awareness while leads are short. Instead: keep one small awareness ad set only for retargeting reach, and move the rest into the lead campaigns that cost Rp13k–18k per lead.",
+   "title_id": "Kampanye awareness: 24% belanja Meta untuk 3 lead",
+   "body_id": "Tiga kampanye awareness (Ad Recall) berbelanja Rp2.261.666 dalam 30 hari (24% belanja Meta) untuk 3 lead dan 565 klik tautan. \"Virtual Office JKT (2)\" sendiri berbelanja Rp495.942 untuk 294.315 impresi dan 0 lead.",
+   "how_id": "Hentikan: awareness yang selalu menyala saat lead sedang kurang. Gantinya: sisakan satu ad set awareness kecil untuk menjangkau audiens retargeting, dan pindahkan sisanya ke kampanye lead yang menghasilkan lead Rp13 rb–18 rb."
   },
   {
    "section": "not_working",
    "id": "n3",
    "order": 3,
    "title": "NEW traffic campaigns buy clicks that do not convert",
-   "body": "The two \"View Web NEW\" campaigns spent Rp1,070,550 for 0 leads. \"Pendirian PT\" (Gerbangkertosusilo) got 1,037 link clicks and \"Perubahan Data Perusahaan\" (Jadetabek) 907, none of which became a lead. In GA4, Paid Social brought 7,232 sessions at 18.7% engagement, against 57.8% for Paid Search.",
-   "how": "Stop: the NEW traffic campaigns (link-click optimisation brings low-quality visits). Instead: run the same videos as lead-objective ads to a lookalike, or keep only the OLD traffic campaigns, which brought 32 leads at Rp35,436 each.",
-   "title_id": "Kampanye traffic NEW membeli klik yang tidak menjadi lead",
-   "body_id": "Dua kampanye \"View Web NEW\" berbelanja Rp1.070.550 untuk 0 lead. \"Pendirian PT\" (Gerbangkertosusilo) mendapat 1.037 klik tautan dan \"Perubahan Data Perusahaan\" (Jadetabek) 907, tidak ada yang menjadi lead. Di GA4, Paid Social membawa 7.232 sesi dengan engagement 18,7%, dibanding 57,8% untuk Paid Search.",
-   "how_id": "Hentikan: kampanye traffic NEW (optimasi klik tautan membawa kunjungan berkualitas rendah). Gantinya: jalankan video yang sama sebagai iklan objektif lead ke lookalike, atau pertahankan hanya kampanye traffic OLD yang menghasilkan 32 lead dengan Rp35.436 per lead."
+   "body": "The two \"View Web NEW\" traffic campaigns spent Rp1,072,097 for 2,668 link clicks and 0 leads. GA4 shows Paid Social sessions engage only 18.4% of the time (7,158 sessions), against 58.2% for Paid Search.",
+   "how": "Stop: the NEW traffic campaigns. Instead: if web visits are needed, run the same videos under a Leads objective, or use them only to build a retargeting audience for the lead ads.",
+   "title_id": "Kampanye traffic NEW membeli klik yang tidak konversi",
+   "body_id": "Dua kampanye traffic \"View Web NEW\" berbelanja Rp1.072.097 untuk 2.668 klik tautan dan 0 lead. GA4 menunjukkan sesi Paid Social hanya engaged 18,4% (7.158 sesi), dibanding 58,2% untuk Paid Search.",
+   "how_id": "Hentikan: kampanye traffic NEW. Gantinya: jika butuh kunjungan web, jalankan video yang sama dengan objektif Leads, atau gunakan hanya untuk membangun audiens retargeting bagi iklan lead."
   },
   {
    "section": "not_working",
    "id": "n4",
    "order": 4,
    "title": "Recent Instagram posts stay under 310 reach",
-   "body": "None of the last 16 posts reached more than 309 accounts; carousels in that set reached 44–175. Educational reels lose 65–79% of viewers early (reel median 69.3%) and no skit has been posted since 12 Oct. Account reach fell from 60,076–65,787 a day on 27–31 Oct to 27,391 on 5 Nov, in line with the Meta spend cut, and the account gained 137 followers in 30 days (0 yesterday).",
-   "how": "Stop: posting only text-heavy educational carousels and talking-head reels. Instead: open every reel with a face, a question on screen and movement in the first second; add one skit and one myth-buster a week, and cut carousels to 5 slides with a bold first-slide claim.",
-   "title_id": "Postingan Instagram terbaru tertahan di bawah 310 jangkauan",
-   "body_id": "Tidak satu pun dari 16 postingan terakhir menjangkau lebih dari 309 akun; carousel di kelompok itu menjangkau 44–175. Reel edukasi kehilangan 65–79% penonton di awal (median reel 69,3%) dan belum ada sketsa sejak 12 Okt. Jangkauan akun turun dari 60.076–65.787 per hari pada 27–31 Okt menjadi 27.391 pada 5 Nov, sejalan dengan pemotongan belanja Meta, dan akun bertambah 137 pengikut dalam 30 hari (0 kemarin).",
-   "how_id": "Hentikan: hanya mengunggah carousel edukasi yang padat teks dan reel talking-head. Gantinya: buka setiap reel dengan wajah, pertanyaan di layar dan gerakan di detik pertama; tambahkan satu sketsa dan satu mitos-vs-fakta per minggu, dan pangkas carousel menjadi 5 slide dengan klaim tebal di slide pertama."
+   "body": "The 16 posts from 18 Oct to 7 Nov reached 49–309 accounts each; the last six reels have 72–81% skip rates against a 70% reel median. All are educational talking or text posts with a long first line; none uses the skit format that reached 1,396.",
+   "how": "Stop: posting only explainer content with long captions. Instead: mix one skit and one local/practical post into every week, open each reel with action instead of a title, and keep the first caption line under 8 words.",
+   "title_id": "Postingan Instagram terbaru di bawah 310 jangkauan",
+   "body_id": "16 postingan dari 18 Okt sampai 7 Nov menjangkau 49–309 akun per postingan; enam reel terakhir punya skip rate 72–81% dibanding median reel 70%. Semuanya konten edukasi berbicara atau teks dengan baris pertama panjang; tidak ada yang memakai format skit yang pernah menjangkau 1.396 akun.",
+   "how_id": "Hentikan: hanya mengunggah konten penjelasan dengan caption panjang. Gantinya: masukkan satu skit dan satu postingan lokal/praktis setiap minggu, buka setiap reel dengan aksi bukan judul, dan buat baris caption pertama kurang dari 8 kata."
   },
   {
    "section": "not_working",
    "id": "n5",
    "order": 5,
    "title": "Surabaya serviced office and meeting room keywords are expensive",
-   "body": "\"Serviced Office - SBY\" costs Rp39,904 per conversion and \"Meeting Room - SBY\" Rp40,964, against Rp20,690 for Meeting Room JKT. Inside Meeting Room SBY, \"sewa kantor bulanan surabaya\" spent Rp661,091 for 15 conversions (Rp44,073), and in Serviced Office SBY the same phrase spent Rp126,829 for 0.5.",
-   "how": "Stop: broad 'sewa kantor' keywords in the meeting-room campaign. Instead: move office-rent searches into Serviced Office SBY as phrase match, add 'sewa kantor bulanan' as a negative in Meeting Room SBY, and shift budget to Virtual Office SBY (Rp25,362 per conversion).",
+   "body": "\"Meeting Room - SBY\" cost Rp40,704 per conversion (24 from Rp976,887) and \"Serviced Office - SBY\" Rp39,556 (25.9 from Rp1,025,161). Inside Meeting Room SBY the keyword \"sewa kantor bulanan surabaya\" took Rp678,395 for 15 conversions (Rp45,226).",
+   "how": "Stop: broad office keywords in the meeting room campaign. Instead: move \"sewa kantor bulanan surabaya\" to the serviced office campaign as phrase match, keep meeting room keywords about meetings only, and test a landing page with hourly prices.",
    "title_id": "Kata kunci serviced office dan meeting room Surabaya mahal",
-   "body_id": "\"Serviced Office - SBY\" berbiaya Rp39.904 per konversi dan \"Meeting Room - SBY\" Rp40.964, dibanding Rp20.690 untuk Meeting Room JKT. Di dalam Meeting Room SBY, \"sewa kantor bulanan surabaya\" menghabiskan Rp661.091 untuk 15 konversi (Rp44.073), dan di Serviced Office SBY frasa yang sama menghabiskan Rp126.829 untuk 0,5 konversi.",
-   "how_id": "Hentikan: kata kunci broad 'sewa kantor' di kampanye meeting room. Gantinya: pindahkan pencarian sewa kantor ke Serviced Office SBY sebagai phrase match, jadikan 'sewa kantor bulanan' kata kunci negatif di Meeting Room SBY, dan alihkan anggaran ke Virtual Office SBY (Rp25.362 per konversi)."
+   "body_id": "\"Meeting Room - SBY\" Rp40.704 per konversi (24 dari Rp976.887) dan \"Serviced Office - SBY\" Rp39.556 (25,9 dari Rp1.025.161). Di dalam Meeting Room SBY, kata kunci \"sewa kantor bulanan surabaya\" memakan Rp678.395 untuk 15 konversi (Rp45.226).",
+   "how_id": "Hentikan: kata kunci kantor broad di kampanye meeting room. Gantinya: pindahkan \"sewa kantor bulanan surabaya\" ke kampanye serviced office sebagai phrase match, pertahankan kata kunci meeting room hanya soal meeting, dan uji landing page dengan harga per jam."
   },
   {
    "section": "not_working",
    "id": "n6",
    "order": 6,
    "title": "The Google 'Brand' campaign is mostly a generic keyword",
-   "body": "\"Traffic / Brand\" spent Rp1,309,952 for 44 conversions (Rp29,772). Broad \"meeting room\" took Rp923,986 of it (71%) for 24 conversions at Rp38,499, while the real brand term \"npc office\" (exact) spent Rp65,533 for 7 conversions at Rp9,362.",
-   "how": "Stop: generic broad keywords in the brand campaign. Instead: keep only 'npc office' and its variants there (exact and phrase), and move 'meeting room' into Meeting Room JKT as phrase match with a Jakarta landing page.",
-   "title_id": "Kampanye 'Brand' Google sebagian besar kata kunci umum",
-   "body_id": "\"Traffic / Brand\" berbelanja Rp1.309.952 untuk 44 konversi (Rp29.772). Broad \"meeting room\" memakan Rp923.986 (71%) untuk 24 konversi dengan Rp38.499, sementara kata kunci brand sebenarnya \"npc office\" (exact) berbelanja Rp65.533 untuk 7 konversi dengan Rp9.362.",
-   "how_id": "Hentikan: kata kunci broad umum di kampanye brand. Gantinya: hanya simpan 'npc office' dan variasinya di sana (exact dan phrase), dan pindahkan 'meeting room' ke Meeting Room JKT sebagai phrase match dengan landing page Jakarta."
+   "body": "\"Traffic / Brand\" spent Rp1,323,199 for 45 conversions; Rp936,825 of it went to the broad keyword \"meeting room\" (26 conversions, Rp36,032 each), while the real brand term \"npc office\" exact cost Rp9,362 per conversion (7 from Rp65,533).",
+   "how": "Stop: running a generic broad keyword in the brand campaign. Instead: keep only NPC Office brand terms there, move \"meeting room\" to the Meeting Room JKT campaign as phrase match with a location, and set the brand campaign to a conversion bid strategy.",
+   "title_id": "Kampanye 'Brand' Google sebagian besar kata kunci generik",
+   "body_id": "\"Traffic / Brand\" berbelanja Rp1.323.199 untuk 45 konversi; Rp936.825 di antaranya untuk kata kunci broad \"meeting room\" (26 konversi, Rp36.032 per konversi), sedangkan kata kunci brand asli \"npc office\" exact hanya Rp9.362 per konversi (7 dari Rp65.533).",
+   "how_id": "Hentikan: menjalankan kata kunci generik broad di kampanye brand. Gantinya: sisakan hanya kata kunci brand NPC Office di sana, pindahkan \"meeting room\" ke kampanye Meeting Room JKT sebagai phrase match dengan lokasi, dan gunakan strategi bid konversi untuk kampanye brand."
+  },
+  {
+   "section": "post",
+   "id": "18110616185249109",
+   "title": "'Busy vs important' reel (7 Nov)",
+   "body": "Posted yesterday, so numbers are partial: 134 views, 102 reach, 5 engagements (4.9% ER) and an 81% skip rate, above the 70% reel median. The question hook is text on screen; check again in 3 days.",
+   "title_id": "Reel 'Penting vs sibuk' (7 Nov)",
+   "body_id": "Diunggah kemarin, jadi angkanya belum lengkap: 134 tayangan, 102 jangkauan, 5 engagement (ER 4,9%) dan skip rate 81%, di atas median reel 70%. Hook pertanyaan berupa teks di layar; cek lagi dalam 3 hari."
   },
   {
    "section": "post",
    "id": "18101512142551039",
    "title": "Film Colony carousel (6 Nov)",
-   "body": "Posted yesterday, so numbers are partial: 128 views, 47 reach and 2 likes (4.3% engagement vs a carousel median of 3.7%). The pop-culture hook (a lesson from Film Colony about problems left to grow) is a good angle; check reach again in 3 days.",
+   "body": "181 views, 71 reach and 4 engagements (5.6% ER vs a 3.8% carousel median). The pop-culture angle gets a good share of engagement from the people who see it, but reach is below the 112 carousel median and there are no saves or shares.",
    "title_id": "Carousel Film Colony (6 Nov)",
-   "body_id": "Diunggah kemarin, jadi angkanya belum lengkap: 128 tayangan, 47 jangkauan dan 2 suka (engagement 4,3% vs median carousel 3,7%). Hook budaya pop (pelajaran dari Film Colony soal masalah yang dibiarkan membesar) adalah sudut yang bagus; cek jangkauan lagi dalam 3 hari."
+   "body_id": "181 tayangan, 71 jangkauan dan 4 engagement (ER 5,6% vs median carousel 3,8%). Sudut budaya pop cukup memancing interaksi dari yang melihat, tetapi jangkauan di bawah median carousel 112 dan tidak ada simpan atau share."
   },
   {
    "section": "post",
    "id": "17967876780218422",
-   "title": "'Nama pribadi' business reel (5 Nov)",
-   "body": "131 views and 85 reach against a reel median of 353 and 254, with a 78.8% skip rate (median 69.3%), 2 likes and no saves or shares. The question hook (business still under a personal name) is relevant, but the opening loses most viewers before the point lands.",
-   "title_id": "Reel bisnis 'nama pribadi' (5 Nov)",
-   "body_id": "131 tayangan dan 85 jangkauan dibanding median reel 353 dan 254, dengan skip rate 78,8% (median 69,3%), 2 suka dan tanpa simpan atau bagikan. Hook pertanyaan (bisnis masih atas nama pribadi) relevan, tetapi pembukaannya kehilangan sebagian besar penonton sebelum pesannya sampai."
+   "title": "'Still using your personal name?' reel (5 Nov)",
+   "body": "137 views, 89 reach, 2 engagements (2.2% ER) and a 79% skip rate, well under the reel medians of 346 views and 5.1% ER. The hook is a long question about business names; most people swipe away before the point.",
+   "title_id": "Reel 'Masih pakai nama pribadi?' (5 Nov)",
+   "body_id": "137 tayangan, 89 jangkauan, 2 engagement (ER 2,2%) dan skip rate 79%, jauh di bawah median reel 346 tayangan dan ER 5,1%. Hook berupa pertanyaan panjang soal nama usaha; sebagian besar orang menggeser sebelum masuk poin."
   },
   {
    "section": "post",
    "id": "18120570338058791",
-   "title": "Kanye West carousel (4 Nov)",
-   "body": "The best carousel reach of the last 16 posts: 364 views and 175 reach, 1.5 times the carousel median of 114. The celebrity news hook got it shown, but engagement was only 2.3% (4 likes, 0 saves), so the legal angle did not make people act.",
-   "title_id": "Carousel Kanye West (4 Nov)",
-   "body_id": "Jangkauan carousel terbaik dari 16 postingan terakhir: 364 tayangan dan 175 jangkauan, 1,5 kali median carousel 114. Hook berita selebriti membuatnya tampil, tetapi engagement hanya 2,3% (4 suka, 0 simpan), jadi sudut legalitasnya tidak mendorong orang bertindak."
+   "title": "Kanye West concert carousel (4 Nov)",
+   "body": "The best carousel of the last 16 by reach: 390 views and 183 reach (carousel median 112), thanks to a trending news hook. Only 4 likes (2.2% ER) and no saves, so it pulled attention but not interest in the service.",
+   "title_id": "Carousel konser Kanye West (4 Nov)",
+   "body_id": "Carousel terbaik dari 16 terakhir berdasarkan jangkauan: 390 tayangan dan 183 jangkauan (median carousel 112), berkat hook berita yang sedang ramai. Hanya 4 suka (ER 2,2%) dan tanpa simpan, jadi menarik perhatian tetapi tidak minat pada layanan."
   },
   {
    "section": "post",
    "id": "18442105951179853",
-   "title": "'Bisnis besar' motivational carousel (3 Nov)",
-   "body": "The lowest reach of the last 16 posts: 132 views and 44 reach (carousel median 114), 2 likes. A generic motivational opener with no specific claim or problem gives people no reason to stop.",
-   "title_id": "Carousel motivasi 'Bisnis besar' (3 Nov)",
-   "body_id": "Jangkauan terendah dari 16 postingan terakhir: 132 tayangan dan 44 jangkauan (median carousel 114), 2 suka. Pembuka motivasi umum tanpa klaim atau masalah spesifik tidak memberi alasan orang untuk berhenti."
+   "title": "'Big businesses start small' carousel (3 Nov)",
+   "body": "146 views and 49 reach, the lowest reach of the 16 recent posts, with 2 likes. A generic motivational hook with no specific problem or city gives people no reason to stop.",
+   "title_id": "Carousel 'Bisnis besar dimulai kecil' (3 Nov)",
+   "body_id": "146 tayangan dan 49 jangkauan, jangkauan terendah dari 16 postingan terbaru, dengan 2 suka. Hook motivasi umum tanpa masalah atau kota spesifik tidak memberi alasan orang berhenti."
   },
   {
    "section": "post",
    "id": "17964072588239654",
-   "title": "Before-client-meeting reel (2 Nov)",
-   "body": "162 views and 109 reach (reel median 254), 74.2% skip rate, 3 likes, 0 saves. A useful checklist for the meeting-room offer, but the soft opening (\"Sebelum meeting dengan klien...\") does not hook in the first second.",
-   "title_id": "Reel sebelum meeting klien (2 Nov)",
-   "body_id": "162 tayangan dan 109 jangkauan (median reel 254), skip rate 74,2%, 3 suka, 0 simpan. Checklist yang berguna untuk penawaran meeting room, tetapi pembuka yang datar (\"Sebelum meeting dengan klien...\") tidak mengait di detik pertama."
+   "title": "Client meeting prep reel (2 Nov)",
+   "body": "169 views, 111 reach, 3 likes (2.7% ER) and a 75% skip rate. A checklist told by voice over without a strong first second; meeting room content works better as a skit (the 21 Sep meeting room skit got 1,473 views).",
+   "title_id": "Reel persiapan meeting klien (2 Nov)",
+   "body_id": "169 tayangan, 111 jangkauan, 3 suka (ER 2,7%) dan skip rate 75%. Checklist dengan voice over tanpa detik pertama yang kuat; konten meeting room lebih berhasil sebagai skit (skit meeting room 21 Sep mendapat 1.473 tayangan)."
   },
   {
    "section": "post",
    "id": "18042632573841142",
-   "title": "Sewa kantor carousel (31 Oct)",
-   "body": "254 views and 106 reach, just under the carousel median of 114, with 1.9% engagement (2 likes, 0 saves). It repeats the office-rent vs virtual-office argument already used on 6 Oct and 19 Oct, so the audience has seen it.",
-   "title_id": "Carousel sewa kantor (31 Okt)",
-   "body_id": "254 tayangan dan 106 jangkauan, sedikit di bawah median carousel 114, dengan engagement 1,9% (2 suka, 0 simpan). Postingan ini mengulang argumen sewa kantor vs virtual office yang sudah dipakai pada 6 Okt dan 19 Okt, jadi audiens sudah pernah melihatnya."
+   "title": "'Before you rent an office' carousel (31 Oct)",
+   "body": "260 views, 109 reach and 2 likes (1.8% ER, half the carousel median). The virtual office argument is useful but told in long text slides with no price or example.",
+   "title_id": "Carousel 'Sebelum sewa kantor' (31 Okt)",
+   "body_id": "260 tayangan, 109 jangkauan dan 2 suka (ER 1,8%, setengah median carousel). Argumen virtual office berguna tetapi disampaikan dalam slide teks panjang tanpa harga atau contoh."
   },
   {
    "section": "post",
    "id": "18125655685721986",
    "title": "PT PMA capital reel (30 Oct)",
-   "body": "343 views and 259 reach, right at the reel median of 254, with a 72.3% skip rate and 6.4 s average watch. 8 likes but 0 saves for a topic built on two key numbers; a checklist ending would earn saves.",
+   "body": "346 views (exactly the reel median), 262 reach and 9 engagements (3.4% ER) with a 72% skip rate. The PMA topic draws a niche audience; no saves despite being reference content.",
    "title_id": "Reel modal PT PMA (30 Okt)",
-   "body_id": "343 tayangan dan 259 jangkauan, tepat di median reel 254, dengan skip rate 72,3% dan rata-rata tonton 6,4 detik. 8 suka tetapi 0 simpan untuk topik yang bertumpu pada dua angka penting; penutup berupa checklist akan memancing simpan."
+   "body_id": "346 tayangan (tepat di median reel), 262 jangkauan dan 9 engagement (ER 3,4%) dengan skip rate 72%. Topik PMA menarik audiens yang sempit; tidak ada yang menyimpan walaupun konten referensi."
   },
   {
    "section": "post",
    "id": "18149543116566128",
    "title": "KBLI 2025 carousel (29 Oct)",
-   "body": "280 views and 137 reach, above the carousel median of 114, with 1 save and 1 share. The timely regulation hook (\"KBLI 2025 sudah berlaku\") earns reach, and the \"belum tentu\" answer invites a consultation.",
+   "body": "293 views, 140 reach (above the 112 carousel median), 1 save and 1 share. A timely regulation hook (\"KBLI 2025 sudah berlaku\") works; ER is 2.9%.",
    "title_id": "Carousel KBLI 2025 (29 Okt)",
-   "body_id": "280 tayangan dan 137 jangkauan, di atas median carousel 114, dengan 1 simpan dan 1 bagikan. Hook regulasi yang tepat waktu (\"KBLI 2025 sudah berlaku\") mendapat jangkauan, dan jawaban \"belum tentu\" mengundang konsultasi."
+   "body_id": "293 tayangan, 140 jangkauan (di atas median carousel 112), 1 simpan dan 1 share. Hook regulasi yang tepat waktu (\"KBLI 2025 sudah berlaku\") berhasil; ER 2,9%."
   },
   {
    "section": "post",
    "id": "18168961534487117",
-   "title": "'Bisnis profesional' reel (28 Oct)",
-   "body": "232 views and 162 reach (reel median 254), 74.7% skip rate, 7.1 s average watch, 5 likes and no shares or saves. An abstract statement hook with no concrete problem.",
-   "title_id": "Reel 'Bisnis profesional' (28 Okt)",
-   "body_id": "232 tayangan dan 162 jangkauan (median reel 254), skip rate 74,7%, rata-rata tonton 7,1 detik, 5 suka dan tanpa bagikan atau simpan. Hook berupa pernyataan abstrak tanpa masalah konkret."
+   "title": "'Looking professional' reel (28 Oct)",
+   "body": "234 views, 163 reach, 5 likes (3.1% ER) and a 75% skip rate. An abstract branding message with no concrete scene; below the reel medians on every metric.",
+   "title_id": "Reel 'Terlihat profesional' (28 Okt)",
+   "body_id": "234 tayangan, 163 jangkauan, 5 suka (ER 3,1%) dan skip rate 75%. Pesan branding yang abstrak tanpa adegan konkret; di bawah median reel di semua metrik."
   },
   {
    "section": "post",
    "id": "18110387110905195",
    "title": "Logistics business models carousel (27 Oct)",
-   "body": "175 views and 77 reach (carousel median 114) but 5.2% engagement from 3 likes. The niche industry topic engages the few logistics owners who see it and limits reach.",
+   "body": "183 views, 80 reach and 4 engagements (5.0% ER). Good engagement from a niche industry, but reach stays under the carousel median.",
    "title_id": "Carousel model bisnis logistik (27 Okt)",
-   "body_id": "175 tayangan dan 77 jangkauan (median carousel 114) tetapi engagement 5,2% dari 3 suka. Topik industri yang spesifik menarik sedikit pemilik bisnis logistik yang melihatnya dan membatasi jangkauan."
+   "body_id": "183 tayangan, 80 jangkauan dan 4 engagement (ER 5,0%). Engagement bagus dari industri spesifik, tetapi jangkauan tetap di bawah median carousel."
   },
   {
    "section": "post",
    "id": "18107879347973571",
-   "title": "Surabaya legal-ready reel (26 Oct)",
-   "body": "8 shares, the most of the last 16 posts, and 8.3% engagement vs the reel median of 5.4%, from 303 views and 218 reach. The city call-out (\"Mengurus bisnis di Surabaya?\") makes it easy to forward to local business owners.",
-   "title_id": "Reel Surabaya siap legal (26 Okt)",
-   "body_id": "8 bagikan, terbanyak dari 16 postingan terakhir, dan engagement 8,3% vs median reel 5,4%, dari 303 tayangan dan 218 jangkauan. Sapaan kota (\"Mengurus bisnis di Surabaya?\") membuatnya mudah diteruskan ke pemilik bisnis lokal."
+   "title": "Surabaya legality reel (26 Oct)",
+   "body": "Best post of the last 16 by engagement: 18 engagements on 219 reach (8.2% ER vs a 5.1% median) and 8 shares, the most shares of any post in 95 days. Naming the city in the first line made Surabaya owners pass it on.",
+   "title_id": "Reel legalitas Surabaya (26 Okt)",
+   "body_id": "Postingan terbaik dari 16 terakhir berdasarkan engagement: 18 engagement dari 219 jangkauan (ER 8,2% vs median 5,1%) dan 8 share, share terbanyak dari semua postingan dalam 95 hari. Menyebut kota di baris pertama membuat pemilik usaha Surabaya meneruskannya."
   },
   {
    "section": "post",
    "id": "18118962023287163",
-   "title": "Company documents carousel (21 Oct)",
-   "body": "321 views and 121 reach, near the carousel median, but only 1.7% engagement (2 likes, 0 saves). A general statement (\"Bisnis berkembang, tapi dokumen belum\") without a specific risk or example.",
-   "title_id": "Carousel dokumen perusahaan (21 Okt)",
-   "body_id": "321 tayangan dan 121 jangkauan, dekat median carousel, tetapi engagement hanya 1,7% (2 suka, 0 simpan). Pernyataan umum (\"Bisnis berkembang, tapi dokumen belum\") tanpa risiko atau contoh spesifik."
+   "title": "'Company documents not keeping up' carousel (21 Oct)",
+   "body": "321 views, 121 reach but only 2 likes (1.7% ER). The change-of-company-data topic gets seen but not acted on in carousel form; the same topic as a single image lead ad brings leads.",
+   "title_id": "Carousel 'Dokumen perusahaan belum ikut berkembang' (21 Okt)",
+   "body_id": "321 tayangan, 121 jangkauan tetapi hanya 2 suka (ER 1,7%). Topik perubahan data perusahaan dilihat tetapi tidak ditindaklanjuti dalam bentuk carousel; topik yang sama sebagai iklan lead gambar tunggal menghasilkan lead."
   },
   {
    "section": "post",
    "id": "18358427308218171",
-   "title": "KBLI five digits reel (20 Oct)",
-   "body": "The lowest skip rate of the last 16 posts (64.9% vs median 69.3%), 305 views, 236 reach and 11 likes (5.1% engagement). The quoted-question hook (\"Cuma salah pilih lima angka KBLI, emangnya bisa jadi masalah?\") holds viewers.",
-   "title_id": "Reel lima angka KBLI (20 Okt)",
-   "body_id": "Skip rate terendah dari 16 postingan terakhir (64,9% vs median 69,3%), 305 tayangan, 236 jangkauan dan 11 suka (engagement 5,1%). Hook pertanyaan kutipan (\"Cuma salah pilih lima angka KBLI, emangnya bisa jadi masalah?\") menahan penonton."
+   "title": "'Wrong five KBLI digits' reel (20 Oct)",
+   "body": "305 views, 236 reach, 11 likes (5.1% ER, at the median) and a 65% skip rate, better than the 70% median. A quoted objection as the hook (\"Cuma salah pilih lima angka KBLI...\") keeps people watching.",
+   "title_id": "Reel 'Salah lima angka KBLI' (20 Okt)",
+   "body_id": "305 tayangan, 236 jangkauan, 11 suka (ER 5,1%, sama dengan median) dan skip rate 65%, lebih baik dari median 70%. Keberatan yang dikutip sebagai hook (\"Cuma salah pilih lima angka KBLI...\") membuat orang tetap menonton."
   },
   {
    "section": "post",
    "id": "18059570738636584",
-   "title": "Founder office-rent carousel (19 Oct)",
-   "body": "289 views and 128 reach, slightly above the carousel median of 114, with 5 likes (3.9%). A solid but average post on the 'don't rent an office too early' theme.",
-   "title_id": "Carousel founder sewa kantor (19 Okt)",
-   "body_id": "289 tayangan dan 128 jangkauan, sedikit di atas median carousel 114, dengan 5 suka (3,9%). Postingan yang cukup tetapi rata-rata dengan tema 'jangan terlalu cepat sewa kantor'."
+   "title": "'Founders renting an office too early' carousel (19 Oct)",
+   "body": "289 views, 128 reach and 5 likes (3.9% ER, at the carousel median). A clear founder pain point; it would be stronger with the virtual office yearly price on the last slide.",
+   "title_id": "Carousel 'Founder terlalu cepat sewa kantor' (19 Okt)",
+   "body_id": "289 tayangan, 128 jangkauan dan 5 suka (ER 3,9%, sama dengan median carousel). Masalah founder yang jelas; akan lebih kuat dengan harga virtual office per tahun di slide terakhir."
   },
   {
    "section": "post",
    "id": "18102645470374510",
-   "title": "Directors/shareholders change reel (18 Oct)",
-   "body": "The highest reach of the last 16 posts: 377 views, 309 reach (reel median 254) and 2 shares. The warning hook (\"Hati-hati, bisnis kamu bisa kena kendala\") on a common admin gap works, though skip was still 73.0%.",
-   "title_id": "Reel perubahan direksi/pemegang saham (18 Okt)",
-   "body_id": "Jangkauan tertinggi dari 16 postingan terakhir: 377 tayangan, 309 jangkauan (median reel 254) dan 2 bagikan. Hook peringatan (\"Hati-hati, bisnis kamu bisa kena kendala\") tentang celah administrasi yang umum berhasil, meskipun skip masih 73,0%."
-  },
-  {
-   "section": "post",
-   "id": "18102615011376720",
-   "title": "Biggest startup cost carousel (17 Oct)",
-   "body": "229 views and 92 reach (carousel median 114), 1 like and 1 save. The counter-intuitive hook about hidden startup costs earned a save but not reach.",
-   "title_id": "Carousel biaya terbesar memulai bisnis (17 Okt)",
-   "body_id": "229 tayangan dan 92 jangkauan (median carousel 114), 1 suka dan 1 simpan. Hook yang berlawanan dengan anggapan umum soal biaya tersembunyi mendapat simpan tetapi tidak jangkauan."
+   "title": "Change of directors reel (18 Oct)",
+   "body": "Highest reach of the last 16: 377 views and 309 reach, with 12 engagements and 2 shares (3.9% ER) and a 73% skip rate. A warning hook (\"Hati-hati, bisnis kamu bisa kena kendala\") on a common admin problem.",
+   "title_id": "Reel perubahan direksi (18 Okt)",
+   "body_id": "Jangkauan tertinggi dari 16 terakhir: 377 tayangan dan 309 jangkauan, dengan 12 engagement dan 2 share (ER 3,9%) dan skip rate 73%. Hook peringatan (\"Hati-hati, bisnis kamu bisa kena kendala\") pada masalah administrasi yang umum."
   },
   {
    "section": "post",
    "id": "18087729362301111",
-   "title": "Licensing myth carousel (15 Oct)",
-   "body": "The highest engagement of the last 30 days: 13.5% on 89 reach (carousel median 3.7%), with 7 likes, 3 saves and 2 shares. The myth-busting hook (\"dokumen lengkap = izin pasti terbit?\") gives people a reason to save.",
-   "title_id": "Carousel mitos perizinan (15 Okt)",
-   "body_id": "Engagement tertinggi dalam 30 hari terakhir: 13,5% dari 89 jangkauan (median carousel 3,7%), dengan 7 suka, 3 simpan dan 2 bagikan. Hook mitos vs fakta (\"dokumen lengkap = izin pasti terbit?\") memberi alasan orang untuk menyimpan."
+   "title": "'Complete documents, permit still stuck' carousel (15 Oct)",
+   "body": "Best carousel of the last 30 days: 13.5% ER (vs a 3.8% median) with 7 likes, 3 saves and 2 shares on 89 reach. It busts a common belief and gives a checklist people keep.",
+   "title_id": "Carousel 'Dokumen lengkap, izin belum terbit' (15 Okt)",
+   "body_id": "Carousel terbaik 30 hari terakhir: ER 13,5% (vs median 3,8%) dengan 7 suka, 3 simpan dan 2 share dari 89 jangkauan. Mematahkan anggapan umum dan memberi checklist yang disimpan orang."
   },
   {
    "section": "post",
    "id": "17901586794378937",
    "title": "Foreign investor reel (14 Oct)",
-   "body": "390 views, 294 reach and 19 likes (7.5% engagement vs reel median 5.4%). The urgent \"Tahan dulu, jangan asal tanda tangan!\" hook pulls likes from founders facing a real decision.",
+   "body": "390 views, 294 reach, 19 likes and 22 engagements (7.5% ER vs a 5.1% median). A direct warning (\"Tahan dulu, jangan asal tanda tangan!\") to a specific situation pulls likes.",
    "title_id": "Reel investor asing (14 Okt)",
-   "body_id": "390 tayangan, 294 jangkauan dan 19 suka (engagement 7,5% vs median reel 5,4%). Hook mendesak \"Tahan dulu, jangan asal tanda tangan!\" menarik suka dari founder yang sedang menghadapi keputusan nyata."
+   "body_id": "390 tayangan, 294 jangkauan, 19 suka dan 22 engagement (ER 7,5% vs median 5,1%). Peringatan langsung (\"Tahan dulu, jangan asal tanda tangan!\") untuk situasi spesifik memancing suka."
   },
   {
    "section": "post",
    "id": "18109337795180903",
-   "title": "'Hapal di luar kepala' skit reel (12 Oct)",
-   "body": "1,563 views and 1,396 reach, 5.5 times the reel median, with a 33.2% skip rate and 9.0 s average watch. A pure reach builder: engagement was only 1.4%, so pair skits with a follow-up educational post.",
-   "title_id": "Reel sketsa 'Hapal di luar kepala' (12 Okt)",
-   "body_id": "1.563 tayangan dan 1.396 jangkauan, 5,5 kali median reel, dengan skip rate 33,2% dan rata-rata tonton 9,0 detik. Murni pembangun jangkauan: engagement hanya 1,4%, jadi pasangkan sketsa dengan postingan edukasi lanjutan."
-  },
-  {
-   "section": "post",
-   "id": "18129038353845747",
-   "title": "Content creator carousel (8 Oct)",
-   "body": "The best carousel reach in 95 days: 471 views and 293 reach (median 114). The audience-specific hook (content creators earning from content) widened reach, but engagement was 1.7%.",
-   "title_id": "Carousel content creator (8 Okt)",
-   "body_id": "Jangkauan carousel terbaik dalam 95 hari: 471 tayangan dan 293 jangkauan (median 114). Hook yang menyasar audiens spesifik (content creator yang berpenghasilan dari konten) memperluas jangkauan, tetapi engagement 1,7%."
+   "title": "'Hapal di luar kepala' skit (12 Oct)",
+   "body": "Best reach of the last 30 days: 1,563 views and 1,396 reach, 5.6 times the reel median, with a 33% skip rate (median 70%). Low ER (1.4%) is normal for skits reaching non-followers; it is the format that grows the audience.",
+   "title_id": "Skit 'Hapal di luar kepala' (12 Okt)",
+   "body_id": "Jangkauan terbaik 30 hari terakhir: 1.563 tayangan dan 1.396 jangkauan, 5,6 kali median reel, dengan skip rate 33% (median 70%). ER rendah (1,4%) wajar untuk skit yang menjangkau non-pengikut; inilah format yang menumbuhkan audiens."
   },
   {
    "section": "ad",
    "id": "120250881996280272",
    "title": "VO Single Image JKT (Int:Company)",
-   "body": "Top spender and top lead source: Rp2,257,421 for 127 leads (Rp17,775 each) and 3,222 link clicks.",
+   "body": "Top spender and top lead source: Rp2,244,477 for 122 leads (Rp18,397 each) and 3,186 link clicks.",
    "title_id": "VO Single Image JKT (Int:Company)",
-   "body_id": "Pengeluaran dan sumber lead terbesar: Rp2.257.421 untuk 127 lead (Rp17.775 per lead) dan 3.222 klik tautan."
+   "body_id": "Pengeluaran dan sumber lead terbesar: Rp2.244.477 untuk 122 lead (Rp18.397 per lead) dan 3.186 klik tautan."
   },
   {
    "section": "ad",
    "id": "120227438043400272",
-   "title": "Virtual Office (Jadetabek) 18 Okt",
-   "body": "Cheapest leads in the account: Rp1,018,554 for 77 leads (Rp13,228 each) on the LAL 3% audience.",
-   "title_id": "Virtual Office (Jadetabek) 18 Okt",
-   "body_id": "Lead termurah di akun: Rp1.018.554 untuk 77 lead (Rp13.228 per lead) di audiens LAL 3%."
+   "title": "Virtual Office (Jadetabek) 18 Okt (LAL 3%)",
+   "body": "Cheapest leads in the account: 75 leads from Rp1,006,639 (Rp13,422 each); give it more budget.",
+   "title_id": "Virtual Office (Jadetabek) 18 Okt (LAL 3%)",
+   "body_id": "Lead termurah di akun: 75 lead dari Rp1.006.639 (Rp13.422 per lead); tambah anggarannya."
   },
   {
    "section": "ad",
    "id": "120252417542150272",
-   "title": "Pendirian CV Single Image (LAL 1% Web Visitors)",
-   "body": "Main Surabaya lead ad: Rp801,728 for 24 leads (Rp33,405 each) and 802 link clicks.",
-   "title_id": "Pendirian CV Single Image (LAL 1% Web Visitors)",
-   "body_id": "Iklan lead utama Surabaya: Rp801.728 untuk 24 lead (Rp33.405 per lead) dan 802 klik tautan."
+   "title": "Pendirian CV Single Image (LAL 1% Web Visitors, SBY)",
+   "body": "Main Surabaya lead ad: 24 leads from Rp815,544 (Rp33,981 each).",
+   "title_id": "Pendirian CV Single Image (LAL 1% Web Visitors, SBY)",
+   "body_id": "Iklan lead utama Surabaya: 24 lead dari Rp815.544 (Rp33.981 per lead)."
   },
   {
    "section": "ad",
    "id": "120250881973510272",
-   "title": "Perubahan Data Perusahaan Single Image",
-   "body": "Weakening: Rp623,754 for 13 leads (Rp47,981 each) on the web-visitor retargeting ad set.",
-   "title_id": "Perubahan Data Perusahaan Single Image",
-   "body_id": "Melemah: Rp623.754 untuk 13 lead (Rp47.981 per lead) di ad set retargeting pengunjung web."
+   "title": "Perubahan Data Perusahaan Single Image (retargeting)",
+   "body": "14 leads from Rp620,533 (Rp44,324 each), expensive for a retargeting audience; test a price-led version.",
+   "title_id": "Perubahan Data Perusahaan Single Image (retargeting)",
+   "body_id": "14 lead dari Rp620.533 (Rp44.324 per lead), mahal untuk audiens retargeting; uji versi yang menonjolkan harga."
   },
   {
    "section": "ad",
    "id": "120212452479510272",
-   "title": "Suami-istri gak bisa bikin PT (Jadetabek)",
-   "body": "Best traffic ad: Rp554,536 for 15 leads (Rp36,969 each) and 1,586 link clicks from a video hook.",
-   "title_id": "Suami-istri gak bisa bikin PT (Jadetabek)",
-   "body_id": "Iklan traffic terbaik: Rp554.536 untuk 15 lead (Rp36.969 per lead) dan 1.586 klik tautan dari hook video."
+   "title": "Suami-istri gak bisa bikin PT (traffic, Jadetabek)",
+   "body": "The only traffic ad that brings leads: 15 leads and 1,577 link clicks from Rp549,451 (Rp36,630 per lead); worth testing under a Leads objective.",
+   "title_id": "Suami-istri gak bisa bikin PT (traffic, Jadetabek)",
+   "body_id": "Satu-satunya iklan traffic yang menghasilkan lead: 15 lead dan 1.577 klik tautan dari Rp549.451 (Rp36.630 per lead); layak diuji dengan objektif Leads."
   },
   {
    "section": "ad",
    "id": "120244395772850272",
-   "title": "Virtual Office JKT (2) – Awareness",
-   "body": "Rp500,622 for 296,432 impressions, 143 link clicks and 0 leads.",
-   "title_id": "Virtual Office JKT (2) – Awareness",
-   "body_id": "Rp500.622 untuk 296.432 impresi, 143 klik tautan dan 0 lead."
+   "title": "Virtual Office JKT (2) – awareness",
+   "body": "Rp495,942 for 294,315 impressions, 145 link clicks and 0 leads.",
+   "title_id": "Virtual Office JKT (2) – awareness",
+   "body_id": "Rp495.942 untuk 294.315 impresi, 145 klik tautan dan 0 lead."
   },
   {
    "section": "ad",
    "id": "120244415770800272",
-   "title": "Perubahan Data Perusahaan – Traffic NEW",
-   "body": "Rp438,785 for 907 link clicks and 0 leads.",
-   "title_id": "Perubahan Data Perusahaan – Traffic NEW",
-   "body_id": "Rp438.785 untuk 907 klik tautan dan 0 lead."
+   "title": "Perubahan Data Perusahaan – NEW traffic JKT",
+   "body": "Rp453,538 for 938 link clicks and 0 leads; pause.",
+   "title_id": "Perubahan Data Perusahaan – NEW traffic JKT",
+   "body_id": "Rp453.538 untuk 938 klik tautan dan 0 lead; jeda."
   },
   {
    "section": "ad",
    "id": "120211858195690272",
-   "title": "Brand Awareness All Service (OLD)",
-   "body": "Rp386,400 for 218,514 impressions, 32 link clicks and 1 lead.",
-   "title_id": "Brand Awareness All Service (OLD)",
-   "body_id": "Rp386.400 untuk 218.514 impresi, 32 klik tautan dan 1 lead."
+   "title": "Brand Awareness All Service (AON OLD)",
+   "body": "Rp375,662 for 211,905 impressions, 31 link clicks and 1 lead.",
+   "title_id": "Brand Awareness All Service (AON OLD)",
+   "body_id": "Rp375.662 untuk 211.905 impresi, 31 klik tautan dan 1 lead."
   },
   {
    "section": "ad",
    "id": "120244395876640272",
-   "title": "Bundling PT + VO (2) – Awareness",
-   "body": "Rp370,454 for 211,351 impressions, 91 link clicks and 0 leads.",
-   "title_id": "Bundling PT + VO (2) – Awareness",
-   "body_id": "Rp370.454 untuk 211.351 impresi, 91 klik tautan dan 0 lead."
+   "title": "Bundling PT + VO (2) – awareness",
+   "body": "Rp374,734 for 214,691 impressions and 0 leads; the same offer as a single-image lead ad converts.",
+   "title_id": "Bundling PT + VO (2) – awareness",
+   "body_id": "Rp374.734 untuk 214.691 impresi dan 0 lead; penawaran yang sama sebagai iklan lead gambar tunggal menghasilkan konversi."
   },
   {
    "section": "ad",
    "id": "120244416253960272",
-   "title": "Pendirian PT – Traffic NEW (Gerbangkertosusilo)",
-   "body": "Rp343,119 for 1,037 link clicks and 0 leads.",
-   "title_id": "Pendirian PT – Traffic NEW (Gerbangkertosusilo)",
-   "body_id": "Rp343.119 untuk 1.037 klik tautan dan 0 lead."
+   "title": "Pendirian PT – NEW traffic SBY",
+   "body": "Rp327,307 for 960 link clicks and 0 leads; pause.",
+   "title_id": "Pendirian PT – NEW traffic SBY",
+   "body_id": "Rp327.307 untuk 960 klik tautan dan 0 lead; jeda."
   }
  ]
 };
