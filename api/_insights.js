@@ -4,198 +4,206 @@ module.exports = {
   {
    "section": "meta",
    "id": "as_of",
-   "title": "Analysis written 14 Nov 2026",
-   "body": "Covers Meta Ads, Google Ads and GA4 from 15 Oct to 13 Nov 2026 (30 days ending yesterday). Weekly comparisons use 7–13 Nov against 31 Oct–6 Nov. Search Console data in Windsor covers 25 Oct to 10 Nov. Instagram could not be refreshed for the third day: the Instagram account is still not connected in Windsor.ai, so the Instagram post notes below are carried over unchanged from the 11 Nov analysis (data to 10 Nov). Figures for 13 Nov are still filling in (Google conversions usually rise a day later). Windsor.ai still returns only the last 30 days. Refreshed every morning.",
-   "title_id": "Analisis ditulis 14 Nov 2026",
-   "body_id": "Mencakup Meta Ads, Google Ads dan GA4 dari 15 Okt sampai 13 Nov 2026 (30 hari sampai kemarin). Perbandingan mingguan memakai 7–13 Nov terhadap 31 Okt–6 Nov. Data Search Console di Windsor mencakup 25 Okt sampai 10 Nov. Instagram tidak bisa diperbarui untuk hari ketiga: akun Instagram masih belum tersambung di Windsor.ai, jadi catatan postingan Instagram di bawah masih sama dengan analisis 11 Nov (data sampai 10 Nov). Angka 13 Nov masih bertambah (konversi Google biasanya naik sehari kemudian). Windsor.ai masih hanya memberi data 30 hari terakhir. Diperbarui setiap pagi."
+   "title": "Analysis written 15 Nov 2026",
+   "body": "Covers Meta Ads, Google Ads and GA4 from 16 Oct to 14 Nov 2026 (30 days ending yesterday). Weekly comparisons use 8–14 Nov against 1–7 Nov. Search Console data in Windsor covers 25 Oct to 12 Nov. Instagram could not be refreshed for the fourth day: the Instagram account is still not connected in Windsor.ai, so the Instagram post notes below are carried over unchanged from the 11 Nov analysis (data to 10 Nov). Figures for 14 Nov are still filling in (Google conversions usually rise a day later). Windsor.ai still returns only the last 30 days. Refreshed every morning.",
+   "title_id": "Analisis ditulis 15 Nov 2026",
+   "body_id": "Mencakup Meta Ads, Google Ads dan GA4 dari 16 Okt sampai 14 Nov 2026 (30 hari sampai kemarin). Perbandingan mingguan memakai 8–14 Nov terhadap 1–7 Nov. Data Search Console di Windsor mencakup 25 Okt sampai 12 Nov. Instagram tidak bisa diperbarui untuk hari keempat: akun Instagram masih belum tersambung di Windsor.ai, jadi catatan postingan Instagram di bawah masih sama dengan analisis 11 Nov (data sampai 10 Nov). Angka 14 Nov masih bertambah (konversi Google biasanya naik sehari kemudian). Windsor.ai masih hanya memberi data 30 hari terakhir. Diperbarui setiap pagi."
   },
   {
    "section": "summary",
    "id": "takeaway",
    "title": "Takeaway",
-   "body": "Meta brought 252 leads in 30 days from Rp9,553,594 (Rp37,911 each); from 7 to 13 Nov it brought 45 leads against 50 the week before, and the lead campaigns again did the work: 37 of the 45 leads from 37% of spend (Rp18,406 each), while awareness and traffic took Rp1,142,669 for 8. Google Ads brought 453 conversions at Rp27,746, but last week cost Rp31,600 per conversion against Rp23,092 (13 Nov is still filling in), and 'Traffic / Brand' has now spent nothing for three days (11–13 Nov). Instagram is still missing because the account is not connected in Windsor.ai.",
+   "body": "Meta brought 256 leads in 30 days from Rp9,622,179 (Rp37,587 each), but from 8 to 14 Nov only 42 against 51 the week before, at Rp45,398 each against Rp32,947. One campaign carried the week: \"Services (OLD)\", now on a Rp50,000 budget, brought 24 leads at Rp12,557, while \"Bundling + VO\" fell to 3 and the awareness and traffic campaigns took Rp1,198,241 (63% of spend) for 8. Google Ads brought 435 conversions at Rp28,111, but last week cost Rp31,842 per conversion against Rp23,872, and 'Traffic / Brand' has now spent nothing for four days (11–14 Nov). Instagram is still missing because the account is not connected in Windsor.ai.",
    "title_id": "Kesimpulan",
-   "body_id": "Meta menghasilkan 252 lead dalam 30 hari dari Rp9.553.594 (Rp37.911 per lead); pada 7–13 Nov ada 45 lead dibanding 50 minggu sebelumnya, dan kampanye lead kembali jadi penyumbang utama: 37 dari 45 lead dari 37% belanja (Rp18.406 per lead), sementara awareness dan traffic menghabiskan Rp1.142.669 untuk 8 lead. Google Ads menghasilkan 453 konversi dengan Rp27.746 per konversi, tetapi minggu lalu biayanya Rp31.600 per konversi dibanding Rp23.092 (angka 13 Nov masih bertambah), dan 'Traffic / Brand' sudah tiga hari tidak belanja (11–13 Nov). Data Instagram masih kosong karena akunnya belum tersambung di Windsor.ai."
+   "body_id": "Meta menghasilkan 256 lead dalam 30 hari dari Rp9.622.179 (Rp37.587 per lead), tetapi pada 8–14 Nov hanya 42 lead dibanding 51 minggu sebelumnya, dengan biaya Rp45.398 per lead dibanding Rp32.947. Satu kampanye menopang minggu ini: \"Services (OLD)\", kini dengan budget Rp50.000, menghasilkan 24 lead dengan Rp12.557 per lead, sementara \"Bundling + VO\" turun ke 3 lead dan kampanye awareness serta traffic menghabiskan Rp1.198.241 (63% belanja) untuk 8 lead. Google Ads menghasilkan 435 konversi dengan Rp28.111 per konversi, tetapi minggu lalu biayanya Rp31.842 per konversi dibanding Rp23.872, dan 'Traffic / Brand' sudah empat hari tidak belanja (11–14 Nov). Data Instagram masih kosong karena akunnya belum tersambung di Windsor.ai."
   },
   {
    "section": "alert",
    "id": "ig_connection",
-   "title": "Instagram is still not connected in Windsor.ai (3rd day)",
+   "title": "Instagram is still not connected in Windsor.ai (4th day)",
    "body": "Today every Instagram request again answered \"No instagram accounts are configured\": @npcofficecom (account 17841407003716205) dropped out of Windsor.ai after its login expired on 12 Nov. Instagram posts, followers and reach on this site stay empty, and the post notes are frozen at 10 Nov, until someone who manages @npcofficecom reconnects Instagram in Windsor.ai and selects the account again.",
-   "title_id": "Instagram masih belum tersambung di Windsor.ai (hari ke-3)",
-   "body_id": "Hari ini semua permintaan data Instagram kembali menjawab \"No instagram accounts are configured\": @npcofficecom (akun 17841407003716205) hilang dari Windsor.ai setelah login-nya kedaluwarsa pada 12 Nov. Postingan, followers dan jangkauan Instagram di situs ini tetap kosong, dan catatan postingan tertahan di 10 Nov, sampai orang yang mengelola @npcofficecom menyambungkan ulang Instagram di Windsor.ai dan memilih akunnya lagi."
+   "title_id": "Instagram masih belum tersambung di Windsor.ai (hari ke-4)",
+   "body_id": "Hari ini setiap permintaan data Instagram kembali dijawab \"No instagram accounts are configured\": @npcofficecom (akun 17841407003716205) terlepas dari Windsor.ai setelah login-nya kedaluwarsa pada 12 Nov. Postingan, follower dan reach Instagram di situs ini tetap kosong, dan catatan postingan berhenti di 10 Nov, sampai orang yang mengelola @npcofficecom menyambungkan ulang Instagram di Windsor.ai dan memilih akunnya lagi."
+  },
+  {
+   "section": "alert",
+   "id": "lead_drop",
+   "title": "Meta leads down 18% and cost per lead up 38% week on week",
+   "body": "From 8 to 14 Nov Meta brought 42 leads from Rp1,906,727 (Rp45,398 each) against 51 from Rp1,680,276 (Rp32,947) the week before; 14 Nov brought 5. Spend rose 13% but went mostly to campaigns that do not bring leads. \"VO Single Image JKT\", the biggest lead ad over 30 days (89 leads), brought only 3 last week from Rp136,256, and \"Pendirian CV Single Image\" (Surabaya) 1 from Rp130,094.",
+   "title_id": "Lead Meta turun 18% dan biaya per lead naik 38% dibanding minggu lalu",
+   "body_id": "Pada 8–14 Nov Meta menghasilkan 42 lead dari Rp1.906.727 (Rp45.398 per lead) dibanding 51 lead dari Rp1.680.276 (Rp32.947) minggu sebelumnya; 14 Nov menghasilkan 5. Belanja naik 13% tetapi sebagian besar masuk ke kampanye yang tidak menghasilkan lead. \"VO Single Image JKT\", iklan lead terbesar dalam 30 hari (89 lead), hanya menghasilkan 3 lead minggu lalu dari Rp136.256, dan \"Pendirian CV Single Image\" (Surabaya) 1 lead dari Rp130.094."
   },
   {
    "section": "alert",
    "id": "brand_paused",
-   "title": "Google 'Traffic / Brand' has spent nothing for 3 days",
-   "body": "\"BDD / SEM / Traffic / Brand\" spent Rp39,715 on 9 Nov and Rp37,765 on 10 Nov, then recorded no spend on 11, 12 or 13 Nov. Its week (7–13 Nov) came to Rp130,907 and 3 conversions against Rp267,437 and 10.3 the week before. Its \"npc office\" brand keyword is the cheapest conversion in the account (Rp7,962), so people searching the brand name may now see only competitors. Check whether it was paused on purpose.",
-   "title_id": "Google 'Traffic / Brand' sudah 3 hari tidak belanja",
-   "body_id": "\"BDD / SEM / Traffic / Brand\" belanja Rp39.715 pada 9 Nov dan Rp37.765 pada 10 Nov, lalu tidak ada belanja sama sekali pada 11, 12 dan 13 Nov. Minggunya (7–13 Nov) hanya Rp130.907 dan 3 konversi dibanding Rp267.437 dan 10,3 minggu sebelumnya. Kata kunci brand \"npc office\" di dalamnya adalah konversi termurah di akun (Rp7.962), jadi orang yang mencari nama brand sekarang mungkin hanya melihat kompetitor. Cek apakah kampanye ini sengaja dijeda."
+   "title": "Google 'Traffic / Brand' has spent nothing for 4 days",
+   "body": "\"BDD / SEM / Traffic / Brand\" spent Rp30,349 on 8 Nov, Rp39,715 on 9 Nov and Rp37,765 on 10 Nov, then recorded no spend on 11, 12, 13 or 14 Nov, although Google still lists it as enabled. Its week (8–14 Nov) came to Rp107,829 and 3 conversions against Rp252,803 and 10.3 the week before. Its \"npc office\" brand keyword is the cheapest conversion in the account (Rp7,732), so people searching the brand name may now see only competitors. Check the campaign's billing, schedule or bid limit.",
+   "title_id": "Google 'Traffic / Brand' sudah 4 hari tidak belanja",
+   "body_id": "\"BDD / SEM / Traffic / Brand\" belanja Rp30.349 pada 8 Nov, Rp39.715 pada 9 Nov dan Rp37.765 pada 10 Nov, lalu tidak ada belanja pada 11, 12, 13 dan 14 Nov, padahal statusnya di Google masih aktif. Minggu ini (8–14 Nov) totalnya Rp107.829 dan 3 konversi dibanding Rp252.803 dan 10,3 konversi minggu sebelumnya. Kata kunci brand \"npc office\" adalah konversi termurah di akun (Rp7.732), jadi orang yang mencari nama brand mungkin sekarang hanya melihat kompetitor. Cek billing, jadwal atau batas bid kampanye ini."
   },
   {
    "section": "alert",
    "id": "budget_cut",
-   "title": "Top lead campaign still held at Rp20,000 a day",
-   "body": "\"Bundling + VO\", the biggest source of Meta leads (91 of 252 in 30 days), spent only Rp140,482 from 7 to 13 Nov (budget Rp20,000 a day) and brought 5 leads, against Rp333,902 and 10 leads the week before. \"PT & CV\" Surabaya also fell to Rp136,410 and 2 leads (Rp219,049 and 6 leads the week before).",
-   "title_id": "Kampanye lead teratas masih ditahan Rp20.000 per hari",
-   "body_id": "\"Bundling + VO\", sumber lead Meta terbesar (91 dari 252 dalam 30 hari), hanya belanja Rp140.482 pada 7–13 Nov (budget Rp20.000 per hari) dan menghasilkan 5 lead, dibanding Rp333.902 dan 10 lead minggu sebelumnya. \"PT & CV\" Surabaya juga turun ke Rp136.410 dan 2 lead (Rp219.049 dan 6 lead minggu sebelumnya)."
+   "title": "Two lead campaigns still held at Rp20,000 a day",
+   "body": "\"Services (OLD)\" now runs on Rp50,000 a day and doubled its spend (Rp301,378 against Rp155,398) for 24 leads against 15. The other lead campaigns stay capped: \"Bundling + VO\" (92 of the 256 Meta leads in 30 days) spent Rp139,401 from 8 to 14 Nov for 3 leads (10 the week before), and \"PT & CV\" Surabaya Rp138,838 for 2 (6 the week before), both on Rp20,000 a day.",
+   "title_id": "Dua kampanye lead masih ditahan Rp20.000 per hari",
+   "body_id": "\"Services (OLD)\" kini berjalan dengan Rp50.000 per hari dan belanjanya naik dua kali lipat (Rp301.378 dibanding Rp155.398) untuk 24 lead dibanding 15. Kampanye lead lain masih dibatasi: \"Bundling + VO\" (92 dari 256 lead Meta dalam 30 hari) belanja Rp139.401 pada 8–14 Nov untuk 3 lead (10 minggu sebelumnya), dan \"PT & CV\" Surabaya Rp138.838 untuk 2 lead (6 minggu sebelumnya), keduanya dengan Rp20.000 per hari."
   },
   {
    "section": "alert",
    "id": "google_cpa",
-   "title": "Google cost per conversion up 37% week on week",
-   "body": "Google Ads brought 68.7 conversions from Rp2,169,775 from 7 to 13 Nov (Rp31,600 each) against 87.3 from Rp2,016,788 the week before (Rp23,092); 13 Nov shows only 4 so far and will rise. The biggest drops: 'Meeting Room - JKT' 6.9 conversions against 12, 'Meeting Room - SBY' 7 against 11, and 'Competitor Keyword' Rp38,813 per conversion against Rp28,899. Spend over the last 14 days (Rp4,186,564) is 45% below the first 14 (Rp7,657,676).",
-   "title_id": "Biaya per konversi Google naik 37% dibanding minggu lalu",
-   "body_id": "Google Ads menghasilkan 68,7 konversi dari Rp2.169.775 pada 7–13 Nov (Rp31.600 per konversi) dibanding 87,3 dari Rp2.016.788 minggu sebelumnya (Rp23.092); 13 Nov baru tercatat 4 dan masih akan naik. Penurunan terbesar: 'Meeting Room - JKT' 6,9 konversi dibanding 12, 'Meeting Room - SBY' 7 dibanding 11, dan 'Competitor Keyword' Rp38.813 per konversi dibanding Rp28.899. Belanja 14 hari terakhir (Rp4.186.564) 45% lebih rendah dari 14 hari pertama (Rp7.657.676)."
+   "title": "Google cost per conversion up 33% week on week",
+   "body": "Google Ads brought 68.5 conversions from Rp2,179,930 from 8 to 14 Nov (Rp31,842 each) against 83.5 from Rp1,994,195 the week before (Rp23,872); 14 Nov shows only 6 so far and will rise. The biggest drops: 'Meeting Room - SBY' Rp43,325 per conversion against Rp22,664, 'Meeting Room - JKT' Rp36,003 against Rp18,638, 'Competitor Keyword' Rp42,064 against Rp24,901, and 'Virtual Office - SBY' Rp20,105 against Rp11,505.",
+   "title_id": "Biaya per konversi Google naik 33% dibanding minggu lalu",
+   "body_id": "Google Ads menghasilkan 68,5 konversi dari Rp2.179.930 pada 8–14 Nov (Rp31.842 per konversi) dibanding 83,5 dari Rp1.994.195 minggu sebelumnya (Rp23.872); 14 Nov baru 6 konversi dan masih akan naik. Penurunan terbesar: 'Meeting Room - SBY' Rp43.325 per konversi dibanding Rp22.664, 'Meeting Room - JKT' Rp36.003 dibanding Rp18.638, 'Competitor Keyword' Rp42.064 dibanding Rp24.901, dan 'Virtual Office - SBY' Rp20.105 dibanding Rp11.505."
   },
   {
    "section": "alert",
    "id": "windsor_history",
    "title": "Windsor.ai still returns only 30 days of data",
-   "body": "A request for 12–13 Oct today again answered \"your trial includes the last 30 days of data history\". Month-on-month comparisons and any date range older than 30 days on this site stay empty until the Windsor.ai plan is renewed or upgraded.",
+   "body": "A request for 13–14 Oct today again answered \"your trial includes the last 30 days of data history\". Month-on-month comparisons and any date range older than 30 days on this site stay empty until the Windsor.ai plan is renewed or upgraded.",
    "title_id": "Windsor.ai masih hanya memberi data 30 hari",
-   "body_id": "Permintaan data 12–13 Okt hari ini kembali dijawab \"your trial includes the last 30 days of data history\". Perbandingan bulan ke bulan dan rentang tanggal lebih dari 30 hari di situs ini tetap kosong sampai paket Windsor.ai diperpanjang atau di-upgrade."
+   "body_id": "Permintaan data 13–14 Okt hari ini kembali dijawab \"your trial includes the last 30 days of data history\". Perbandingan bulan ke bulan dan rentang tanggal lebih dari 30 hari di situs ini tetap kosong sampai paket Windsor.ai diperpanjang atau di-upgrade."
   },
   {
    "section": "alert",
    "id": "ga4_events",
    "title": "GA4 records 0 key events",
-   "body": "GA4 counted 10,057 sessions from 15 Oct to 13 Nov (6,298 Paid Social, 1,686 Paid Search, 487 Organic Search) and 0 key events in every channel, while Google Ads reports 453 conversions and Meta 252 leads. Form submits and WhatsApp clicks are not marked as key events in GA4, so the website cannot show which channel produces enquiries.",
+   "body": "GA4 counted 9,725 sessions from 16 Oct to 14 Nov (6,136 Paid Social, 1,607 Paid Search, 461 Organic Search) and 0 key events in every channel, while Google Ads reports 435 conversions and Meta 256 leads. Form submits and WhatsApp clicks are not marked as key events in GA4, so the website cannot show which channel produces enquiries.",
    "title_id": "GA4 mencatat 0 key event",
-   "body_id": "GA4 mencatat 10.057 sesi dari 15 Okt sampai 13 Nov (6.298 Paid Social, 1.686 Paid Search, 487 Organic Search) dan 0 key event di semua channel, padahal Google Ads melaporkan 453 konversi dan Meta 252 lead. Pengiriman form dan klik WhatsApp belum ditandai sebagai key event di GA4, jadi situs tidak bisa menunjukkan channel mana yang menghasilkan pertanyaan masuk."
+   "body_id": "GA4 mencatat 9.725 sesi pada 16 Okt–14 Nov (6.136 Paid Social, 1.607 Paid Search, 461 Organic Search) dan 0 key event di semua channel, sementara Google Ads mencatat 435 konversi dan Meta 256 lead. Kirim formulir dan klik WhatsApp belum ditandai sebagai key event di GA4, jadi situs tidak bisa menunjukkan channel mana yang menghasilkan pertanyaan calon klien."
   },
   {
    "section": "working",
    "id": "w1",
-   "title": "Price-led single-image virtual office lead ads on Instagram",
-   "body": "\"VO Single Image JKT\" (company-interest audience) brought 88 leads from Rp2,141,293 (Rp24,333 each) with 2,782 link clicks. \"Virtual Office (Jadetabek) 18 Okt\" on a 3% lead lookalike brought 74 leads from Rp1,111,715 (Rp15,023 each), the cheapest lead in the account. Together they are 162 of the 252 Meta leads (64%). Its campaign \"Services (OLD)\" brought 23 leads last week at Rp11,918 each, up from 16.",
-   "title_id": "Iklan lead virtual office satu gambar dengan harga di Instagram",
-   "body_id": "\"VO Single Image JKT\" (audiens minat perusahaan) menghasilkan 88 lead dari Rp2.141.293 (Rp24.333 per lead) dengan 2.782 klik link. \"Virtual Office (Jadetabek) 18 Okt\" dengan lookalike lead 3% menghasilkan 74 lead dari Rp1.111.715 (Rp15.023 per lead), lead termurah di akun. Keduanya menyumbang 162 dari 252 lead Meta (64%). Kampanyenya, \"Services (OLD)\", menghasilkan 23 lead minggu lalu dengan Rp11.918 per lead, naik dari 16.",
    "order": 1,
-   "how": "Hook: the yearly price in the headline plus one benefit (premium business address without paying office rent). Format: one static 1:1 or 4:5 image, logo and price readable at thumbnail size. Copy: 2–3 short lines and one CTA (\"Cek paket\" / \"Konsultasi gratis\"). Offer: one product per ad (virtual office). Audience: 3% lookalike of past leads and company-interest. Placement: Instagram feed and stories only. Raise \"Services (OLD)\" above Rp50,000 a day while it stays under Rp20,000 per lead.",
-   "how_id": "Hook: harga tahunan di headline ditambah satu manfaat (alamat bisnis premium tanpa bayar sewa kantor). Format: satu gambar statis 1:1 atau 4:5, logo dan harga terbaca di ukuran thumbnail. Copy: 2–3 baris pendek dan satu CTA (\"Cek paket\" / \"Konsultasi gratis\"). Penawaran: satu produk per iklan (virtual office). Audiens: lookalike 3% dari lead lama dan minat perusahaan. Penempatan: feed dan story Instagram saja. Naikkan \"Services (OLD)\" di atas Rp50.000 per hari selama biaya per lead tetap di bawah Rp20.000."
+   "title": "Lookalike virtual office lead ad on a Rp50,000 budget",
+   "body": "\"Virtual Office (Jadetabek) 18 Okt\" on a 3% lead lookalike brought 77 leads from Rp1,134,587 in 30 days (Rp14,735 each), the cheapest lead in the account. After its campaign \"Services (OLD)\" moved to a Rp50,000 daily budget it brought 23 leads last week from Rp297,901 (Rp12,952 each); the campaign as a whole brought 24 of Meta's 42 leads.",
+   "how": "Hook: the yearly price in the headline plus one benefit (premium business address without paying office rent). Format: one static 1:1 or 4:5 image, logo and price readable at thumbnail size. Copy: 2–3 short lines and one CTA (\"Cek paket\" / \"Konsultasi gratis\"). Offer: virtual office only. Audience: 3% lookalike of past leads. Placement: Instagram feed and stories. Keep raising the budget in steps of 20% while it stays under Rp20,000 per lead.",
+   "title_id": "Iklan lead virtual office lookalike dengan budget Rp50.000",
+   "body_id": "\"Virtual Office (Jadetabek) 18 Okt\" dengan lookalike 3% dari lead menghasilkan 77 lead dari Rp1.134.587 dalam 30 hari (Rp14.735 per lead), lead termurah di akun. Setelah kampanyenya \"Services (OLD)\" naik ke budget Rp50.000 per hari, iklan ini menghasilkan 23 lead minggu lalu dari Rp297.901 (Rp12.952 per lead); kampanye ini menyumbang 24 dari 42 lead Meta.",
+   "how_id": "Hook: harga tahunan di headline plus satu manfaat (alamat bisnis premium tanpa bayar sewa kantor). Format: satu gambar statis 1:1 atau 4:5, logo dan harga terbaca di ukuran thumbnail. Copy: 2–3 baris pendek dan satu CTA (\"Cek paket\" / \"Konsultasi gratis\"). Penawaran: virtual office saja. Audiens: lookalike 3% dari lead. Penempatan: feed dan story Instagram. Terus naikkan budget bertahap 20% selama biaya tetap di bawah Rp20.000 per lead."
   },
   {
    "section": "working",
    "id": "w2",
-   "title": "The 'Suami-istri gak bisa bikin PT' question video",
-   "body": "This video brings more leads than any other traffic-objective ad: 28 leads from Rp829,725 across Jadetabek and Surabaya (Rp29,633 each) with 2,449 link clicks. In Surabaya it brought 12 leads from Rp250,229 (Rp20,852 each), cheaper than every Surabaya lead-campaign ad (\"Pendirian CV Single Image\" costs Rp37,220).",
-   "title_id": "Video pertanyaan 'Suami-istri gak bisa bikin PT'",
-   "body_id": "Video ini menghasilkan lead paling banyak di antara iklan bertujuan traffic: 28 lead dari Rp829.725 di Jadetabek dan Surabaya (Rp29.633 per lead) dengan 2.449 klik link. Di Surabaya video ini menghasilkan 12 lead dari Rp250.229 (Rp20.852 per lead), lebih murah dari semua iklan kampanye lead Surabaya (\"Pendirian CV Single Image\" Rp37.220).",
    "order": 2,
+   "title": "The 'Suami-istri gak bisa bikin PT' question video",
+   "body": "This video brings more leads than any other traffic-objective ad: 27 leads from Rp809,146 across Jadetabek and Surabaya (Rp29,968 each) with 2,388 link clicks. In Surabaya it brought 12 leads from Rp250,204 (Rp20,850 each), cheaper than every Surabaya lead-campaign ad (\"Pendirian CV Single Image\" costs Rp37,826). Last week it added 5 leads from Rp195,871.",
    "how": "Hook: a myth or legal question the viewer has heard (\"Suami-istri gak bisa bikin PT?\") spoken in the first two seconds. Format: 15–30 second vertical talking video, answer in one sentence, then one reason. Copy: repeat the question in the first caption line. Offer: free consultation on PT set-up. Audience: broad or job-title interests by city. Make 2–3 more videos on the same pattern (e.g. \"PT perorangan bisa punya karyawan?\") and run them under a Leads objective.",
-   "how_id": "Hook: mitos atau pertanyaan hukum yang pernah didengar penonton (\"Suami-istri gak bisa bikin PT?\") diucapkan di dua detik pertama. Format: video vertikal bicara ke kamera 15–30 detik, jawab dalam satu kalimat lalu satu alasan. Copy: ulangi pertanyaannya di baris pertama caption. Penawaran: konsultasi gratis pendirian PT. Audiens: broad atau minat jabatan per kota. Buat 2–3 video lagi dengan pola yang sama (misalnya \"PT perorangan bisa punya karyawan?\") dan jalankan dengan tujuan Leads."
+   "title_id": "Video pertanyaan 'Suami-istri gak bisa bikin PT'",
+   "body_id": "Video ini menghasilkan lead lebih banyak dari iklan traffic lainnya: 27 lead dari Rp809.146 di Jadetabek dan Surabaya (Rp29.968 per lead) dengan 2.388 klik link. Di Surabaya video ini menghasilkan 12 lead dari Rp250.204 (Rp20.850 per lead), lebih murah dari semua iklan kampanye lead Surabaya (\"Pendirian CV Single Image\" Rp37.826). Minggu lalu menambah 5 lead dari Rp195.871.",
+   "how_id": "Hook: mitos atau pertanyaan hukum yang sering didengar (\"Suami-istri gak bisa bikin PT?\") diucapkan di dua detik pertama. Format: video vertikal bicara 15–30 detik, jawab dalam satu kalimat, lalu satu alasan. Copy: ulangi pertanyaan di baris pertama caption. Penawaran: konsultasi gratis pendirian PT. Audiens: broad atau minat jabatan per kota. Buat 2–3 video lagi dengan pola yang sama (misalnya \"PT perorangan bisa punya karyawan?\") dan jalankan dengan objective Leads."
   },
   {
    "section": "working",
    "id": "w3",
-   "title": "Google 'virtual office + city' searches, led by Surabaya",
-   "body": "\"Virtual Office - SBY\" is the biggest Google converter: 115.8 conversions from Rp2,701,517 (Rp23,332 each), and Rp17,175 per conversion last week (18.9 from Rp324,058). \"virtual office surabaya\" brought 46.6 conversions at Rp18,062 and \"virtual office di surabaya\" 9.5 at Rp9,892, while the one-word broad \"virtual office\" in the same campaign cost Rp29,671 (46.4 from Rp1,376,922).",
-   "title_id": "Pencarian Google 'virtual office + kota', dipimpin Surabaya",
-   "body_id": "\"Virtual Office - SBY\" adalah penghasil konversi Google terbesar: 115,8 konversi dari Rp2.701.517 (Rp23.332 per konversi), dan Rp17.175 per konversi minggu lalu (18,9 dari Rp324.058). \"virtual office surabaya\" menghasilkan 46,6 konversi dengan Rp18.062 dan \"virtual office di surabaya\" 9,5 dengan Rp9.892, sementara kata kunci broad satu kata \"virtual office\" di kampanye yang sama Rp29.671 per konversi (46,4 dari Rp1.376.922).",
    "order": 3,
+   "title": "Google 'virtual office + city' searches, led by Surabaya",
+   "body": "\"Virtual Office - SBY\" is the biggest Google converter: 106 conversions from Rp2,551,707 (Rp24,066 each), and still the cheapest campaign last week at Rp20,105 (16.6 from Rp333,889). \"virtual office surabaya\" brought 42.1 conversions at Rp18,901 and \"virtual office di surabaya\" 9.5 at Rp9,892, while the one-word broad \"virtual office\" in the same campaign cost Rp30,927 (42.2 from Rp1,303,788).",
    "how": "Keywords: city + product (\"virtual office surabaya\", \"sewa virtual office jakarta\", area names such as TB Simatupang). Ad: the city and yearly price in headline 1, the building address in headline 2. Landing page: the city's virtual office page with price and WhatsApp button above the fold. Give these campaigns budget first and narrow the one-word \"virtual office\" broad keyword.",
-   "how_id": "Kata kunci: kota + produk (\"virtual office surabaya\", \"sewa virtual office jakarta\", nama area seperti TB Simatupang). Iklan: kota dan harga tahunan di headline 1, alamat gedung di headline 2. Landing page: halaman virtual office kota tersebut dengan harga dan tombol WhatsApp di layar pertama. Prioritaskan budget untuk kampanye ini dan persempit kata kunci broad satu kata \"virtual office\"."
+   "title_id": "Pencarian Google 'virtual office + kota', dipimpin Surabaya",
+   "body_id": "\"Virtual Office - SBY\" adalah sumber konversi Google terbesar: 106 konversi dari Rp2.551.707 (Rp24.066 per konversi), dan tetap kampanye termurah minggu lalu dengan Rp20.105 (16,6 dari Rp333.889). \"virtual office surabaya\" menghasilkan 42,1 konversi dengan Rp18.901 dan \"virtual office di surabaya\" 9,5 dengan Rp9.892, sementara kata kunci broad satu kata \"virtual office\" di kampanye yang sama Rp30.927 (42,2 dari Rp1.303.788).",
+   "how_id": "Kata kunci: kota + produk (\"virtual office surabaya\", \"sewa virtual office jakarta\", nama area seperti TB Simatupang). Iklan: kota dan harga tahunan di headline 1, alamat gedung di headline 2. Landing page: halaman virtual office kota tersebut dengan harga dan tombol WhatsApp di bagian atas. Prioritaskan budget untuk kampanye ini dan persempit kata kunci broad satu kata \"virtual office\"."
   },
   {
    "section": "working",
    "id": "w4",
-   "title": "Phrase-match Jakarta campaign",
-   "body": "\"Virtual Office - JKT / Phrase Match\" brought 71.6 conversions from Rp1,571,506 (Rp21,944 each), cheaper than the broad JKT campaign (Rp30,486). Phrase \"virtual office jakarta\" cost Rp17,227 per conversion (22.2 from Rp381,592), \"office space jakarta\" Rp21,954 (22.5 from Rp493,957) and \"virtual office murah jakarta\" Rp19,917. The same broad keyword \"virtual office jakarta\" costs Rp28,854 in the broad campaign.",
-   "title_id": "Kampanye Jakarta dengan phrase match",
-   "body_id": "\"Virtual Office - JKT / Phrase Match\" menghasilkan 71,6 konversi dari Rp1.571.506 (Rp21.944 per konversi), lebih murah dari kampanye broad JKT (Rp30.486). Phrase \"virtual office jakarta\" Rp17.227 per konversi (22,2 dari Rp381.592), \"office space jakarta\" Rp21.954 (22,5 dari Rp493.957) dan \"virtual office murah jakarta\" Rp19.917. Kata kunci yang sama \"virtual office jakarta\" dalam versi broad Rp28.854 per konversi.",
    "order": 4,
-   "how": "Match type: move the best broad keywords into phrase match in their own campaign. Keep the broad version only where it still converts below Rp30,000. Add the converting search terms from phrase as new phrase keywords every week.",
-   "how_id": "Match type: pindahkan kata kunci broad terbaik ke phrase match di kampanye sendiri. Pertahankan versi broad hanya jika konversinya masih di bawah Rp30.000. Tambahkan search term yang berkonversi dari phrase sebagai kata kunci phrase baru setiap minggu."
+   "title": "Phrase-match Jakarta campaign",
+   "body": "\"Virtual Office - JKT / Phrase Match\" brought 71.6 conversions from Rp1,533,523 (Rp21,414 each), the cheapest Google campaign over 30 days and cheaper than the broad JKT campaign (Rp30,413). Phrase \"virtual office jakarta\" cost Rp17,228 per conversion (22.2 from Rp381,592), \"office space jakarta\" Rp20,699 and \"virtual office murah jakarta\" Rp19,824. It held steady last week (Rp27,839 against Rp28,178) while most campaigns got dearer.",
+   "how": "Match type: move the best broad keywords into phrase match in their own campaign. Keep the broad version only where it still converts below Rp30,000. Add the converting search terms from phrase as new phrase keywords every week; drop \"virtual office jakarta selatan\" phrase (Rp38,179).",
+   "title_id": "Kampanye phrase match Jakarta",
+   "body_id": "\"Virtual Office - JKT / Phrase Match\" menghasilkan 71,6 konversi dari Rp1.533.523 (Rp21.414 per konversi), kampanye Google termurah dalam 30 hari dan lebih murah dari kampanye broad JKT (Rp30.413). Phrase \"virtual office jakarta\" Rp17.228 per konversi (22,2 dari Rp381.592), \"office space jakarta\" Rp20.699 dan \"virtual office murah jakarta\" Rp19.824. Minggu lalu biayanya stabil (Rp27.839 dibanding Rp28.178) saat kebanyakan kampanye makin mahal.",
+   "how_id": "Match type: pindahkan kata kunci broad terbaik ke phrase match di kampanye tersendiri. Pertahankan versi broad hanya jika masih di bawah Rp30.000 per konversi. Tambahkan search term yang konversi dari phrase sebagai kata kunci phrase baru setiap minggu; hentikan phrase \"virtual office jakarta selatan\" (Rp38.179)."
   },
   {
    "section": "working",
    "id": "w5",
-   "title": "Retargeting lead ad for company data changes",
-   "body": "\"Perubahan Data Perusahaan Single Image\" shown to past web visitors on Instagram brought 18 leads from Rp591,824 in 30 days (Rp32,879 each) and improved last week: 7 leads from Rp130,007 (Rp18,572 each) against 6 the week before, on the same Rp18,500 daily budget.",
-   "title_id": "Iklan lead retargeting untuk perubahan data perusahaan",
-   "body_id": "\"Perubahan Data Perusahaan Single Image\" yang ditampilkan ke pengunjung web di Instagram menghasilkan 18 lead dari Rp591.824 dalam 30 hari (Rp32.879 per lead) dan membaik minggu lalu: 7 lead dari Rp130.007 (Rp18.572 per lead) dibanding 6 minggu sebelumnya, dengan budget harian yang sama Rp18.500.",
    "order": 5,
-   "how": "Hook: name the task the visitor already looked at (\"Ganti direktur / alamat / KBLI?\") with the turnaround time. Format: one static image with a 3-step checklist. Copy: one line and \"Konsultasi gratis\". Offer: data-change service with a clear price or \"mulai dari\". Audience: web visitors of the last 30–60 days. Placement: Instagram only. Keep its Rp18,500 daily budget and add the same retargeting ad set to the virtual office and PT campaigns.",
-   "how_id": "Hook: sebut tugas yang sudah dilihat pengunjung (\"Ganti direktur / alamat / KBLI?\") beserta lama pengerjaan. Format: satu gambar statis dengan checklist 3 langkah. Copy: satu baris dan \"Konsultasi gratis\". Penawaran: layanan perubahan data dengan harga jelas atau \"mulai dari\". Audiens: pengunjung web 30–60 hari terakhir. Penempatan: Instagram saja. Pertahankan budget Rp18.500 per hari dan tambahkan ad set retargeting yang sama ke kampanye virtual office dan PT."
+   "title": "Retargeting lead ad for company data changes",
+   "body": "\"Perubahan Data Perusahaan Single Image\" shown to past web visitors on Instagram brought 18 leads from Rp584,547 in 30 days (Rp32,475 each) and 5 leads last week from Rp128,869 (Rp25,774 each), on the same Rp18,500 daily budget. It was the second-biggest lead source on Meta last week after the lookalike virtual office ad.",
+   "how": "Hook: name the task the visitor already looked at (\"Ganti direktur / alamat / KBLI?\") with the turnaround time. Format: one static image with a 3-step checklist. Copy: one line and \"Konsultasi gratis\". Offer: data-change service with a clear price or \"mulai dari\". Audience: web visitors of the last 30–60 days. Placement: Instagram only. Keep its budget and add the same retargeting ad set to the virtual office and PT campaigns.",
+   "title_id": "Iklan lead retargeting untuk perubahan data perusahaan",
+   "body_id": "\"Perubahan Data Perusahaan Single Image\" yang ditampilkan ke pengunjung web di Instagram menghasilkan 18 lead dari Rp584.547 dalam 30 hari (Rp32.475 per lead) dan 5 lead minggu lalu dari Rp128.869 (Rp25.774 per lead), dengan budget Rp18.500 per hari yang sama. Ini sumber lead terbesar kedua di Meta minggu lalu setelah iklan virtual office lookalike.",
+   "how_id": "Hook: sebut layanan yang sudah dilihat pengunjung (\"Ganti direktur / alamat / KBLI?\") dengan lama prosesnya. Format: satu gambar statis dengan checklist 3 langkah. Copy: satu baris dan \"Konsultasi gratis\". Penawaran: layanan perubahan data dengan harga jelas atau \"mulai dari\". Audiens: pengunjung web 30–60 hari terakhir. Penempatan: Instagram saja. Pertahankan budgetnya dan tambahkan ad set retargeting yang sama ke kampanye virtual office dan PT."
   },
   {
    "section": "working",
    "id": "w6",
-   "title": "Jakarta meeting room keywords",
-   "body": "\"Meeting Room - JKT\" brought 46.9 conversions from Rp1,108,141 (Rp23,646 each) over 30 days. \"sewa ruang meeting jakarta\" cost Rp16,420 per conversion (8 from Rp131,364) and \"sewa function room di jakarta\" Rp16,443 (6 from Rp98,656). Last week was weaker (6.9 conversions at Rp42,009 against 12 at Rp20,763), and Rp625,012 of its 30-day spend went to the broad keyword \"virtual office jakarta\".",
-   "title_id": "Kata kunci meeting room Jakarta",
-   "body_id": "\"Meeting Room - JKT\" menghasilkan 46,9 konversi dari Rp1.108.141 (Rp23.646 per konversi) dalam 30 hari. \"sewa ruang meeting jakarta\" Rp16.420 per konversi (8 dari Rp131.364) dan \"sewa function room di jakarta\" Rp16.443 (6 dari Rp98.656). Minggu lalu lebih lemah (6,9 konversi dengan Rp42.009 dibanding 12 dengan Rp20.763), dan Rp625.012 belanja 30 harinya terpakai untuk kata kunci broad \"virtual office jakarta\".",
    "order": 6,
+   "title": "Jakarta meeting room keywords",
+   "body": "\"Meeting Room - JKT\" brought 46.9 conversions from Rp1,103,844 (Rp23,555 each) over 30 days. \"sewa function room di jakarta\" cost Rp15,717 per conversion (6 from Rp94,299) and \"sewa ruang meeting jakarta\" Rp19,149 (6 from Rp114,892). Last week was weaker (8.9 conversions at Rp36,003 against 12 at Rp18,638), and Rp600,621 of its 30-day spend went to the broad keyword \"virtual office jakarta\".",
    "how": "Keywords: \"sewa ruang meeting / function room + jakarta\" in broad and phrase. Ad: hourly or half-day price and capacity in headline 1, the South Jakarta location in headline 2. Landing page: meeting-room-jakarta with photos, price and WhatsApp booking. Move \"virtual office jakarta\" out to the virtual office campaigns so this budget goes to meeting searches.",
-   "how_id": "Kata kunci: \"sewa ruang meeting / function room + jakarta\" dalam broad dan phrase. Iklan: harga per jam atau setengah hari dan kapasitas di headline 1, lokasi Jakarta Selatan di headline 2. Landing page: meeting-room-jakarta dengan foto, harga dan booking WhatsApp. Pindahkan \"virtual office jakarta\" ke kampanye virtual office agar budget ini dipakai untuk pencarian meeting."
+   "title_id": "Kata kunci meeting room Jakarta",
+   "body_id": "\"Meeting Room - JKT\" menghasilkan 46,9 konversi dari Rp1.103.844 (Rp23.555 per konversi) dalam 30 hari. \"sewa function room di jakarta\" Rp15.717 per konversi (6 dari Rp94.299) dan \"sewa ruang meeting jakarta\" Rp19.149 (6 dari Rp114.892). Minggu lalu lebih lemah (8,9 konversi dengan Rp36.003 dibanding 12 dengan Rp18.638), dan Rp600.621 dari belanja 30 harinya masuk ke kata kunci broad \"virtual office jakarta\".",
+   "how_id": "Kata kunci: \"sewa ruang meeting / function room + jakarta\" dalam broad dan phrase. Iklan: harga per jam atau setengah hari dan kapasitas di headline 1, lokasi Jakarta Selatan di headline 2. Landing page: meeting-room-jakarta dengan foto, harga dan booking WhatsApp. Pindahkan \"virtual office jakarta\" ke kampanye virtual office supaya budget ini dipakai untuk pencarian meeting room."
   },
   {
    "section": "not_working",
    "id": "n1",
-   "title": "Lead campaigns are starved while others spend",
-   "body": "From 7 to 13 Nov the lead campaigns got Rp681,010 of Rp1,823,679 Meta spend (37%) and brought 37 of the 45 leads (Rp18,406 each); the other Rp1,142,669 brought 8 (Rp142,834 each). \"Bundling + VO\" is held at about Rp20,000 a day and brought 5 leads against 10 the week before; \"PT & CV\" Surabaya fell to 2 leads from 6.",
-   "title_id": "Kampanye lead kekurangan budget sementara yang lain terus belanja",
-   "body_id": "Pada 7–13 Nov kampanye lead hanya mendapat Rp681.010 dari Rp1.823.679 belanja Meta (37%) tetapi menghasilkan 37 dari 45 lead (Rp18.406 per lead); Rp1.142.669 sisanya menghasilkan 8 lead (Rp142.834 per lead). \"Bundling + VO\" ditahan sekitar Rp20.000 per hari dan menghasilkan 5 lead dibanding 10 minggu sebelumnya; \"PT & CV\" Surabaya turun ke 2 lead dari 6.",
    "order": 1,
-   "how": "Stop: holding lead campaigns at about Rp20,000 a day. Instead: restore \"Bundling + VO\" and \"PT & CV\" to their October levels, funded by pausing the awareness and NEW traffic campaigns, and keep at least 70% of Meta spend on Leads objectives.",
-   "how_id": "Hentikan: menahan kampanye lead di sekitar Rp20.000 per hari. Gantinya: kembalikan \"Bundling + VO\" dan \"PT & CV\" ke level Oktober, dananya dari menjeda kampanye awareness dan traffic NEW, dan jaga minimal 70% belanja Meta di tujuan Leads."
+   "title": "Most Meta spend goes to campaigns that bring few leads",
+   "body": "From 8 to 14 Nov the lead campaigns got Rp708,486 of Rp1,906,727 Meta spend (37%) and brought 34 of the 42 leads (Rp20,838 each); the other Rp1,198,241 brought 8 (Rp149,780 each). Over 30 days the lead campaigns took 52% of spend for 217 of 256 leads (Rp23,129 each).",
+   "how": "Stop: letting awareness and traffic take most of the budget. Instead: pause the awareness and NEW traffic campaigns, move that money into \"Services (OLD)\" and the retargeting ad, and keep at least 70% of Meta spend on Leads objectives.",
+   "title_id": "Sebagian besar belanja Meta masuk ke kampanye yang sedikit menghasilkan lead",
+   "body_id": "Pada 8–14 Nov kampanye lead mendapat Rp708.486 dari Rp1.906.727 belanja Meta (37%) dan menghasilkan 34 dari 42 lead (Rp20.838 per lead); Rp1.198.241 sisanya menghasilkan 8 lead (Rp149.780 per lead). Dalam 30 hari kampanye lead memakai 52% belanja untuk 217 dari 256 lead (Rp23.129 per lead).",
+   "how_id": "Hentikan: membiarkan awareness dan traffic memakai sebagian besar budget. Gantinya: pause kampanye awareness dan traffic NEW, pindahkan dananya ke \"Services (OLD)\" dan iklan retargeting, dan jaga minimal 70% belanja Meta di objective Leads."
   },
   {
    "section": "not_working",
    "id": "n2",
-   "title": "Awareness campaigns: 24% of Meta spend for 4 leads",
-   "body": "The three awareness (Ad Recall) campaigns spent Rp2,250,152 in 30 days (24% of Meta spend) for 4 leads and 618 link clicks. From 7 to 13 Nov they took Rp524,335, 29% of Meta spend, for 1 lead. \"Virtual Office JKT (2)\" alone spent Rp476,434 for 288,934 impressions and 0 leads.",
-   "title_id": "Kampanye awareness: 24% belanja Meta untuk 4 lead",
-   "body_id": "Tiga kampanye awareness (Ad Recall) menghabiskan Rp2.250.152 dalam 30 hari (24% belanja Meta) untuk 4 lead dan 618 klik link. Pada 7–13 Nov kampanye ini mengambil Rp524.335, 29% belanja Meta, untuk 1 lead. \"Virtual Office JKT (2)\" sendiri menghabiskan Rp476.434 untuk 288.934 impresi dan 0 lead.",
    "order": 2,
-   "how": "Stop: always-on awareness while leads are short. Instead: keep one small awareness ad set only for retargeting reach, and move the rest into the lead ads that cost Rp15k–24k per lead.",
-   "how_id": "Hentikan: awareness yang selalu menyala saat lead kurang. Gantinya: sisakan satu ad set awareness kecil khusus jangkauan retargeting, dan pindahkan sisanya ke iklan lead yang biayanya Rp15 rb–24 rb per lead."
+   "title": "'VO Single Image JKT' has stopped bringing leads",
+   "body": "Over 30 days this ad brought 89 leads from Rp2,136,608 (Rp24,007 each), but last week only 3 from Rp136,256 (Rp45,419 each) with 142 link clicks, and its campaign \"Bundling + VO\" brought 3 leads against 10 the week before. The same audience has seen the same image for months (the ad is dated 15 Apr), so it is likely worn out.",
+   "how": "Stop: running the April image unchanged. Instead: make 2 new versions with the same structure (yearly price + benefit in the headline, one static image) but a new picture and opening line, test them in the same ad set, and keep the one that gets back under Rp25,000 per lead.",
+   "title_id": "'VO Single Image JKT' berhenti menghasilkan lead",
+   "body_id": "Dalam 30 hari iklan ini menghasilkan 89 lead dari Rp2.136.608 (Rp24.007 per lead), tetapi minggu lalu hanya 3 lead dari Rp136.256 (Rp45.419 per lead) dengan 142 klik link, dan kampanyenya \"Bundling + VO\" menghasilkan 3 lead dibanding 10 minggu sebelumnya. Audiens yang sama sudah melihat gambar yang sama berbulan-bulan (iklan bertanggal 15 Apr), jadi kemungkinan besar sudah jenuh.",
+   "how_id": "Hentikan: menjalankan gambar April tanpa perubahan. Gantinya: buat 2 versi baru dengan struktur yang sama (harga tahunan + manfaat di headline, satu gambar statis) tetapi gambar dan kalimat pembuka baru, uji di ad set yang sama, dan pertahankan yang kembali di bawah Rp25.000 per lead."
   },
   {
    "section": "not_working",
    "id": "n3",
-   "title": "NEW traffic campaigns buy clicks that do not convert",
-   "body": "The two \"View Web NEW\" traffic campaigns spent Rp1,135,121 in 30 days for 2,335 link clicks and 0 leads; last week they took another Rp310,746 for 0 leads. \"Perubahan Data Perusahaan\" in Jakarta alone spent Rp515,153 for 1,033 clicks. GA4 shows Paid Social sessions engage only 17.5% of the time, against 56.4% for Paid Search.",
-   "title_id": "Kampanye traffic NEW membeli klik yang tidak menghasilkan lead",
-   "body_id": "Dua kampanye traffic \"View Web NEW\" menghabiskan Rp1.135.121 dalam 30 hari untuk 2.335 klik link dan 0 lead; minggu lalu menghabiskan lagi Rp310.746 untuk 0 lead. \"Perubahan Data Perusahaan\" di Jakarta sendiri menghabiskan Rp515.153 untuk 1.033 klik. GA4 menunjukkan sesi Paid Social hanya engaged 17,5%, dibanding 56,4% untuk Paid Search.",
    "order": 3,
-   "how": "Stop: traffic-objective video ads aimed at cheap clicks. Instead: re-use the same creatives inside Leads campaigns, or keep only the 'Suami-istri' video (the one traffic ad that brings leads) and send its clicks to a page with a WhatsApp button above the fold.",
-   "how_id": "Hentikan: iklan video bertujuan traffic demi klik murah. Gantinya: pakai materi yang sama di kampanye Leads, atau sisakan hanya video 'Suami-istri' (satu-satunya iklan traffic yang menghasilkan lead) dan arahkan kliknya ke halaman dengan tombol WhatsApp di layar pertama."
+   "title": "Awareness campaigns: 23% of Meta spend for 4 leads",
+   "body": "The three awareness (Ad Recall) campaigns spent Rp2,252,313 in 30 days (23% of Meta spend) for 4 leads and 622 link clicks. From 8 to 14 Nov they took Rp526,665, 28% of Meta spend, for 1 lead. \"Virtual Office JKT (2)\" alone spent Rp472,743 for 287,274 impressions and 0 leads.",
+   "how": "Stop: always-on awareness while leads are short. Instead: keep one small awareness ad set only for retargeting reach, and move the rest into the lead ads that cost Rp13k–26k per lead.",
+   "title_id": "Kampanye awareness: 23% belanja Meta untuk 4 lead",
+   "body_id": "Tiga kampanye awareness (Ad Recall) menghabiskan Rp2.252.313 dalam 30 hari (23% belanja Meta) untuk 4 lead dan 622 klik link. Pada 8–14 Nov kampanye ini memakai Rp526.665, 28% belanja Meta, untuk 1 lead. \"Virtual Office JKT (2)\" saja menghabiskan Rp472.743 untuk 287.274 impresi dan 0 lead.",
+   "how_id": "Hentikan: awareness yang selalu menyala saat lead kurang. Gantinya: sisakan satu ad set awareness kecil hanya untuk jangkauan retargeting, dan pindahkan sisanya ke iklan lead yang biayanya Rp13 ribu–26 ribu per lead."
   },
   {
    "section": "not_working",
    "id": "n4",
-   "title": "The Google 'Brand' campaign is mostly a generic keyword, and has stopped",
-   "body": "\"Traffic / Brand\" spent Rp1,363,992 for 47.3 conversions (Rp28,815 each), but 69% of it (Rp937,384) went to the broad keyword \"meeting room\": 249 clicks and 24 conversions at Rp39,058. The real brand keyword \"npc office\" cost only Rp7,962 per conversion (9 from Rp71,660). The campaign has recorded no spend since 11 Nov.",
-   "title_id": "Kampanye Google 'Brand' sebagian besar kata kunci umum, dan sudah berhenti",
-   "body_id": "\"Traffic / Brand\" menghabiskan Rp1.363.992 untuk 47,3 konversi (Rp28.815 per konversi), tetapi 69% (Rp937.384) terpakai untuk kata kunci broad \"meeting room\": 249 klik dan 24 konversi dengan Rp39.058. Kata kunci brand sebenarnya, \"npc office\", hanya Rp7.962 per konversi (9 dari Rp71.660). Kampanye ini tidak belanja sejak 11 Nov.",
    "order": 4,
-   "how": "Stop: running generic keywords inside the brand campaign. Instead: restart it with only 'npc office' brand terms on a small budget, move \"meeting room\" into the city meeting-room campaigns as \"meeting room jakarta / surabaya\", and confirm whether the pause on 11 Nov was intended.",
-   "how_id": "Hentikan: menjalankan kata kunci umum di kampanye brand. Gantinya: nyalakan lagi hanya dengan kata kunci brand 'npc office' dengan budget kecil, pindahkan \"meeting room\" ke kampanye meeting room per kota sebagai \"meeting room jakarta / surabaya\", dan pastikan apakah jeda sejak 11 Nov memang disengaja."
+   "title": "NEW traffic campaigns buy clicks that do not convert",
+   "body": "The two \"View Web NEW\" traffic campaigns spent Rp1,156,052 in 30 days for 2,358 link clicks and 0 leads; last week they took another Rp334,469 for 0 leads. \"Perubahan Data Perusahaan\" in Jakarta alone spent Rp499,175 for 997 clicks. GA4 shows Paid Social sessions engage only 17.6% of the time, against 56.8% for Paid Search.",
+   "how": "Stop: traffic-objective video ads aimed at cheap clicks. Instead: re-use the same creatives inside Leads campaigns, or keep only the 'Suami-istri' video (the one traffic ad that brings leads) and send its clicks to a page with a WhatsApp button above the fold.",
+   "title_id": "Kampanye traffic NEW membeli klik yang tidak menghasilkan lead",
+   "body_id": "Dua kampanye traffic \"View Web NEW\" menghabiskan Rp1.156.052 dalam 30 hari untuk 2.358 klik link dan 0 lead; minggu lalu memakai Rp334.469 lagi untuk 0 lead. \"Perubahan Data Perusahaan\" di Jakarta saja menghabiskan Rp499.175 untuk 997 klik. GA4 menunjukkan sesi Paid Social hanya engaged 17,6%, dibanding 56,8% untuk Paid Search.",
+   "how_id": "Hentikan: iklan video objective traffic yang mengejar klik murah. Gantinya: pakai materi yang sama di kampanye Leads, atau pertahankan hanya video 'Suami-istri' (satu-satunya iklan traffic yang menghasilkan lead) dan arahkan kliknya ke halaman dengan tombol WhatsApp di bagian atas."
   },
   {
    "section": "not_working",
    "id": "n5",
-   "title": "Surabaya office-rental keywords are expensive",
-   "body": "\"Serviced Office - SBY\" brought 23.6 conversions from Rp1,066,625 (Rp45,140 each), the most expensive Google campaign, and Rp50,552 last week (5.3 from Rp267,718). In \"Meeting Room - SBY\" the keyword \"sewa kantor bulanan surabaya\" took Rp776,018 for 16 conversions (Rp48,501), 73% of that campaign's spend.",
-   "title_id": "Kata kunci sewa kantor Surabaya mahal",
-   "body_id": "\"Serviced Office - SBY\" menghasilkan 23,6 konversi dari Rp1.066.625 (Rp45.140 per konversi), kampanye Google termahal, dan Rp50.552 minggu lalu (5,3 dari Rp267.718). Di \"Meeting Room - SBY\" kata kunci \"sewa kantor bulanan surabaya\" menghabiskan Rp776.018 untuk 16 konversi (Rp48.501), 73% belanja kampanye itu.",
    "order": 5,
-   "how": "Stop: broad office-rental keywords in Surabaya. Instead: cut \"Serviced Office - SBY\" to half budget, keep only \"serviced office surabaya\" and \"sewa ruang kantor surabaya\" in phrase match, take \"sewa kantor bulanan surabaya\" out of the meeting-room campaign, and move the saving to \"Virtual Office - SBY\" (Rp17,175 per conversion last week).",
-   "how_id": "Hentikan: kata kunci sewa kantor broad di Surabaya. Gantinya: potong \"Serviced Office - SBY\" jadi setengah budget, sisakan hanya \"serviced office surabaya\" dan \"sewa ruang kantor surabaya\" dalam phrase match, keluarkan \"sewa kantor bulanan surabaya\" dari kampanye meeting room, dan pindahkan penghematannya ke \"Virtual Office - SBY\" (Rp17.175 per konversi minggu lalu)."
+   "title": "The Google 'Brand' campaign is mostly a generic keyword, and has stopped",
+   "body": "\"Traffic / Brand\" spent Rp1,355,230 for 45.3 conversions (Rp29,894 each), but 69% of it (Rp932,713) went to the broad keyword \"meeting room\": 247 clicks and 22 conversions at Rp42,396. The real brand keyword \"npc office\" cost only Rp7,732 per conversion (9 from Rp69,587). The campaign has recorded no spend since 11 Nov.",
+   "how": "Stop: running generic keywords inside the brand campaign. Instead: restart it with only 'npc office' brand terms on a small budget, move \"meeting room\" into the city meeting-room campaigns as \"meeting room jakarta / surabaya\", and find out why it stopped spending on 11 Nov.",
+   "title_id": "Kampanye Google 'Brand' kebanyakan kata kunci umum, dan sudah berhenti",
+   "body_id": "\"Traffic / Brand\" menghabiskan Rp1.355.230 untuk 45,3 konversi (Rp29.894 per konversi), tetapi 69% (Rp932.713) masuk ke kata kunci broad \"meeting room\": 247 klik dan 22 konversi dengan Rp42.396. Kata kunci brand sebenarnya \"npc office\" hanya Rp7.732 per konversi (9 dari Rp69.587). Kampanye ini tidak mencatat belanja sejak 11 Nov.",
+   "how_id": "Hentikan: menjalankan kata kunci umum di kampanye brand. Gantinya: jalankan ulang hanya dengan kata kunci brand 'npc office' dengan budget kecil, pindahkan \"meeting room\" ke kampanye meeting room per kota sebagai \"meeting room jakarta / surabaya\", dan cari tahu kenapa belanjanya berhenti pada 11 Nov."
   },
   {
    "section": "not_working",
    "id": "n6",
-   "title": "Competitor keywords cost more than the city keywords",
-   "body": "\"Virtual Office - JKT / Competitor Keyword\" brought 53.1 conversions from Rp1,607,490 (Rp30,246 each) and was the biggest Google spender last week (Rp322,702 for 8.3 conversions, Rp38,813 each). \"Arvahub\" alone took Rp566,907 for 16.3 conversions (Rp34,709), against Rp18,062 for \"virtual office surabaya\"; \"Gowork\" took Rp27,085 for none.",
-   "title_id": "Kata kunci kompetitor lebih mahal dari kata kunci kota",
-   "body_id": "\"Virtual Office - JKT / Competitor Keyword\" menghasilkan 53,1 konversi dari Rp1.607.490 (Rp30.246 per konversi) dan menjadi pembelanja Google terbesar minggu lalu (Rp322.702 untuk 8,3 konversi, Rp38.813 per konversi). \"Arvahub\" sendiri menghabiskan Rp566.907 untuk 16,3 konversi (Rp34.709), dibanding Rp18.062 untuk \"virtual office surabaya\"; \"Gowork\" menghabiskan Rp27.085 tanpa konversi.",
    "order": 6,
-   "how": "Stop: open-ended bidding on competitor names. Instead: keep only competitor terms under Rp30,000 per conversion (Voffice.co.id at Rp27,757 qualifies), pause Gowork, cap the campaign below the city campaigns, and use a comparison headline (price, location, included services) so the click is worth it.",
-   "how_id": "Hentikan: bidding terbuka untuk nama kompetitor. Gantinya: sisakan hanya kata kunci kompetitor di bawah Rp30.000 per konversi (Voffice.co.id dengan Rp27.757 masuk), jeda Gowork, batasi budget kampanye di bawah kampanye kota, dan pakai headline perbandingan (harga, lokasi, layanan termasuk) agar kliknya sepadan."
+   "title": "Surabaya office-rental keywords are expensive",
+   "body": "\"Serviced Office - SBY\" brought 21.1 conversions from Rp1,060,833 (Rp50,207 each), the most expensive Google campaign, and Rp50,622 last week (5.3 from Rp268,087). In \"Meeting Room - SBY\" the keyword \"sewa kantor bulanan surabaya\" took Rp768,704 for 15 conversions (Rp51,247), 72% of that campaign's spend; the campaign cost Rp43,325 per conversion last week.",
+   "how": "Stop: broad office-rental keywords in Surabaya. Instead: cut \"Serviced Office - SBY\" to half budget, keep only \"serviced office surabaya\" and \"sewa ruang kantor surabaya\" in phrase match, take \"sewa kantor bulanan surabaya\" out of the meeting-room campaign, and move the saving to \"Virtual Office - SBY\" (Rp20,105 per conversion last week).",
+   "title_id": "Kata kunci sewa kantor Surabaya mahal",
+   "body_id": "\"Serviced Office - SBY\" menghasilkan 21,1 konversi dari Rp1.060.833 (Rp50.207 per konversi), kampanye Google termahal, dan Rp50.622 minggu lalu (5,3 dari Rp268.087). Di \"Meeting Room - SBY\" kata kunci \"sewa kantor bulanan surabaya\" memakai Rp768.704 untuk 15 konversi (Rp51.247), 72% belanja kampanye itu; kampanye ini Rp43.325 per konversi minggu lalu.",
+   "how_id": "Hentikan: kata kunci broad sewa kantor di Surabaya. Gantinya: potong \"Serviced Office - SBY\" ke setengah budget, pertahankan hanya \"serviced office surabaya\" dan \"sewa ruang kantor surabaya\" dalam phrase match, keluarkan \"sewa kantor bulanan surabaya\" dari kampanye meeting room, dan pindahkan hematnya ke \"Virtual Office - SBY\" (Rp20.105 per konversi minggu lalu)."
   },
   {
    "section": "post",
@@ -361,105 +369,113 @@ module.exports = {
    "section": "ad",
    "id": "120250881996280272",
    "title": "VO Single Image JKT (Int:Company)",
-   "body": "88 leads from Rp2,141,293 (Rp24,333 each) and 2,782 link clicks, the biggest lead source on Meta; it spent less last week because its campaign is held at Rp20,000 a day.",
+   "body": "89 leads from Rp2,136,608 (Rp24,007 each) and 2,761 link clicks, the biggest lead source on Meta over 30 days, but only 3 leads last week: refresh the image.",
    "title_id": "VO Single Image JKT (Int:Company)",
-   "body_id": "88 lead dari Rp2.141.293 (Rp24.333 per lead) dan 2.782 klik link, sumber lead terbesar di Meta; belanjanya turun minggu lalu karena kampanyenya ditahan Rp20.000 per hari."
+   "body_id": "89 lead dari Rp2.136.608 (Rp24.007 per lead) dan 2.761 klik link, sumber lead terbesar di Meta dalam 30 hari, tetapi hanya 3 lead minggu lalu: ganti gambarnya."
   },
   {
    "section": "ad",
    "id": "120227438043400272",
    "title": "Virtual Office (Jadetabek) 18 Okt (LAL 3%)",
-   "body": "74 leads from Rp1,111,715 (Rp15,023 each), the cheapest lead source in the account.",
+   "body": "77 leads from Rp1,134,587 (Rp14,735 each), the cheapest lead source in the account, with 23 leads last week at Rp12,952.",
    "title_id": "Virtual Office (Jadetabek) 18 Okt (LAL 3%)",
-   "body_id": "74 lead dari Rp1.111.715 (Rp15.023 per lead), sumber lead termurah di akun."
+   "body_id": "77 lead dari Rp1.134.587 (Rp14.735 per lead), sumber lead termurah di akun, dengan 23 lead minggu lalu seharga Rp12.952."
   },
   {
    "section": "ad",
    "id": "120252417542150272",
    "title": "Pendirian CV Single Image (Surabaya)",
-   "body": "25 leads from Rp930,507 (Rp37,220 each); the Surabaya lead ad, but its campaign brought only 2 leads last week.",
+   "body": "25 leads from Rp945,638 (Rp37,826 each); the Surabaya lead ad, but it brought only 1 lead last week from Rp130,094.",
    "title_id": "Pendirian CV Single Image (Surabaya)",
-   "body_id": "25 lead dari Rp930.507 (Rp37.220 per lead); iklan lead Surabaya, tetapi kampanyenya hanya menghasilkan 2 lead minggu lalu."
+   "body_id": "25 lead dari Rp945.638 (Rp37.826 per lead); iklan lead Surabaya, tetapi minggu lalu hanya 1 lead dari Rp130.094."
   },
   {
    "section": "ad",
    "id": "120250881973510272",
    "title": "Perubahan Data Perusahaan Single Image (retargeting)",
-   "body": "18 leads from Rp591,824 (Rp32,879 each) from past web visitors, with 7 leads last week at Rp18,572.",
+   "body": "18 leads from Rp584,547 (Rp32,475 each) from past web visitors, with 5 leads last week at Rp25,774.",
    "title_id": "Perubahan Data Perusahaan Single Image (retargeting)",
-   "body_id": "18 lead dari Rp591.824 (Rp32.879 per lead) dari pengunjung web, dengan 7 lead minggu lalu dengan Rp18.572."
+   "body_id": "18 lead dari Rp584.547 (Rp32.475 per lead) dari pengunjung web, dengan 5 lead minggu lalu seharga Rp25.774."
   },
   {
    "section": "ad",
    "id": "120212452479510272",
    "title": "Suami-istri gak bisa bikin PT (Jadetabek)",
-   "body": "16 leads and 1,661 link clicks from Rp579,496 (Rp36,218 per lead), the best lead source among traffic ads in Jakarta.",
+   "body": "15 leads and 1,606 link clicks from Rp558,942 (Rp37,263 per lead), the best lead source among traffic ads in Jakarta.",
    "title_id": "Suami-istri gak bisa bikin PT (Jadetabek)",
-   "body_id": "16 lead dan 1.661 klik link dari Rp579.496 (Rp36.218 per lead), sumber lead terbaik di antara iklan traffic di Jakarta."
+   "body_id": "15 lead dan 1.606 klik link dari Rp558.942 (Rp37.263 per lead), sumber lead terbaik di antara iklan traffic Jakarta."
   },
   {
    "section": "ad",
    "id": "120244415770800272",
    "title": "Perubahan Data Perusahaan video (Jadetabek traffic NEW)",
-   "body": "1,033 link clicks from Rp515,153 but 0 leads.",
+   "body": "997 link clicks from Rp499,175 but 0 leads.",
    "title_id": "Perubahan Data Perusahaan video (Jadetabek traffic NEW)",
-   "body_id": "1.033 klik link dari Rp515.153 tetapi 0 lead."
+   "body_id": "997 klik link dari Rp499.175 tetapi 0 lead."
   },
   {
    "section": "ad",
    "id": "120244395772850272",
    "title": "Virtual Office JKT (2) (awareness)",
-   "body": "288,934 impressions from Rp476,434 and 0 leads; the biggest awareness spender.",
+   "body": "287,274 impressions from Rp472,743 and 0 leads; the biggest awareness spender.",
    "title_id": "Virtual Office JKT (2) (awareness)",
-   "body_id": "288.934 impresi dari Rp476.434 dan 0 lead; pembelanja awareness terbesar."
+   "body_id": "287.274 impresi dari Rp472.743 dan 0 lead; iklan awareness dengan belanja terbesar."
   },
   {
    "section": "ad",
    "id": "120244395876640272",
    "title": "Bundling PT + VO (2) (awareness)",
-   "body": "225,185 impressions and 95 link clicks from Rp382,470, 0 leads.",
+   "body": "225,924 impressions and 98 link clicks from Rp383,368, 0 leads.",
    "title_id": "Bundling PT + VO (2) (awareness)",
-   "body_id": "225.185 impresi dan 95 klik link dari Rp382.470, 0 lead."
+   "body_id": "225.924 impresi dan 98 klik link dari Rp383.368, 0 lead."
   },
   {
    "section": "ad",
    "id": "120211858195690272",
    "title": "Brand Awareness All Service (awareness OLD)",
-   "body": "176,122 impressions and 28 link clicks from Rp311,779, 1 lead.",
+   "body": "167,821 impressions and 27 link clicks from Rp297,614, 1 lead.",
    "title_id": "Brand Awareness All Service (awareness OLD)",
-   "body_id": "176.122 impresi dan 28 klik link dari Rp311.779, 1 lead."
-  },
-  {
-   "section": "ad",
-   "id": "120244399074230272",
-   "title": "All Service (Surabaya awareness)",
-   "body": "149,665 impressions from Rp267,178 and 1 lead.",
-   "title_id": "All Service (Surabaya awareness)",
-   "body_id": "149.665 impresi dari Rp267.178 dan 1 lead."
+   "body_id": "167.821 impresi dan 27 klik link dari Rp297.614, 1 lead."
   },
   {
    "section": "ad",
    "id": "120211858195710272",
    "title": "Reach VO (Jadetabek) (awareness OLD)",
-   "body": "166,196 impressions and 63 link clicks from Rp258,938, 0 leads.",
+   "body": "173,408 impressions and 66 link clicks from Rp270,555, 0 leads.",
    "title_id": "Reach VO (Jadetabek) (awareness OLD)",
-   "body_id": "166.196 impresi dan 63 klik link dari Rp258.938, 0 lead."
+   "body_id": "173.408 impresi dan 66 klik link dari Rp270.555, 0 lead."
   },
   {
    "section": "ad",
-   "id": "120244416253960272",
-   "title": "Pendirian PT video (Surabaya traffic NEW)",
-   "body": "628 link clicks from Rp250,738 and 0 leads.",
-   "title_id": "Pendirian PT video (Surabaya traffic NEW)",
-   "body_id": "628 klik link dari Rp250.738 dan 0 lead."
+   "id": "120244399074230272",
+   "title": "All Service (Surabaya awareness)",
+   "body": "143,120 impressions from Rp255,832 and 1 lead.",
+   "title_id": "All Service (Surabaya awareness)",
+   "body_id": "143.120 impresi dari Rp255.832 dan 1 lead."
   },
   {
    "section": "ad",
    "id": "120212452062610272",
    "title": "Suami-istri gak bisa bikin PT (Surabaya)",
-   "body": "12 leads from Rp250,229 (Rp20,852 each) and 788 link clicks, the cheapest Surabaya lead on Meta.",
+   "body": "12 leads from Rp250,204 (Rp20,850 each) and 782 link clicks, the cheapest Surabaya lead on Meta.",
    "title_id": "Suami-istri gak bisa bikin PT (Surabaya)",
-   "body_id": "12 lead dari Rp250.229 (Rp20.852 per lead) dan 788 klik link, lead Surabaya termurah di Meta."
+   "body_id": "12 lead dari Rp250.204 (Rp20.850 per lead) dan 782 klik link, lead Surabaya termurah di Meta."
+  },
+  {
+   "section": "ad",
+   "id": "120244399074250272",
+   "title": "Virtual Office SBY (1) (Surabaya awareness)",
+   "body": "169,229 impressions and 123 link clicks from Rp247,669, 1 lead; Rp111,785 of it was spent last week.",
+   "title_id": "Virtual Office SBY (1) (Surabaya awareness)",
+   "body_id": "169.229 impresi dan 123 klik link dari Rp247.669, 1 lead; Rp111.785 di antaranya dibelanjakan minggu lalu."
+  },
+  {
+   "section": "ad",
+   "id": "120244416253960272",
+   "title": "Pendirian PT video (Surabaya traffic NEW)",
+   "body": "570 link clicks from Rp237,557 and 0 leads.",
+   "title_id": "Pendirian PT video (Surabaya traffic NEW)",
+   "body_id": "570 klik link dari Rp237.557 dan 0 lead."
   }
  ]
 };
