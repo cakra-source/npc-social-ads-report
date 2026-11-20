@@ -48,6 +48,21 @@ module.exports = async (req, res) => {
   if (!sameText(req.headers['x-dashboard-key'] || '', pass)) return res.status(401).json({ error: 'Wrong password.' });
   const q = req.query || {};
   if (q.part === 'ping') return res.status(200).json({ ok: true });
+  if (q.part === 'img') {
+    // Thumbnail proxy for the PowerPoint export: only Instagram / Facebook CDN images.
+    let u;
+    try { u = new URL(String(q.u || '')); } catch { return res.status(400).end(); }
+    if (u.protocol !== 'https:' || !/(^|\.)(fbcdn\.net|cdninstagram\.com)$/.test(u.hostname)) return res.status(400).end();
+    try {
+      const r = await fetch(u.toString(), { signal: AbortSignal.timeout(15000) });
+      const type = r.headers.get('content-type') || '';
+      if (!r.ok || !type.startsWith('image/')) return res.status(502).end();
+      const buf = Buffer.from(await r.arrayBuffer());
+      if (buf.length > 3e6) return res.status(413).end();
+      res.setHeader('Content-Type', type);
+      return res.status(200).end(buf);
+    } catch { return res.status(502).end(); }
+  }
   if (!process.env.WINDSOR_API_KEY) return res.status(500).json({ error: 'WINDSOR_API_KEY is not set in Vercel yet.' });
   const start = String(q.start || ''), end = String(q.end || ''), mediaStart = String(q.media_start || '');
   if (!DATE.test(start) || !DATE.test(end) || !DATE.test(mediaStart) || start > end) return res.status(400).json({ error: 'Bad dates.' });

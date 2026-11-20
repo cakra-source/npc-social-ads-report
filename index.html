@@ -41,6 +41,11 @@ img { max-width: 100%; }
 .lang-switch button[aria-pressed=true] { background: #6B4226 !important; color: #FFF8EE !important; }
 .gate-box .lang-switch { justify-self: start; }
 .gate-box .lang-switch button { font-size: 13px; }
+.export-group { display: inline-flex; align-items: center; gap: 6px; }
+.export-label { font-size: 12.5px; color: #6F665A; font-weight: 600; }
+.export-group button[data-export] { background: #F4ECDF !important; border-color: #E7DCCB !important; color: #6B4226 !important; font-weight: 600; }
+.export-group button[data-export]:hover { border-color: #B5573A !important; }
+.export-group button[disabled] { opacity: .55; cursor: progress; }
 </style>
 </head>
 <body>
@@ -149,6 +154,7 @@ window.dash = (() => {
     redraw,
     _langChanged: () => { memo = {}; redraw(); },
     start: (k) => { key = k; started = true; load(); },
+    key: () => key,
     colors: ['#B5573A', '#66772F', '#C08A25', '#6B4226', '#8E9F6B', '#D9A27E', '#7A5C3E', '#A3B18A'],
   };
 })();
@@ -228,6 +234,7 @@ window.addEventListener('resize', (() => { let t; return () => { clearTimeout(t)
     'Website traffic by channel': 'Traffic website per saluran', "What's not working": 'Yang tidak berhasil', "What's working": 'Yang berhasil',
     "What's working, and what isn't": 'Yang berhasil, dan yang tidak', 'Why': 'Alasan', 'Why it is in the top 5: ': 'Kenapa masuk top 5: ',
     'With every metric, a link to the post and why it performed.': 'Dengan semua metrik, link postingan dan alasan performanya.', 'Working': 'Berhasil',
+    'Export:': 'Ekspor:', 'No data for this period.': 'Tidak ada data untuk periode ini.',
     'growth in period': 'pertumbuhan dalam periode', 'impressions · Search Console': 'tayangan · Search Console', 'in period': 'dalam periode', 'new ·': 'baru ·',
     "What's working": 'Yang berhasil', 'Instagram & Facebook': 'Instagram & Facebook',
   };
@@ -295,6 +302,7 @@ window.addEventListener('resize', (() => { let t; return () => { clearTimeout(t)
   };
   window.NPC_LANG = {
     get: () => lang,
+    tr,
     set: (l) => { lang = l; try { localStorage.setItem('npc-lang', l); } catch (e) {} window.dash && dash._langChanged ? dash._langChanged() : apply(); },
     apply,
   };
@@ -423,7 +431,8 @@ window.addEventListener('resize', (() => { let t; return () => { clearTimeout(t)
   </div>
   <span class="muted">Reporting period: <span class="npc-period" data-draw="period">—</span></span>
   <span class="status-line" data-status-line></span>
-  <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><span class="lang-switch" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="id" aria-pressed="false">ID</button></span><button type="button" id="f-refresh">Refresh data</button><button type="button" id="f-logout">Log out</button></span>
+  <span class="status-line" data-export-msg aria-live="polite"></span>
+  <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><span class="lang-switch" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="id" aria-pressed="false">ID</button></span><span class="export-group" role="group" aria-label="Export"><span class="export-label">Export:</span><button type="button" data-export="pptx" title="Download a PowerPoint deck of this report">PowerPoint</button><button type="button" data-export="xlsx" title="Download all tables as an Excel file">Excel</button></span><button type="button" id="f-refresh">Refresh data</button><button type="button" id="f-logout">Log out</button></span>
 </div>
 
 <nav class="npc-tabs" role="tablist" aria-label="Report sections">
@@ -1463,6 +1472,408 @@ dash.draw('t-ga4', (el) => {
   if (saved) tryKey(saved, true); else inp.focus();
   document.querySelectorAll('#f-logout').forEach((b) => b.addEventListener('click', () => { try { localStorage.removeItem('npc-report-key'); } catch (e) {} location.reload(); }));
   document.querySelectorAll('#f-refresh').forEach((b) => b.addEventListener('click', () => dash.refresh()));
+})();
+</script>
+<script>
+/* Export: PowerPoint deck and Excel workbook built from the data on screen, in the language chosen. */
+(() => {
+  const PPTX_SRC = 'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';
+  const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  const C = { bg: 'FBF7F0', panel: 'FFFFFF', sand: 'F4ECDF', line: 'E7DCCB', ink: '2E2A24', muted: '6F665A', brown: '6B4226', terra: 'B5573A', olive: '66772F', ochre: 'C08A25', sage: '8E9F6B', good: '3F7A35', bad: 'B23A2C', warn: 'A86F12' };
+  const SERIF = 'Georgia', SANS = 'Calibri';
+
+  const lang = () => (window.NPC_LANG ? NPC_LANG.get() : 'en');
+  const T = (en, id) => (lang() === 'id' ? id : en);
+  const X = (s) => (s == null ? '' : lang() === 'id' && window.NPC_LANG && NPC_LANG.tr ? NPC_LANG.tr(String(s)) : String(s));
+  const F = (k, v) => (window.NPC ? NPC.fmt(k, v) : String(v));
+  const trunc = (s, n) => { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s; };
+  const rows = (id) => { const d = dash.data(id); return d.status === 'ok' ? d.data : null; };
+  const one = (id) => { const r = rows(id); return r && r[0] ? r[0] : null; };
+
+  const loadScript = (src) => new Promise((ok, bad) => {
+    if ((src === PPTX_SRC && window.PptxGenJS) || (src === XLSX_SRC && window.XLSX)) return ok();
+    const s = document.createElement('script'); s.src = src; s.onload = () => ok(); s.onerror = () => bad(new Error('Could not load ' + src)); document.head.appendChild(s);
+  });
+
+  const IDS = ['overview', 'meta_kpis', 'g_kpis', 'ig_kpis', 'daily', 'meta_camp', 'meta_ad_rows', 'g_camp', 'g_kw', 'g_pages', 'ig_last16', 'ig_period', 'mix', 'ga4_channels', 'gsc_totals', 'insights'];
+  const waitForData = async () => {
+    for (let i = 0; i < 240; i++) {
+      if (IDS.every((id) => dash.data(id).status !== 'loading')) return;
+      await new Promise((r) => setTimeout(r, 500));
+    }
+  };
+
+  const say = (t, bad) => document.querySelectorAll('[data-export-msg]').forEach((el) => { el.textContent = t; el.style.color = bad ? '#B23A2C' : '#6F665A'; });
+  const period = () => { const p = dash.params(); return { start: p.start, end: p.end, label: `${F('date', p.start)} – ${F('date', p.end)}` }; };
+  const fileBase = () => { const p = period(); return `NPC-Social-Ads-Report_${p.start}_${p.end}`; };
+
+  // Thumbnails go through the site's own server (Instagram and Facebook block direct downloads from the browser).
+  const imgCache = new Map();
+  const toDataUrl = async (url) => {
+    if (!url) return null;
+    if (url.startsWith('data:')) return url;
+    if (imgCache.has(url)) return imgCache.get(url);
+    const p = (async () => {
+      try {
+        const r = await fetch('/api/report?part=img&u=' + encodeURIComponent(url), { headers: { 'x-dashboard-key': dash.key() } });
+        if (!r.ok) return null;
+        const b = await r.blob();
+        // Shrink to 320 px so the deck stays small enough to email.
+        const bmp = await createImageBitmap(b);
+        const k = Math.min(1, 320 / Math.max(bmp.width, bmp.height));
+        const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * k); cv.height = Math.round(bmp.height * k);
+        cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+        return cv.toDataURL('image/jpeg', 0.82);
+      } catch (e) { return null; }
+    })();
+    imgCache.set(url, p);
+    return p;
+  };
+
+  /* ---------------- PowerPoint ---------------- */
+  const buildPptx = async () => {
+    await loadScript(PPTX_SRC);
+    const pptx = new PptxGenJS();
+    pptx.layout = 'LAYOUT_WIDE'; // 13.33 x 7.5 in
+    pptx.author = 'NPC Office'; pptx.company = 'NPC Office'; pptx.title = T('Social Media & Ads Report', 'Laporan Media Sosial & Iklan');
+    const P = period();
+    let n = 0;
+    const slide = (title, sub) => {
+      const s = pptx.addSlide(); n++;
+      s.background = { color: C.bg };
+      s.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 13.33, h: 0.12, fill: { color: C.brown }, line: { color: C.brown } });
+      s.addText(title, { x: 0.5, y: 0.3, w: 12.3, h: 0.6, fontFace: SERIF, fontSize: 26, color: C.brown, margin: 0 });
+      if (sub) s.addText(sub, { x: 0.5, y: 0.88, w: 12.3, h: 0.35, fontFace: SANS, fontSize: 12, color: C.muted, margin: 0 });
+      s.addText(`NPC Office · ${T('Social Media & Ads Report', 'Laporan Media Sosial & Iklan')} · ${X(P.label)}`, { x: 0.5, y: 7.08, w: 10, h: 0.3, fontFace: SANS, fontSize: 9, color: C.muted, margin: 0 });
+      s.addText(String(n), { x: 12.33, y: 7.08, w: 0.5, h: 0.3, fontFace: SANS, fontSize: 9, color: C.muted, align: 'right', margin: 0 });
+      return s;
+    };
+    const tiles = (s, items, y, cols, x0 = 0.5, wTot = 12.33) => {
+      const gap = 0.2, w = (wTot - gap * (cols - 1)) / cols, h = 1.3;
+      items.forEach((it, i) => {
+        const x = x0 + (i % cols) * (w + gap), yy = y + Math.floor(i / cols) * (h + gap);
+        s.addShape(pptx.ShapeType.roundRect, { x, y: yy, w, h, fill: { color: C.panel }, line: { color: C.line, width: 0.75 }, rectRadius: 0.08 });
+        s.addText(it.label, { x: x + 0.15, y: yy + 0.1, w: w - 0.3, h: 0.3, fontFace: SANS, fontSize: 11, color: C.muted, margin: 0 });
+        s.addText(it.value, { x: x + 0.15, y: yy + 0.42, w: w - 0.3, h: 0.5, fontFace: SERIF, fontSize: 22, color: C.brown, margin: 0, fit: 'shrink' });
+        if (it.sub) s.addText(it.sub, { x: x + 0.15, y: yy + 0.92, w: w - 0.3, h: 0.3, fontFace: SANS, fontSize: 9.5, color: it.subColor || C.muted, margin: 0 });
+      });
+    };
+    const table = (s, head, body, o) => {
+      const num = o.num || [];
+      const hdr = head.map((h, i) => ({ text: h, options: { bold: true, color: C.brown, fill: { color: C.sand }, align: num.includes(i) ? 'right' : 'left' } }));
+      const data = body.map((r) => r.map((c, i) => {
+        if (c && typeof c === 'object' && 'text' in c) return { text: String(c.text), options: { align: num.includes(i) ? 'right' : 'left', ...(c.options || {}) } };
+        return { text: String(c == null ? '—' : c), options: { align: num.includes(i) ? 'right' : 'left' } };
+      }));
+      if (!data.length) data.push([{ text: T('No data for this period.', 'Tidak ada data untuk periode ini.'), options: { colspan: head.length, color: C.muted } }]);
+      s.addTable([hdr, ...data], { x: o.x, y: o.y, w: o.w, colW: o.colW, fontFace: SANS, fontSize: o.fontSize || 10, color: C.ink, fill: { color: C.panel }, border: { type: 'solid', pt: 0.5, color: C.line }, margin: 0.05, valign: 'middle', autoPage: false, rowH: o.rowH });
+    };
+    const box = (s, title, x, y, w) => s.addText(title, { x, y, w, h: 0.35, fontFace: SANS, fontSize: 13, bold: true, color: C.brown, margin: 0 });
+    const verdictColor = (v) => ({ Working: C.good, 'Not working': C.bad, Average: C.warn }[v] || C.muted);
+    const pill = (v) => ({ text: X(v), options: { color: verdictColor(v), bold: true } });
+    const unavailable = (s, what) => s.addText(T(`${what} did not load for this period. Check the data source in Windsor.ai and export again.`, `${what} tidak termuat untuk periode ini. Periksa sumber data di Windsor.ai lalu ekspor lagi.`), { x: 0.5, y: 3, w: 12.3, h: 1, fontFace: SANS, fontSize: 16, color: C.muted, align: 'center' });
+
+    const ins = rows('insights') || [];
+    const insOf = (sec) => ins.filter((r) => r.section === sec).sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    // 1. Title
+    {
+      const s = pptx.addSlide(); n++;
+      s.background = { color: C.bg };
+      s.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.35, h: 7.5, fill: { color: C.brown }, line: { color: C.brown } });
+      s.addText('NPC OFFICE · @NPCOFFICECOM', { x: 1, y: 1.8, w: 11, h: 0.4, fontFace: SANS, fontSize: 14, bold: true, color: C.terra, charSpacing: 2, margin: 0 });
+      s.addText(T('Social Media & Ads Report', 'Laporan Media Sosial & Iklan'), { x: 1, y: 2.3, w: 11, h: 1.1, fontFace: SERIF, fontSize: 44, color: C.brown, margin: 0 });
+      s.addText(`${T('Reporting period', 'Periode laporan')}: ${X(P.label)}`, { x: 1, y: 3.5, w: 11, h: 0.45, fontFace: SANS, fontSize: 18, color: C.ink, margin: 0 });
+      s.addText(`${T('Data: Windsor.ai (Instagram, Meta Ads, Google Ads, GA4, Search Console). Exported', 'Data: Windsor.ai (Instagram, Meta Ads, Google Ads, GA4, Search Console). Diekspor')} ${new Date().toLocaleString(lang() === 'id' ? 'id-ID' : 'en-GB', { timeZone: 'Asia/Jakarta', dateStyle: 'medium', timeStyle: 'short' })} WIB`, { x: 1, y: 4.1, w: 11, h: 0.4, fontFace: SANS, fontSize: 12, color: C.muted, margin: 0 });
+    }
+
+    // 2. Takeaway and alerts
+    {
+      const s = slide(T('Key takeaway', 'Kesimpulan utama'), insOf('meta')[0] ? insOf('meta')[0].title : '');
+      const t = insOf('summary')[0];
+      s.addShape(pptx.ShapeType.roundRect, { x: 0.5, y: 1.45, w: 12.33, h: 2.1, fill: { color: C.sand }, line: { color: C.sand }, rectRadius: 0.08 });
+      s.addText(t ? t.body : '—', { x: 0.8, y: 1.6, w: 11.73, h: 1.8, fontFace: SERIF, fontSize: 20, color: C.ink, valign: 'middle', margin: 0, fit: 'shrink' });
+      const al = insOf('alert');
+      if (al.length) {
+        box(s, T('Needs attention', 'Perlu perhatian'), 0.5, 3.85, 12.33);
+        s.addText(al.map((a) => ({ text: `${a.title}: `, options: { bold: true, color: C.terra, breakLine: false } })).flatMap((h, i) => [h, { text: trunc(al[i].body, 260), options: { color: C.ink, breakLine: true } }]),
+          { x: 0.5, y: 4.25, w: 12.33, h: 2.7, fontFace: SANS, fontSize: 12, valign: 'top', paraSpaceAfter: 6, margin: 0, fit: 'shrink' });
+      }
+    }
+
+    // 3. Account overview
+    {
+      const s = slide(T('Account overview', 'Ringkasan akun'), T('Selected period. Leads = Meta Ads leads + Google Ads conversions.', 'Periode terpilih. Lead = lead Meta Ads + konversi Google Ads.'));
+      const o = one('overview') || {}, ig = one('ig_kpis'), gsc = one('gsc_totals') || {}, m = one('meta_kpis') || {}, g = one('g_kpis') || {};
+      tiles(s, [
+        { label: T('Total ad spend', 'Total belanja iklan'), value: F('rp', o.spend), sub: 'Meta + Google' },
+        { label: T('Leads & conversions', 'Lead & konversi'), value: F('int', o.leads), sub: T('Meta leads + Google conv.', 'Lead Meta + konv. Google') },
+        { label: T('Cost per lead (blended)', 'Biaya per lead (gabungan)'), value: F('rp', o.cpl), sub: T('Spend ÷ leads', 'Belanja ÷ lead') },
+        { label: T('Instagram followers', 'Follower Instagram'), value: ig ? F('int', ig.followers) : '—', sub: ig ? `${F('plus', ig.new_followers)} ${T('in period', 'dalam periode')}` : T('Instagram did not load', 'Instagram tidak termuat'), subColor: ig ? C.good : C.bad },
+        { label: T('Website sessions', 'Sesi website'), value: F('int', o.sessions), sub: T('GA4, all channels', 'GA4, semua saluran') },
+        { label: T('Organic search clicks', 'Klik pencarian organik'), value: F('int', gsc.clicks), sub: `${F('int', gsc.impressions)} ${T('impressions', 'tayangan')}` },
+      ], 1.45, 3);
+      box(s, T('By platform', 'Per platform'), 0.5, 4.45, 12.33);
+      table(s, [T('Platform', 'Platform'), T('Spend', 'Belanja'), T('Leads / conv.', 'Lead / konv.'), T('Cost per lead', 'Biaya per lead'), 'CTR'], [
+        ['Meta Ads', F('rp', m.spend), F('int', m.leads), F('rp', m.cpl), F('pct2', m.ctr)],
+        ['Google Ads', F('rp', g.spend), F('dec', g.conversions), F('rp', g.cpa), F('pct', g.ctr)],
+      ], { x: 0.5, y: 4.85, w: 12.33, colW: [3.33, 2.25, 2.25, 2.25, 2.25], num: [1, 2, 3, 4], fontSize: 12, rowH: 0.4 });
+    }
+
+    // 4. Daily trends
+    {
+      const s = slide(T('Daily spend and leads', 'Belanja dan lead harian'), T('Meta Ads and Google Ads, per day.', 'Meta Ads dan Google Ads, per hari.'));
+      const d = rows('daily') || [];
+      const labels = d.map((r) => d3.utcFormat('%-d %b')(new Date(r.date))).map(X);
+      if (d.length) {
+        const ax = { catAxisLabelFontSize: 9, valAxisLabelFontSize: 9, catAxisLabelColor: C.muted, valAxisLabelColor: C.muted, valGridLine: { color: 'EDE4D6', size: 0.5 }, catGridLine: { style: 'none' }, showLegend: true, legendPos: 'b', legendFontSize: 10, legendColor: C.ink, catAxisLineShow: false, valAxisLineShow: false };
+        box(s, T('Daily ad spend (Rp)', 'Belanja iklan harian (Rp)'), 0.5, 1.4, 6);
+        s.addChart(pptx.ChartType.line, [
+          { name: 'Meta Ads', labels, values: d.map((r) => r.meta_spend) },
+          { name: 'Google Ads', labels, values: d.map((r) => r.google_spend) },
+        ], { x: 0.5, y: 1.8, w: 6.05, h: 5.1, chartColors: [C.terra, C.olive], lineSize: 2, lineDataSymbol: 'none', valAxisLabelFormatCode: '#,##0', ...ax });
+        box(s, T('Daily leads & conversions', 'Lead & konversi harian'), 6.78, 1.4, 6);
+        s.addChart(pptx.ChartType.bar, [
+          { name: T('Google conversions', 'Konversi Google'), labels, values: d.map((r) => r.google_conv) },
+          { name: T('Meta leads', 'Lead Meta'), labels, values: d.map((r) => r.meta_leads) },
+        ], { x: 6.78, y: 1.8, w: 6.05, h: 5.1, barDir: 'col', barGrouping: 'stacked', barGapWidthPct: 40, chartColors: [C.olive, C.terra], valAxisLabelFormatCode: '#,##0', ...ax });
+      } else unavailable(s, T('Daily ad data', 'Data iklan harian'));
+    }
+
+    // 5. Instagram overview
+    {
+      const s = slide('Instagram · @npcofficecom', T('Followers are today’s count. "16 posts" = the 16 most recent posts up to the end date.', 'Follower adalah jumlah hari ini. "16 postingan" = 16 postingan terbaru sampai tanggal akhir.'));
+      const ig = one('ig_kpis');
+      if (ig) {
+        tiles(s, [
+          { label: T('Total followers', 'Total follower'), value: F('int', ig.followers), sub: `${F('plus', ig.new_followers)} ${T('new', 'baru')} · ${F('pctsign', ig.growth)}`, subColor: C.good },
+          { label: T('Total views, 16 posts', 'Total views, 16 postingan'), value: F('int', ig.views16) },
+          { label: T('Video views, 16 posts', 'Video views, 16 postingan'), value: F('int', ig.video_views16), sub: T('Reels only', 'Hanya Reels') },
+          { label: T('Total engagement, 16 posts', 'Total engagement, 16 postingan'), value: F('int', ig.eng16) },
+          { label: T('Average views, 16 posts', 'Rata-rata views, 16 postingan'), value: F('int', ig.avg_views16) },
+          { label: T('Avg engagement rate, 16 posts', 'Rata-rata engagement rate, 16 postingan'), value: F('pct', ig.avg_er16), sub: T('Engagement ÷ accounts reached', 'Engagement ÷ akun terjangkau') },
+        ], 1.45, 3);
+        const mix = rows('mix') || [];
+        if (mix.length) {
+          const fm = ['Video / Reel', 'Carousel', 'Single post', 'Story'];
+          const v = (w) => fm.map((f) => (mix.find((r) => r.window === w && r.format === f) || {}).posts || 0);
+          box(s, T('Content mix (posts per format)', 'Komposisi konten (postingan per format)'), 0.5, 4.45, 12.33);
+          s.addChart(pptx.ChartType.bar, [
+            { name: T('Last 6 days', '6 hari terakhir'), labels: fm.map(X), values: v('last6') },
+            { name: T('Selected period', 'Periode terpilih'), labels: fm.map(X), values: v('period') },
+          ], { x: 0.5, y: 4.8, w: 12.33, h: 2.2, barDir: 'bar', barGrouping: 'clustered', chartColors: [C.ochre, C.terra], showValue: true, dataLabelFontSize: 9, dataLabelColor: C.ink, catAxisLabelFontSize: 10, valAxisHidden: true, valGridLine: { style: 'none' }, showLegend: true, legendPos: 'r', legendFontSize: 10 });
+        }
+      } else unavailable(s, 'Instagram');
+    }
+
+    // 6. Top 5 posts
+    {
+      const s = slide(T('Top 5 of the last 16 Instagram posts', 'Top 5 dari 16 postingan Instagram terakhir'), `${T('Ranked by', 'Diurutkan menurut')} ${X({ views: 'Views', engagement: 'Engagement', er: 'Engagement rate', reach: 'Reach' }[dash.params().rank || 'views'])}`);
+      const all = rows('ig_last16');
+      if (all) {
+        const key = dash.params().rank || 'views';
+        const top = [...all].sort((a, b) => b[key] - a[key]).slice(0, 5);
+        const imgs = await Promise.all(top.map((r) => toDataUrl(r.img)));
+        top.forEach((r, i) => {
+          const y = 1.4 + i * 1.12;
+          s.addShape(pptx.ShapeType.roundRect, { x: 0.5, y, w: 12.33, h: 1.04, fill: { color: C.panel }, line: { color: C.line, width: 0.5 }, rectRadius: 0.06 });
+          s.addText('#' + (i + 1), { x: 0.6, y: y + 0.08, w: 0.55, h: 0.5, fontFace: SERIF, fontSize: 20, color: C.terra, margin: 0 });
+          if (imgs[i]) s.addImage({ data: imgs[i].replace(/^data:/, ''), x: 1.15, y: y + 0.07, w: 0.9, h: 0.9, sizing: { type: 'cover', w: 0.9, h: 0.9 } });
+          s.addText([
+            { text: `${X(r.format)} · ${X(r.pillar)} · ${F('date', r.date)}   `, options: { color: C.muted, fontSize: 9 } },
+            { text: T('Open post', 'Buka postingan'), options: { color: C.terra, fontSize: 9, hyperlink: { url: r.permalink }, breakLine: true } },
+            { text: trunc(r.title, 95), options: { color: C.ink, fontSize: 10.5, bold: true } },
+          ], { x: 2.2, y: y + 0.05, w: 4.6, h: 0.65, fontFace: SANS, valign: 'top', margin: 0, fit: 'shrink' });
+          s.addText(`${T('Views', 'Views')} ${F('int', r.views)} · ${T('Reach', 'Jangkauan')} ${F('int', r.reach)} · ${T('Likes', 'Suka')} ${F('int', r.likes)} · ${T('Comments', 'Komentar')} ${F('int', r.comments)} · ${T('Shares', 'Bagikan')} ${F('int', r.shares)} · ${T('Saves', 'Simpan')} ${F('int', r.saves)} · ER ${F('pct', r.er)}${r.skip != null ? ` · Skip ${F('pct', r.skip)}` : ''}`,
+            { x: 2.2, y: y + 0.72, w: 4.6, h: 0.28, fontFace: SANS, fontSize: 8.5, color: C.brown, margin: 0, fit: 'shrink' });
+          s.addText([{ text: T('Why: ', 'Alasan: '), options: { bold: true, color: C.brown } }, { text: trunc(X(r.highlight), 330), options: { color: C.ink } }],
+            { x: 6.95, y: y + 0.06, w: 5.8, h: 0.92, fontFace: SANS, fontSize: 9, valign: 'middle', margin: 0, fit: 'shrink' });
+        });
+      } else unavailable(s, 'Instagram');
+    }
+
+    // 7. Meta Ads overview + campaigns
+    {
+      const m = one('meta_kpis') || {};
+      const s = slide('Meta Ads', T('Selected period. CPC = cost per link click. Daily budget = current setting in Meta.', 'Periode terpilih. CPC = biaya per klik link. Anggaran harian = setelan saat ini di Meta.'));
+      tiles(s, [
+        { label: T('Spend', 'Belanja'), value: F('rp', m.spend) },
+        { label: T('Leads', 'Lead'), value: F('int', m.leads) },
+        { label: T('Cost per lead', 'Biaya per lead'), value: F('rp', m.cpl) },
+        { label: T('Link CTR', 'CTR link'), value: F('pct2', m.ctr), sub: `CPM ${F('rp', m.cpm)}` },
+        { label: T('Daily budget (active)', 'Anggaran harian (aktif)'), value: F('rp', m.daily_budget), sub: `${F('int', m.active)} ${T('active campaigns', 'kampanye aktif')}` },
+      ], 1.45, 5);
+      const camp = (rows('meta_camp') || []).slice(0, 9);
+      box(s, T('Campaigns (highest spend first)', 'Kampanye (belanja tertinggi dulu)'), 0.5, 2.98, 12.33);
+      table(s, [T('Campaign', 'Kampanye'), T('Objective', 'Tujuan'), T('Spend', 'Belanja'), T('Link clicks', 'Klik link'), 'CTR', 'CPC', T('Leads', 'Lead'), 'CPL', T('Status', 'Status')],
+        camp.map((r) => [trunc(r.campaign.replace(/^BDD \/ NV \/ /, ''), 52), X(r.objective), F('rp', r.spend), F('int', r.link_clicks), F('pct2', r.ctr), F('rp', r.cpc), F('int', r.leads), F('rp', r.cpl), pill(r.verdict)]),
+        { x: 0.5, y: 3.35, w: 12.33, colW: [4.0, 1.05, 1.35, 1.05, 0.8, 0.95, 0.75, 1.05, 1.33], num: [2, 3, 4, 5, 6, 7], fontSize: 9, rowH: 0.36 });
+    }
+
+    // 8. Meta Ads top 5 by leads (with visuals)
+    {
+      const s = slide(T('Meta Ads: top 5 ads by leads', 'Meta Ads: top 5 iklan berdasarkan lead'), T('Content type, pillar, link and visual for each.', 'Jenis konten, pilar, link dan visual untuk masing-masing.'));
+      const ads = (rows('meta_ad_rows') || []).filter((r) => r.leads > 0).sort((a, b) => b.leads - a.leads || a.cpl - b.cpl).slice(0, 5);
+      const imgs = await Promise.all(ads.map((r) => toDataUrl(r.img)));
+      ads.forEach((r, i) => {
+        const y = 1.4 + i * 1.12;
+        s.addShape(pptx.ShapeType.roundRect, { x: 0.5, y, w: 12.33, h: 1.04, fill: { color: C.panel }, line: { color: C.line, width: 0.5 }, rectRadius: 0.06 });
+        s.addText('#' + (i + 1), { x: 0.6, y: y + 0.08, w: 0.55, h: 0.5, fontFace: SERIF, fontSize: 20, color: C.terra, margin: 0 });
+        if (imgs[i]) s.addImage({ data: imgs[i].replace(/^data:/, ''), x: 1.15, y: y + 0.07, w: 0.9, h: 0.9, sizing: { type: 'cover', w: 0.9, h: 0.9 } });
+        const head = [{ text: trunc(r.title, 70), options: { bold: true, color: C.ink, fontSize: 10.5, breakLine: true } },
+          { text: `${X(r.format)} · ${X(r.pillar)}   `, options: { color: C.muted, fontSize: 9 } }];
+        if (r.link) head.push({ text: T('Open post', 'Buka postingan'), options: { color: C.terra, fontSize: 9, hyperlink: { url: r.link } } });
+        s.addText(head, { x: 2.2, y: y + 0.05, w: 4.6, h: 0.6, fontFace: SANS, valign: 'top', margin: 0 });
+        s.addText(`${T('Spend', 'Belanja')} ${F('rp', r.spend)} · ${T('Leads', 'Lead')} ${F('int', r.leads)} · CPL ${F('rp', r.cpl)} · CTR ${F('pct2', r.ctr)} · CPC ${F('rp', r.cpc)}`, { x: 2.2, y: y + 0.7, w: 4.6, h: 0.28, fontFace: SANS, fontSize: 8.5, color: C.brown, margin: 0, fit: 'shrink' });
+        s.addText([{ text: T('Why: ', 'Alasan: '), options: { bold: true, color: C.brown } }, { text: trunc(X(r.highlight), 330), options: { color: C.ink } }], { x: 6.95, y: y + 0.06, w: 5.8, h: 0.92, fontFace: SANS, fontSize: 9, valign: 'middle', margin: 0, fit: 'shrink' });
+      });
+      if (!ads.length) unavailable(s, 'Meta Ads');
+    }
+
+    // 9. Meta Ads lowest CPC / CPM
+    {
+      const s = slide(T('Meta Ads: cheapest clicks and impressions', 'Meta Ads: klik dan tayangan termurah'), T('Lowest CPC: ads with 20+ link clicks. Lowest CPM: ads with 5,000+ impressions.', 'CPC terendah: iklan dengan 20+ klik link. CPM terendah: iklan dengan 5.000+ tayangan.'));
+      const all = rows('meta_ad_rows') || [];
+      const cpc = all.filter((r) => r.link_clicks >= 20 && r.cpc != null).sort((a, b) => a.cpc - b.cpc).slice(0, 5);
+      const cpm = all.filter((r) => r.impressions >= 5000 && r.cpm != null).sort((a, b) => a.cpm - b.cpm).slice(0, 5);
+      const name = (r) => (r.link ? { text: trunc(r.title, 42), options: { hyperlink: { url: r.link }, color: C.terra } } : trunc(r.title, 42));
+      box(s, T('Top 5 ads, lowest CPC', 'Top 5 iklan, CPC terendah'), 0.5, 1.4, 6);
+      table(s, [T('Ad', 'Iklan'), T('Type', 'Jenis'), T('Pillar', 'Pilar'), 'CPC', T('Clicks', 'Klik'), T('Leads', 'Lead')], cpc.map((r) => [name(r), X(r.format), X(r.pillar), F('rp', r.cpc), F('int', r.link_clicks), F('int', r.leads)]),
+        { x: 0.5, y: 1.78, w: 6.05, colW: [2.2, 0.95, 1.25, 0.65, 0.55, 0.45], num: [3, 4, 5], fontSize: 8.5, rowH: 0.5 });
+      box(s, T('Top 5 ads, lowest CPM', 'Top 5 iklan, CPM terendah'), 6.78, 1.4, 6);
+      table(s, [T('Ad', 'Iklan'), T('Type', 'Jenis'), T('Pillar', 'Pilar'), 'CPM', T('Impr.', 'Tayangan'), 'CTR'], cpm.map((r) => [name(r), X(r.format), X(r.pillar), F('rp', r.cpm), F('int', r.impressions), F('pct2', r.ctr)]),
+        { x: 6.78, y: 1.78, w: 6.05, colW: [2.2, 0.95, 1.2, 0.6, 0.6, 0.5], num: [3, 4, 5], fontSize: 8.5, rowH: 0.5 });
+    }
+
+    // 10. Google Ads overview + campaigns
+    {
+      const g = one('g_kpis') || {};
+      const s = slide('Google Ads', T('Selected period. Budget = each enabled campaign’s budget setting.', 'Periode terpilih. Anggaran = setelan anggaran tiap kampanye aktif.'));
+      tiles(s, [
+        { label: T('Spend', 'Belanja'), value: F('rp', g.spend) },
+        { label: T('Conversions', 'Konversi'), value: F('dec', g.conversions) },
+        { label: T('Cost per conversion', 'Biaya per konversi'), value: F('rp', g.cpa) },
+        { label: T('Clicks · CTR', 'Klik · CTR'), value: F('int', g.clicks), sub: `CTR ${F('pct', g.ctr)}` },
+        { label: T('Budget (enabled)', 'Anggaran (aktif)'), value: F('rp', g.budget), sub: `${F('int', g.enabled)} ${T('enabled campaigns', 'kampanye aktif')}` },
+      ], 1.45, 5);
+      const camp = (rows('g_camp') || []).filter((r) => r.spend > 0).slice(0, 9);
+      box(s, T('Campaigns (highest spend first)', 'Kampanye (belanja tertinggi dulu)'), 0.5, 2.98, 12.33);
+      table(s, [T('Campaign', 'Kampanye'), T('Spend', 'Belanja'), T('Clicks', 'Klik'), 'CTR', 'CPC', T('Conv.', 'Konv.'), T('Conv. rate', 'Tingkat konv.'), T('Cost/conv.', 'Biaya/konv.'), T('Status', 'Status')],
+        camp.map((r) => [trunc(r.campaign.replace(/^BDD \/ /, ''), 52), F('rp', r.spend), F('int', r.clicks), F('pct', r.ctr), F('rp', r.cpc), F('dec', r.conversions), F('pct', r.conv_rate), F('rp', r.cpa), pill(r.verdict)]),
+        { x: 0.5, y: 3.35, w: 12.33, colW: [4.2, 1.3, 0.85, 0.85, 1.0, 0.85, 1.05, 1.1, 1.13], num: [1, 2, 3, 4, 5, 6, 7], fontSize: 9, rowH: 0.36 });
+    }
+
+    // 11. Google Ads top lists
+    {
+      const s = slide(T('Google Ads: top performers', 'Google Ads: performa teratas'), T('Keywords, landing pages and campaigns for the selected period.', 'Keyword, landing page dan kampanye untuk periode terpilih.'));
+      const kw = rows('g_kw') || [], camp = rows('g_camp') || [], pages = rows('g_pages') || [];
+      const short = (c) => trunc(String(c).replace(/^BDD \/ (SEM \/ )?/, ''), 30);
+      const blocks = [
+        [T('Top 5 keywords by conversions', 'Top 5 keyword berdasarkan konversi'), [T('Keyword', 'Keyword'), T('Conv.', 'Konv.'), T('Cost/conv.', 'Biaya/konv.')], kw.filter((r) => r.conversions > 0).sort((a, b) => b.conversions - a.conversions).slice(0, 5).map((r) => [trunc(r.keyword, 32), F('dec', r.conversions), F('rp', r.cpa)])],
+        [T('Top 5 keywords, lowest CPC (5+ clicks)', 'Top 5 keyword, CPC terendah (5+ klik)'), [T('Keyword', 'Keyword'), 'CPC', T('Clicks', 'Klik')], kw.filter((r) => r.clicks >= 5).sort((a, b) => a.cpc - b.cpc).slice(0, 5).map((r) => [trunc(r.keyword, 32), F('rp', r.cpc), F('int', r.clicks)])],
+        [T('Top 5 keywords, highest CTR (50+ impr.)', 'Top 5 keyword, CTR tertinggi (50+ tayangan)'), [T('Keyword', 'Keyword'), 'CTR', T('Impr.', 'Tayangan')], kw.filter((r) => r.impressions >= 50).sort((a, b) => b.ctr - a.ctr).slice(0, 5).map((r) => [trunc(r.keyword, 32), F('pct', r.ctr), F('int', r.impressions)])],
+        [T('Top 5 landing pages by conversions', 'Top 5 landing page berdasarkan konversi'), [T('Page', 'Halaman'), T('Conv.', 'Konv.'), T('Cost/conv.', 'Biaya/konv.')], pages.filter((r) => r.conversions > 0).slice(0, 5).map((r) => [trunc(r.page, 36), F('dec', r.conversions), F('rp', r.cpa)])],
+        [T('Top 5 campaigns, lowest cost/conv. (5+ conv.)', 'Top 5 kampanye, biaya/konv. terendah (5+ konv.)'), [T('Campaign', 'Kampanye'), T('Cost/conv.', 'Biaya/konv.'), T('Conv.', 'Konv.')], camp.filter((r) => r.conversions >= 5).sort((a, b) => a.cpa - b.cpa).slice(0, 5).map((r) => [short(r.campaign), F('rp', r.cpa), F('dec', r.conversions)])],
+        [T('Top 5 conversion campaigns', 'Top 5 kampanye konversi'), [T('Campaign', 'Kampanye'), T('Conv.', 'Konv.'), T('Conv. rate', 'Tingkat konv.')], camp.filter((r) => r.conversions > 0).sort((a, b) => b.conversions - a.conversions).slice(0, 5).map((r) => [short(r.campaign), F('dec', r.conversions), F('pct', r.conv_rate)])],
+      ];
+      blocks.forEach(([title, head, body], i) => {
+        const x = 0.5 + (i % 3) * 4.18, y = 1.4 + Math.floor(i / 3) * 2.85;
+        box(s, title, x, y, 3.97);
+        table(s, head, body, { x, y: y + 0.38, w: 3.97, colW: [2.17, 0.9, 0.9], num: [1, 2], fontSize: 8.5, rowH: 0.36 });
+      });
+    }
+
+    // 12-15. What's working / not working (3 cards per slide)
+    const cardsSlide = (title, sub, items, bad, startNo) => {
+      const s = slide(title, sub);
+      items.forEach((r, i) => {
+        const x = 0.5 + i * 4.18, y = 1.4, w = 3.97, h = 5.55;
+        s.addShape(pptx.ShapeType.roundRect, { x, y, w, h, fill: { color: C.panel }, line: { color: C.line, width: 0.5 }, rectRadius: 0.06 });
+        s.addShape(pptx.ShapeType.rect, { x, y, w, h: 0.08, fill: { color: bad ? C.terra : C.olive }, line: { color: bad ? C.terra : C.olive } });
+        s.addText(String(r.order || startNo + i), { x: x + 0.2, y: y + 0.2, w: 0.6, h: 0.45, fontFace: SERIF, fontSize: 22, color: C.ochre, margin: 0 });
+        s.addText(r.title, { x: x + 0.2, y: y + 0.65, w: w - 0.4, h: 0.75, fontFace: SANS, fontSize: 13, bold: true, color: C.brown, valign: 'top', margin: 0, fit: 'shrink' });
+        s.addText(r.body || '', { x: x + 0.2, y: y + 1.45, w: w - 0.4, h: 1.95, fontFace: SANS, fontSize: 9.5, color: C.ink, valign: 'top', margin: 0, fit: 'shrink' });
+        s.addShape(pptx.ShapeType.roundRect, { x: x + 0.15, y: y + 3.5, w: w - 0.3, h: 1.9, fill: { color: C.sand }, line: { color: C.sand }, rectRadius: 0.05 });
+        s.addText([{ text: bad ? T('How to fix: ', 'Cara memperbaiki: ') : T('How to re-create: ', 'Cara membuat ulang: '), options: { bold: true, color: C.brown } }, { text: r.how || '', options: { color: C.ink } }],
+          { x: x + 0.25, y: y + 3.58, w: w - 0.5, h: 1.75, fontFace: SANS, fontSize: 9, valign: 'top', margin: 0, fit: 'shrink' });
+      });
+    };
+    const w = insOf('working'), nw = insOf('not_working');
+    const asOf = insOf('meta')[0] ? insOf('meta')[0].title : '';
+    if (w.length) { cardsSlide(`${T("What's working", 'Yang berhasil')} (1/2)`, asOf, w.slice(0, 3), false, 1); if (w.length > 3) cardsSlide(`${T("What's working", 'Yang berhasil')} (2/2)`, asOf, w.slice(3, 6), false, 4); }
+    if (nw.length) { cardsSlide(`${T("What's not working", 'Yang tidak berhasil')} (1/2)`, asOf, nw.slice(0, 3), true, 1); if (nw.length > 3) cardsSlide(`${T("What's not working", 'Yang tidak berhasil')} (2/2)`, asOf, nw.slice(3, 6), true, 4); }
+
+    // 16. Website traffic
+    {
+      const s = slide(T('Website traffic by channel', 'Traffic website per saluran'), T('GA4 sessions in the period. Engaged = share of sessions over 10 s, with 2+ pages or a key event.', 'Sesi GA4 dalam periode. Engaged = porsi sesi lebih dari 10 detik, dengan 2+ halaman atau key event.'));
+      const ga = [...(rows('ga4_channels') || [])].sort((a, b) => b.sessions - a.sessions);
+      table(s, [T('Channel', 'Saluran'), T('Sessions', 'Sesi'), T('Users', 'Pengguna'), T('Engaged', 'Engaged')], ga.map((r) => [X(r.session_default_channel_group), F('int', r.sessions), F('int', r.active_users), F('pct', r.engagement_rate)]),
+        { x: 0.5, y: 1.45, w: 7.5, colW: [3.3, 1.4, 1.4, 1.4], num: [1, 2, 3], fontSize: 11, rowH: 0.42 });
+      const gsc = one('gsc_totals') || {};
+      tiles(s, [
+        { label: T('Organic search clicks', 'Klik pencarian organik'), value: F('int', gsc.clicks), sub: 'Search Console' },
+        { label: T('Organic impressions', 'Tayangan organik'), value: F('int', gsc.impressions), sub: `${T('Avg position', 'Posisi rata-rata')} ${gsc.position != null ? Number(gsc.position).toFixed(1) : '—'}` },
+      ], 1.45, 1, 8.4, 4.43);
+    }
+
+    await pptx.writeFile({ fileName: fileBase() + (lang() === 'id' ? '_ID' : '_EN') + '.pptx' });
+  };
+
+  /* ---------------- Excel ---------------- */
+  const buildXlsx = async () => {
+    await loadScript(XLSX_SRC);
+    const wb = XLSX.utils.book_new();
+    const P = period();
+    const add = (name, data, cols) => {
+      const out = (data || []).map((r) => Object.fromEntries(cols.map(([k, label, fn]) => [label, fn ? fn(r) : r[k] == null ? '' : r[k]])));
+      const ws = XLSX.utils.json_to_sheet(out.length ? out : [Object.fromEntries(cols.map(([, l]) => [l, '']))], { header: cols.map(([, l]) => l) });
+      ws['!cols'] = cols.map(([, l, , wch]) => ({ wch: wch || Math.max(10, l.length + 2) }));
+      XLSX.utils.book_append_sheet(wb, ws, name.slice(0, 31));
+    };
+    const o = one('overview') || {}, m = one('meta_kpis') || {}, g = one('g_kpis') || {}, ig = one('ig_kpis') || {}, gsc = one('gsc_totals') || {};
+    add(T('Overview', 'Ringkasan'), [
+      [T('Reporting period', 'Periode laporan'), `${P.start} – ${P.end}`],
+      [T('Total ad spend (Rp)', 'Total belanja iklan (Rp)'), o.spend], [T('Leads & conversions', 'Lead & konversi'), o.leads], [T('Cost per lead, blended (Rp)', 'Biaya per lead, gabungan (Rp)'), o.cpl],
+      [T('Website sessions (GA4)', 'Sesi website (GA4)'), o.sessions], [T('Organic search clicks', 'Klik pencarian organik'), gsc.clicks], [T('Organic impressions', 'Tayangan organik'), gsc.impressions],
+      ['Meta Ads – ' + T('spend (Rp)', 'belanja (Rp)'), m.spend], ['Meta Ads – ' + T('leads', 'lead'), m.leads], ['Meta Ads – CPL (Rp)', m.cpl], ['Meta Ads – CTR', m.ctr], ['Meta Ads – CPM (Rp)', m.cpm], ['Meta Ads – ' + T('daily budget, active (Rp)', 'anggaran harian aktif (Rp)'), m.daily_budget],
+      ['Google Ads – ' + T('spend (Rp)', 'belanja (Rp)'), g.spend], ['Google Ads – ' + T('conversions', 'konversi'), g.conversions], ['Google Ads – ' + T('cost per conversion (Rp)', 'biaya per konversi (Rp)'), g.cpa], ['Google Ads – CTR', g.ctr],
+      ['Instagram – ' + T('followers (today)', 'follower (hari ini)'), ig.followers], ['Instagram – ' + T('new followers in period', 'follower baru dalam periode'), ig.new_followers], ['Instagram – ' + T('views, 16 posts', 'views, 16 postingan'), ig.views16],
+      ['Instagram – ' + T('video views, 16 posts', 'video views, 16 postingan'), ig.video_views16], ['Instagram – ' + T('engagement, 16 posts', 'engagement, 16 postingan'), ig.eng16], ['Instagram – ' + T('avg views, 16 posts', 'rata-rata views, 16 postingan'), ig.avg_views16], ['Instagram – ' + T('avg engagement rate, 16 posts', 'rata-rata engagement rate, 16 postingan'), ig.avg_er16],
+    ].map(([k, v]) => ({ k, v })), [['k', T('Metric', 'Metrik'), null, 44], ['v', T('Value', 'Nilai'), null, 18]]);
+    add(T('Daily', 'Harian'), rows('daily'), [['date', T('Date', 'Tanggal'), null, 12], ['meta_spend', 'Meta ' + T('spend (Rp)', 'belanja (Rp)'), null, 16], ['meta_leads', T('Meta leads', 'Lead Meta')], ['google_spend', 'Google ' + T('spend (Rp)', 'belanja (Rp)'), null, 16], ['google_conv', T('Google conversions', 'Konversi Google')]]);
+    add('Meta ' + T('campaigns', 'kampanye'), rows('meta_camp'), [['campaign', T('Campaign', 'Kampanye'), null, 60], ['objective', T('Objective', 'Tujuan'), (r) => X(r.objective)], ['status', 'Status', (r) => X(r.status)], ['budget', T('Daily budget (Rp)', 'Anggaran harian (Rp)')], ['spend', T('Spend (Rp)', 'Belanja (Rp)')], ['impressions', T('Impressions', 'Tayangan')], ['reach', T('Reach', 'Jangkauan')], ['link_clicks', T('Link clicks', 'Klik link')], ['ctr', 'CTR'], ['cpc', 'CPC (Rp)'], ['cpm', 'CPM (Rp)'], ['leads', T('Leads', 'Lead')], ['cpl', 'CPL (Rp)'], ['verdict', T('Verdict', 'Penilaian'), (r) => X(r.verdict)]]);
+    add('Meta ' + T('ads', 'iklan'), rows('meta_ad_rows'), [['title', T('Ad', 'Iklan'), null, 50], ['campaign', T('Campaign', 'Kampanye'), null, 50], ['adset', 'Ad set', null, 36], ['format', T('Content type', 'Jenis konten'), (r) => X(r.format)], ['pillar', T('Pillar', 'Pilar'), (r) => X(r.pillar), 22], ['link', T('Post link', 'Link postingan'), null, 40], ['spend', T('Spend (Rp)', 'Belanja (Rp)')], ['impressions', T('Impressions', 'Tayangan')], ['link_clicks', T('Link clicks', 'Klik link')], ['ctr', 'CTR'], ['cpc', 'CPC (Rp)'], ['cpm', 'CPM (Rp)'], ['leads', T('Leads', 'Lead')], ['cpl', 'CPL (Rp)'], ['verdict', T('Verdict', 'Penilaian'), (r) => X(r.verdict)], ['highlight', T('Highlight', 'Catatan'), (r) => X(r.highlight), 80]]);
+    add('Google ' + T('campaigns', 'kampanye'), rows('g_camp'), [['campaign', T('Campaign', 'Kampanye'), null, 55], ['status', 'Status', (r) => X(r.status)], ['budget', T('Budget (Rp)', 'Anggaran (Rp)')], ['spend', T('Spend (Rp)', 'Belanja (Rp)')], ['impressions', T('Impressions', 'Tayangan')], ['clicks', T('Clicks', 'Klik')], ['ctr', 'CTR'], ['cpc', 'CPC (Rp)'], ['conversions', T('Conversions', 'Konversi')], ['conv_rate', T('Conv. rate', 'Tingkat konv.')], ['cpa', T('Cost/conv. (Rp)', 'Biaya/konv. (Rp)')], ['verdict', T('Verdict', 'Penilaian'), (r) => X(r.verdict)]]);
+    add('Google ' + T('keywords', 'keyword'), rows('g_kw'), [['keyword', 'Keyword', null, 36], ['match', T('Match', 'Pencocokan')], ['campaign', T('Campaign', 'Kampanye'), null, 50], ['ad_group', 'Ad group', null, 28], ['spend', T('Spend (Rp)', 'Belanja (Rp)')], ['impressions', T('Impressions', 'Tayangan')], ['clicks', T('Clicks', 'Klik')], ['ctr', 'CTR'], ['cpc', 'CPC (Rp)'], ['conversions', T('Conversions', 'Konversi')], ['cpa', T('Cost/conv. (Rp)', 'Biaya/konv. (Rp)')], ['verdict', T('Verdict', 'Penilaian'), (r) => X(r.verdict)], ['highlight', T('Highlight', 'Catatan'), (r) => X(r.highlight), 70]]);
+    add(T('Landing pages', 'Landing page'), rows('g_pages'), [['final_url', 'URL', null, 60], ['spend', T('Spend (Rp)', 'Belanja (Rp)')], ['impressions', T('Impressions', 'Tayangan')], ['clicks', T('Clicks', 'Klik')], ['ctr', 'CTR'], ['conversions', T('Conversions', 'Konversi')], ['cpa', T('Cost/conv. (Rp)', 'Biaya/konv. (Rp)')]]);
+    const igCols = [['date', T('Date', 'Tanggal'), null, 12], ['format', T('Type', 'Jenis'), (r) => X(r.format)], ['pillar', T('Pillar', 'Pilar'), (r) => X(r.pillar), 24], ['title', T('Caption (start)', 'Caption (awal)'), null, 60], ['permalink', 'Link', null, 42], ['views', 'Views'], ['reach', T('Reach', 'Jangkauan')], ['likes', T('Likes', 'Suka')], ['comments', T('Comments', 'Komentar')], ['shares', T('Shares', 'Bagikan')], ['saves', T('Saves', 'Simpan')], ['engagement', 'Engagement'], ['er', 'ER'], ['skip', 'Skip rate'], ['watch_s', T('Avg watch (s)', 'Rata-rata tonton (detik)')], ['verdict', T('Verdict', 'Penilaian'), (r) => X(r.verdict)], ['highlight', T('Why', 'Alasan'), (r) => X(r.highlight), 80]];
+    add(T('IG last 16 posts', 'IG 16 postingan terakhir'), rows('ig_last16'), igCols);
+    add(T('IG posts in period', 'IG postingan periode'), rows('ig_period'), igCols);
+    add('GA4 ' + T('channels', 'saluran'), rows('ga4_channels'), [['session_default_channel_group', T('Channel', 'Saluran'), (r) => X(r.session_default_channel_group), 22], ['sessions', T('Sessions', 'Sesi')], ['active_users', T('Users', 'Pengguna')], ['engagement_rate', T('Engagement rate', 'Engagement rate')]]);
+    const ins = (rows('insights') || []).filter((r) => ['summary', 'alert', 'working', 'not_working'].includes(r.section));
+    add(T('Insights', 'Insight'), ins, [['section', T('Section', 'Bagian'), (r) => ({ summary: T('Takeaway', 'Kesimpulan'), alert: T('Alert', 'Peringatan'), working: T("What's working", 'Yang berhasil'), not_working: T("What's not working", 'Yang tidak berhasil') }[r.section]), 20], ['order', '#', null, 4], ['title', T('Title', 'Judul'), null, 50], ['body', T('Evidence', 'Bukti'), null, 90], ['how', T('How to re-create / fix', 'Cara membuat ulang / memperbaiki'), null, 90]]);
+    XLSX.writeFile(wb, fileBase() + (lang() === 'id' ? '_ID' : '_EN') + '.xlsx');
+  };
+
+  const run = async (btn, fn, what) => {
+    const label = btn.textContent;
+    btn.disabled = true;
+    say(T(`Preparing ${what}… (waiting for live data)`, `Menyiapkan ${what}… (menunggu data langsung)`));
+    try {
+      await waitForData();
+      await fn();
+      say(T(`${what} downloaded.`, `${what} sudah diunduh.`));
+    } catch (e) {
+      console.error(e);
+      say(T(`Export failed: ${e.message || e}`, `Ekspor gagal: ${e.message || e}`), true);
+    } finally { btn.disabled = false; btn.textContent = label; }
+  };
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-export]');
+    if (!b) return;
+    if (b.dataset.export === 'pptx') run(b, buildPptx, 'PowerPoint');
+    if (b.dataset.export === 'xlsx') run(b, buildXlsx, 'Excel');
+  });
 })();
 </script>
 </div>
